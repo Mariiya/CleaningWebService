@@ -12,7 +12,8 @@ public interface UserDao {
 
     Boolean existsByEmail(String email);
 
-    String GET_USER_BY_NAME_OR_EMAIL = "";
+    String GET_USER_BY_NAME_OR_EMAIL = "SELECT userId, name, email, password, phoneNumber, role FROM USERS WHERE email = ? OR name = ?";
+    String SAVE_NEW_USER = "INSERT INTO USERS (userId, name, email, password, phoneNumber, role) VALUES (?, ?, ?, ?, ?, ?)";
     String IS_USER_BY_NAME = "";
     String IS_USER_BY_EMAIL = "";
 }
