@@ -7,7 +7,7 @@ import com.opsu.models.enumeration.Status;
 import java.math.BigInteger;
 import java.util.Date;
 
-public class Oder {
+public class Order {
     private BigInteger id;
     private String title;
     private Status status;
@@ -74,8 +74,8 @@ public class Oder {
     public void setStatus (Status status) {
         this.status= status;
     }
-    public Oder(BigInteger id , String title, Status status , Consumer consumer, Vendor vendor, Date startDate,
-            Date endDate, float price, String address) {
+    public Order(BigInteger id , String title, Status status , Consumer consumer, Vendor vendor, Date startDate,
+                 Date endDate, float price, String address) {
         this.id = id;
         this.title = title;
         this.status = status;

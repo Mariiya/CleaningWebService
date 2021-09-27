@@ -1,40 +1,43 @@
 package com.opsu.controllers;
 
+import com.opsu.models.User;
+import com.opsu.services.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
 
 @RestController
 @Validated
 @RequestMapping(value = "/auth/")
 public class AuthenticationController {
+    private final AuthorizationService service;
 
     @Autowired
-    public AuthenticationController() {
+    public AuthenticationController(AuthorizationService service) {
+        this.service = service;
     }
 
-    @RequestMapping(value="login",method= RequestMethod.POST)
-    public ResponseEntity<?> login() throws AuthenticationException
+    @GetMapping("/user/{id}")
+    public User getUser(@NotNull @PathVariable String id) {
+        return null;
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> login(@Valid @RequestBody User signInRequest) throws AuthenticationException
     {
         return null;
     }
 
-    @RequestMapping(value="logout",method= RequestMethod.POST)
-    public void logout(HttpServletRequest request, HttpServletResponse response)
+    @PostMapping("/logout")
+    public void logout(@Valid @RequestBody User user)
     {
-        SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
-        securityContextLogoutHandler.logout(request,response,null);
+
     }
 
 }
