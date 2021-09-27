@@ -1,8 +1,5 @@
 package com.opsu.models;
 
-import com.opsu.models.enumeration.Role;
-
-import java.math.BigInteger;
 
 public class Vendor {
 

@@ -1,8 +1,11 @@
 package com.opsu.models;
 
-import com.opsu.models.enumeration.;
+import com.opsu.models.enumeration.Status;
+
+
 
 import java.math.BigInteger;
+import java.util.Date;
 
 public class Oder {
     private BigInteger id;
@@ -52,7 +55,25 @@ public class Oder {
     public void setAddress(String address) {
         this.address= address;
     }
+    public String  getConsumer() {
+        return consumer;
+    }
+    public void setConsumer(Consumer consumer) {
+        this.consumer= consumer;
+    }
+    public String  getVendor() {
+        return vendor;
+    }
+    public void setVendor(Vendor vendor) {
+        this.vendor=vendor;
+    }
 
+    public String  getStatus() {
+        return status;
+    }
+    public void setStatus (Status status) {
+        this.status= status;
+    }
     public Oder(BigInteger id , String title, Status status , Consumer consumer, Vendor vendor, Date startDate,
             Date endDate, float price, String address,) {
         this.id = id;
