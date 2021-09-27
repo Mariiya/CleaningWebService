@@ -25,12 +25,6 @@ public class DataSourceConfig {
         dataSource.setPassword(environment.getProperty("spring.datasource.password"));//"masha");
         dataSource.setURL(environment.getProperty("spring.datasource.url"));//"jdbc:oracle:thin:@localhost:1521:xe");
         dataSource.getConnection();
-        System.out.println(environment.getProperty("spring.datasource.username"));
-        //  DriverManagerDataSource dataSource = new DriverManagerDataSource();
-      //  dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
-       // dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
-       // dataSource.setUsername("domain_dictionary");
-       // dataSource.setPassword("masha");
         return dataSource;
     }
 

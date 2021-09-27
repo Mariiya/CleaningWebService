@@ -5,7 +5,6 @@ import com.opsu.models.Order;
 import com.opsu.models.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import sun.text.resources.CollationData;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -54,7 +53,7 @@ public class OrderProcessingController {
     @GetMapping("/{id}")
     public Order getOrder(@PathVariable BigInteger id) {return null; }
 
-    @PostMapping("/create-service")
+    @PostMapping("/assignOrder}")
     public void assignOrder(@Valid @RequestBody Order order, @Valid @RequestBody Consumer consumer) {    }
 
     @PostMapping("/complete/{id}")
