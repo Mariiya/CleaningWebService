@@ -6,5 +6,4 @@ public enum Status {
     STATUS_COMPLETED,
     STATUS_CANCELED,
     STATUS_SUSPENDED
-
 }
