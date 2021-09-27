@@ -1,12 +1,11 @@
 package com.opsu.dao;
 
-import com.opsu.models.User;
+import com.opsu.models.Order;
 import com.opsu.models.enumeration.Status;
 
 
 
 import java.math.BigInteger;
-import java.util.Date;
 
 public interface OderDao {
 
