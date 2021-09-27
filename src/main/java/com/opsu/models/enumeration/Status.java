@@ -1,6 +1,10 @@
 package com.opsu.models.enumeration;
 
-public class Status {
-
+public enum Status {
+    STATUS_OPEN,
+    STATUS_IN_PROGRES,
+    STATUS_COMPLETED,
+    STATUS_CANCELED,
+    STATUS_SUSPENDED
 
 }
