@@ -1,6 +1,6 @@
 package com.opsu.dao;
 
-import com.opsu.models.User;
+
 import com.opsu.models.Vendor;
 
 public interface VendorDao {
@@ -13,4 +13,5 @@ public interface VendorDao {
 
     String GET_VENDOR_BY_LAST_NAME = "";
     String IS_VENDOR_INDIVIDUAL = "";
+    String SAVE_NEW_Vendor = "INSERT INTO VENDOR ( firstName, lastName, individual) VALUES (?, ?, ?)";
 }
