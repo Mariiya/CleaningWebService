@@ -1,7 +1,6 @@
 package com.opsu.dao;
 
 import com.opsu.dao.mapper.VendorMapper;
-import com.opsu.models.User;
 import com.opsu.models.Vendor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
