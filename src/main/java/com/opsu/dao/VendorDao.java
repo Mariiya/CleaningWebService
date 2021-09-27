@@ -9,7 +9,7 @@ public interface VendorDao {
 
     void save(Vendor vendor);
 
-    Boolean isindividual(String individual);
+    Boolean isIndividual(String individual);
 
     String GET_VENDOR_BY_LAST_NAME = "";
     String IS_VENDOR_INDIVIDUAL = "";

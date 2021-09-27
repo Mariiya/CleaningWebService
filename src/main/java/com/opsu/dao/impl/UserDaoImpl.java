@@ -1,5 +1,6 @@
-package com.opsu.dao;
+package com.opsu.dao.impl;
 
+import com.opsu.dao.UserDao;
 import com.opsu.dao.mapper.UserMapper;
 import com.opsu.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,5 @@ public class UserDaoImpl implements UserDao {
         }
         return true;
     }
-
 
 }
