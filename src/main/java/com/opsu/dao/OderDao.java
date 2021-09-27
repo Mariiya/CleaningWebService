@@ -9,9 +9,9 @@ import java.math.BigInteger;
 
 public interface OderDao {
 
-    Oder findByOderById(BigInteger id);
+    Order findByOderById(BigInteger id);
 
-    void save(Oder oder);
+    void save(Order order);
 
     String GET_ODER_BY_ID = "SELECT title, status, consumer, vendor,startDate,endDate,price,address FROM USERS WHERE id = ?";
     String SAVE_NEW_ODER = "INSERT INTO USERS (id, title, status, consumer, vendor,startDate,endDate,price,address VALUES (?, ?, ?, ?, ?, ?,?,?,?)";
