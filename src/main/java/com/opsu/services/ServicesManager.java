@@ -2,7 +2,9 @@ package com.opsu.services;
 
 import com.opsu.dao.ServiceDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ServicesManager {private final ServiceDao serviceDao;
 
     @Autowired

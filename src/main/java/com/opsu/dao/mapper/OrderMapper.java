@@ -20,9 +20,9 @@ public class OrderMapper implements RowMapper<Order> {
         String title = resultSet.getString("title");
         Status status = Status.valueOf(resultSet.getString("status"));
         String address = resultSet.getString("address");
-        Consumer consumer = Consumer.valueOf(resultSet.getString("consumer"));
+     //   Consumer consumer = Consumer.valueOf(resultSet.getString("consumer"));
 
-        return new User(id, title, status, address,consumer);
+        return null;
     }
 }
 

@@ -2,11 +2,14 @@ package com.opsu.services;
 
 import com.opsu.dao.ConsumerDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class ConsumerService {private final ConsumerDao consumerDao;
+@Service
+public class ConsumerService {
+    private final ConsumerDao consumerDao;
 
     @Autowired
-    public ConsumerService (ConsumerDao consumerDao) {
+    public ConsumerService(ConsumerDao consumerDao) {
         this.consumerDao = consumerDao;
     }
 
