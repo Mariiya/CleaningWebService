@@ -6,7 +6,7 @@ import java.math.BigInteger;
 
 public class User {
     private BigInteger id;
-    private String name;
+    private String phoneNumber;
     private String email;
     private String password;
     private Role role;
@@ -19,12 +19,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
@@ -51,9 +51,9 @@ public class User {
         this.role = role;
     }
 
-    public User(BigInteger id, String name, String email, String password, Role role) {
+    public User(BigInteger id, String phoneNumber, String email, String password, Role role) {
         this.id = id;
-        this.name = name;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
         this.role = role;
