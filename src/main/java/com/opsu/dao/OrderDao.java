@@ -8,13 +8,13 @@ import java.math.BigInteger;
 
 public interface OrderDao {
 
-    Order findOderById(BigInteger id) throws NotFoundException;
+    Order findOrderById(BigInteger id) throws NotFoundException;
 
-    void save(Order order);
+    void createOrder(Order order);
 
-    void update(Order order);
+    void updateOrder(Order order);
 
-    boolean delete(Order order);
+    boolean deleteOrder(Order order);
 
     String GET_ORDER_BY_ID = "SELECT\n" +
             "title, status, consumer, vendor, startDate, endDate, price, address\n" +

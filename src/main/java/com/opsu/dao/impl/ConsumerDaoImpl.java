@@ -2,8 +2,10 @@ package com.opsu.dao.impl;
 
 import com.opsu.dao.ConsumerDao;
 import com.opsu.dao.mapper.ConsumerMapper;
+import com.opsu.dao.mapper.VendorMapper;
 import com.opsu.models.Consumer;
 import com.opsu.models.Vendor;
+import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -22,6 +24,16 @@ public class ConsumerDaoImpl implements ConsumerDao {
     @Autowired
     public ConsumerDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public Consumer getConsumerById(BigInteger id) throws NotFoundException {
+        try {
+            return jdbcTemplate.queryForObject(GET_CONSUMER_BY_ID, new ConsumerMapper(), id);
+        } catch (DataAccessException e) {
+            LOG.error(e.getMessage(), e);
+            throw new NotFoundException("Consumer not found");
+        }
     }
 
     public Consumer findConsumerByLastName(String lastName) {

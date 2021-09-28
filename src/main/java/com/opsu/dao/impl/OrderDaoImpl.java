@@ -28,7 +28,7 @@ public class OrderDaoImpl implements OrderDao {
     //methods
 
     @Override
-    public Order findOderById(BigInteger id) throws NotFoundException {
+    public Order findOrderById(BigInteger id) throws NotFoundException {
         try {
             return jdbcTemplate.queryForObject(GET_ORDER_BY_ID, new OrderMapper(), id);
         } catch (DataAccessException e) {
@@ -38,7 +38,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void save(Order order) {
+    public void createOrder(Order order) {
         try {
             jdbcTemplate.update(SAVE_NEW_ORDER, order.getTitle(), order.getStatus(), order.getConsumer().getId(), order.getVendor().getId(), order.getStartDate(), order.getEndDate(), order.getPrice(), order.getAddress());
         } catch (DataAccessException e) {
@@ -47,7 +47,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void update(Order order) {
+    public void updateOrder(Order order) {
         try {
             jdbcTemplate.update(UPDATE_ORDER, order.getTitle(), order.getStatus(), order.getConsumer().getId(), order.getVendor().getId(), order.getStartDate(), order.getEndDate(), order.getPrice(), order.getAddress(), order.getId());
         } catch (DataAccessException e) {
@@ -56,7 +56,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public boolean delete(Order order) {
+    public boolean deleteOrder(Order order) {
         try {
             return jdbcTemplate.update(DELETE_ORDER, order.getId()) == 1;
         } catch (DataAccessException e) {

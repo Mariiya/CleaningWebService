@@ -5,17 +5,23 @@ import com.opsu.models.User;
 import com.opsu.models.Vendor;
 import javassist.NotFoundException;
 
+import java.math.BigInteger;
+
 public interface VendorDao {
 
     Vendor findVendorByLastName(String lastName) throws NotFoundException;
+
+    Vendor getVendorById(BigInteger id) throws NotFoundException;
 
     void create (Vendor vendor);
 
     void update(Vendor vendor);
 
 
-    String GET_VENDOR_BY_LAST_NAME = "SELECT vendorId, individual, firstName, \\n\" +\n" +
-            "            \"             FROM VENDOR WHERE lastName = ? \"";
+    String GET_VENDOR_BY_ID = "SELECT vendorId, individual, firstName, lastName FROM VENDOR WHERE vendorId = ?";
+
+    String GET_VENDOR_BY_LAST_NAME = "SELECT vendorId, individual, firstName, lastName \n" +
+            "                        FROM VENDOR WHERE lastName = ? ";
 
     //Используем merge вместо insert чтобы избежать дубликатов в базе и ошибок при добавленнии еще одного пользвоателя
 // безопасно и надежно
