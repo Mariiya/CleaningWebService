@@ -26,4 +26,8 @@ public class ServicesManager {private final ServiceDao serviceDao;
     public void addNew(ServiceDao serviceDao) {
 
     }
+
+    public void getAll(ServiceDao serviceDao) {
+
+    }
 }
