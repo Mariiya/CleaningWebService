@@ -25,12 +25,13 @@ public class OrderDaoImpl implements OrderDao {
     public OrderDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
     //methods
 
     @Override
     public User findByOderById(BigInteger id) throws NotFoundException {
         try {
-            return jdbcTemplate.queryForObject(GET_ODER_BY_ID, new UserMapper(), id);
+            return jdbcTemplate.queryForObject(GET_ORDER_BY_ID, new UserMapper(), id);
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Order not found");
@@ -40,9 +41,28 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public void save(Order order) {
         try {
-            jdbcTemplate.update(SAVE_NEW_ODER, order.getId(), order.getTitle(), order.getStatus(), order.getConsumer().getId(), order.getVendor().getId(), order.getStartDate(), order.getEndDate(), order.getPrice(), order.getAddress());
+            jdbcTemplate.update(SAVE_NEW_ORDER, order.getTitle(), order.getStatus(), order.getConsumer().getId(), order.getVendor().getId(), order.getStartDate(), order.getEndDate(), order.getPrice(), order.getAddress());
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void update(Order order) {
+        try {
+            jdbcTemplate.update(UPDATE_ORDER, order.getTitle(), order.getStatus(), order.getConsumer().getId(), order.getVendor().getId(), order.getStartDate(), order.getEndDate(), order.getPrice(), order.getAddress(), order.getId());
+        } catch (DataAccessException e) {
+            LOG.error(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public boolean delete(Order order) {
+        try {
+            return jdbcTemplate.update(DELETE_ORDER, order.getId()) == 1;
+        } catch (DataAccessException e) {
+            LOG.error(e.getMessage(), e);
+            return false;
         }
     }
 }

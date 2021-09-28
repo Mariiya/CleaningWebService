@@ -13,9 +13,15 @@ public interface OrderDao {
 
     void save(Order order);
 
-    String GET_ODER_BY_ID = "SELECT title, status, consumer, vendor,startDate,endDate,price,address FROM USERS WHERE id = ?";
-    String SAVE_NEW_ODE = "INSERT INTO ORDERS (id, title, status, consumer, vendor,startDate,endDate,price,address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    String SAVE_NEW_ODER = "MERGE INTO USERS old\n" +
+    void update(Order order);
+
+    boolean delete(Order order);
+
+    String GET_ORDER_BY_ID = "SELECT\n" +
+            "title, status, consumer, vendor, startDate, endDate, price, address\n" +
+            "FROM ORDERS\n " +
+            "WHERE orderId = ?";
+    String SAVE_NEW_ORDER = "MERGE INTO USERS old\n" +
             "                USING (SELECT  seq_next()  ORDERID,\n" +
             "                              ?            title,\n" +
             "                              ?            status,\n" +
@@ -48,6 +54,15 @@ public interface OrderDao {
             "                WHEN NOT MATCHED THEN\n" +
             "                    INSERT (old.ORDERID, old.title, old.status, old.consumer, old.vendor, old.startDate, old.endDate, old.price, old.address)\n" +
             "                    VALUES (SEQ_CURR(), new.phoneNumber, new.EMAIL, new.PASSWORD, new.ROLE, new.ROLE, new.ROLE, new.ROLE, new.ROLE)";
-    String UPDATE_ODER = "";
-    String DELETE_ODER = "";
+    String UPDATE_ORDER = "UPDATE ORDERS SET\n" +
+                "title = ? \n" +
+                "status = ? \n" +
+                "consumer = ? \n" +
+                "vendor = ? \n" +
+                "startDate = ? \n" +
+                "endDate = ? \n" +
+                "price = ? \n" +
+                "address = ? \n" +
+            "WHERE orderId = ?";
+    String DELETE_ORDER = "DELETE FROM ORDERS WHERE orderID = ?";
 }
