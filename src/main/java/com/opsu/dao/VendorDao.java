@@ -9,7 +9,7 @@ public interface VendorDao {
 
     Vendor findVendorByLastName(String lastName) throws NotFoundException;
 
-    void save(Vendor vendor);
+    void create (Vendor vendor);
 
     void update(Vendor vendor);
 

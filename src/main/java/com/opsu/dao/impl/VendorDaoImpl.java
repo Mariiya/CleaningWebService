@@ -28,7 +28,7 @@ public class VendorDaoImpl implements VendorDao {
         return jdbcTemplate.queryForObject(GET_VENDOR_BY_LAST_NAME, new VendorMapper(),lastName, lastName);
     }
 
-    public void save(Vendor vendor) { try {
+    public void create(Vendor vendor) { try {
         jdbcTemplate.update(CREATE_VENDOR, vendor.getLastName(), vendor.getFirstName(), vendor.getIndividual());
     } catch (DataAccessException e) {
         LOG.error(e.getMessage(), e);
