@@ -29,7 +29,7 @@ public class UserDaoImpl implements UserDao {
 
     public User findByPhoneNumberOrEmail(String phoneNumberOrEmail) throws NotFoundException {
         try {
-            return jdbcTemplate.queryForObject(GET_USER_BY_PHONE_NUMBER_OR_EMAIL, new UserMapper(), phoneNumberOrEmail);
+            return jdbcTemplate.queryForObject(GET_USER_BY_PHONE_NUMBER_OR_EMAIL, new UserMapper(), phoneNumberOrEmail, phoneNumberOrEmail);
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("User not found");
