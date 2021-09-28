@@ -1,7 +1,6 @@
 package com.opsu.dao;
 
 import com.opsu.models.Order;
-import com.opsu.models.User;
 import javassist.NotFoundException;
 
 
@@ -9,7 +8,7 @@ import java.math.BigInteger;
 
 public interface OrderDao {
 
-    User findByOderById(BigInteger id) throws NotFoundException;
+    Order findOderById(BigInteger id) throws NotFoundException;
 
     void save(Order order);
 
@@ -19,7 +18,7 @@ public interface OrderDao {
 
     String GET_ORDER_BY_ID = "SELECT\n" +
             "title, status, consumer, vendor, startDate, endDate, price, address\n" +
-            "FROM ORDERS\n " +
+            "FROM orders\n " +
             "WHERE orderId = ?";
     String SAVE_NEW_ORDER = "MERGE INTO USERS old\n" +
             "                USING (SELECT  seq_next()  ORDERID,\n" +
@@ -54,7 +53,7 @@ public interface OrderDao {
             "                WHEN NOT MATCHED THEN\n" +
             "                    INSERT (old.ORDERID, old.title, old.status, old.consumer, old.vendor, old.startDate, old.endDate, old.price, old.address)\n" +
             "                    VALUES (SEQ_CURR(), new.phoneNumber, new.EMAIL, new.PASSWORD, new.ROLE, new.ROLE, new.ROLE, new.ROLE, new.ROLE)";
-    String UPDATE_ORDER = "UPDATE ORDERS SET\n" +
+    String UPDATE_ORDER = "UPDATE orders SET\n" +
                 "title = ? \n" +
                 "status = ? \n" +
                 "consumer = ? \n" +
@@ -64,5 +63,5 @@ public interface OrderDao {
                 "price = ? \n" +
                 "address = ? \n" +
             "WHERE orderId = ?";
-    String DELETE_ORDER = "DELETE FROM ORDERS WHERE orderID = ?";
+    String DELETE_ORDER = "DELETE FROM orders WHERE orderID = ?";
 }

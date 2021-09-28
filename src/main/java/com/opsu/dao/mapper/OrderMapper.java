@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class OrderMapper implements RowMapper<Order> {
     public Order mapRow(ResultSet resultSet, int i) throws SQLException {
-        BigInteger id = BigInteger.valueOf(resultSet.getLong("id"));
+        BigInteger id = BigInteger.valueOf(resultSet.getLong("orderId"));
         String title = resultSet.getString("title");
         Status status = Status.valueOf(resultSet.getString("status"));
         String address = resultSet.getString("address");

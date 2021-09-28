@@ -1,9 +1,8 @@
 package com.opsu.dao.impl;
 
 import com.opsu.dao.OrderDao;
-import com.opsu.dao.mapper.UserMapper;
+import com.opsu.dao.mapper.OrderMapper;
 import com.opsu.models.Order;
-import com.opsu.models.User;
 import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,9 @@ public class OrderDaoImpl implements OrderDao {
     //methods
 
     @Override
-    public User findByOderById(BigInteger id) throws NotFoundException {
+    public Order findOderById(BigInteger id) throws NotFoundException {
         try {
-            return jdbcTemplate.queryForObject(GET_ORDER_BY_ID, new UserMapper(), id);
+            return jdbcTemplate.queryForObject(GET_ORDER_BY_ID, new OrderMapper(), id);
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Order not found");
