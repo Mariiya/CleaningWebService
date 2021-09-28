@@ -2,8 +2,11 @@ package com.opsu.dao.impl;
 
 import com.opsu.dao.VendorDao;
 import com.opsu.dao.mapper.VendorMapper;
+import com.opsu.models.User;
 import com.opsu.models.Vendor;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -11,27 +14,31 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class VendorDaoImpl implements VendorDao {
 
+    private static final Logger LOG = Logger.getLogger(VendorDaoImpl.class);
+    //Утилита от Спринга для работы с БД
     private final JdbcTemplate jdbcTemplate;
+
 
     @Autowired
     public VendorDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Vendor findByUsernameOrEmail(String lastName) {
+    public Vendor findVendorByLastName(String lastName) {
         return jdbcTemplate.queryForObject(GET_VENDOR_BY_LAST_NAME, new VendorMapper(),lastName, lastName);
     }
 
-    public void save(Vendor vendor) {
+    public void save(Vendor vendor) { try {
+        jdbcTemplate.update(CREATE_VENDOR, vendor.getLastName(), vendor.getFirstName(), vendor.getIndividual());
+    } catch (DataAccessException e) {
+        LOG.error(e.getMessage(), e);
+    }
         //save
     }
 
-    @Override
-    public Boolean isIndividual(String individual) {
-        Integer res = jdbcTemplate.queryForObject(IS_VENDOR_INDIVIDUAL, Integer.class);
-        if (res != null) {
-            return res != 0;
-        }
-        return true;
+    public void update(Vendor vendor) {
+        //save
     }
+
+
 }

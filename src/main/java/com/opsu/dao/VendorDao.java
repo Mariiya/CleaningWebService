@@ -1,17 +1,41 @@
 package com.opsu.dao;
 
 
+import com.opsu.models.User;
 import com.opsu.models.Vendor;
+import javassist.NotFoundException;
 
 public interface VendorDao {
 
-    Vendor findByUsernameOrEmail(String lastName);
+    Vendor findVendorByLastName(String lastName) throws NotFoundException;
 
     void save(Vendor vendor);
 
-    Boolean isIndividual(String individual);
+    void update(Vendor vendor);
 
-    String GET_VENDOR_BY_LAST_NAME = "";
-    String IS_VENDOR_INDIVIDUAL = "";
-    String SAVE_VENDOR = "INSERT INTO VENDOR ( firstName, lastName, individual) VALUES (?, ?, ?)";
+
+    String GET_VENDOR_BY_LAST_NAME = "SELECT vendorId, individual, firstName, \\n\" +\n" +
+            "            \"             FROM VENDOR WHERE lastName = ? \"";
+
+    //Используем merge вместо insert чтобы избежать дубликатов в базе и ошибок при добавленнии еще одного пользвоателя
+// безопасно и надежно
+    String CREATE_VENDOR = "MERGE INTO VENDOR old\n" +
+            "                USING (SELECT  seq_next()  vendorId,\n" +
+            "                              ?            lastName,\n" +
+            "                              ?            firstName,\n" +
+            "                              ?            individual,\n" +
+            "                       FROM DUAL) new\n" +
+            "                ON (old.vendorId = new.vendorId\n" +
+            "                WHEN MATCHED THEN\n" +
+            "                    UPDATE\n" +
+            "                    SET old.lastName = new.lastName,\n" +
+            "                        old.firstName= new.firstName,\n" +
+            "                        old.individual     = new.individual\n" +
+            "                    WHERE old.lastName <> new.lastName\n" +
+            "                      OR  old.individual       <> new.individual\n" +
+            "                       OR old.firstName <> new.firstName \n" +
+            "                      OR  old.vendorId    <> new.vendorId\n" +
+            "                WHEN NOT MATCHED THEN\n" +
+            "                    INSERT (old.vendorId, old.lastName, old.individual, old.firstName)\n" +
+            "                    VALUES (SEQ_CURR(), new.lastName, new.individual, new.firstName)";
 }
