@@ -2,6 +2,7 @@ package com.opsu.dao.impl;
 
 import com.opsu.dao.VendorDao;
 import com.opsu.dao.mapper.VendorMapper;
+import com.opsu.models.Order;
 import com.opsu.models.User;
 import com.opsu.models.Vendor;
 import javassist.NotFoundException;
@@ -51,8 +52,11 @@ public class VendorDaoImpl implements VendorDao {
     }
 
     public void update(Vendor vendor) {
-        //save
+        try {
+            jdbcTemplate.update(UPDATE_VENDOR,vendor.getLastName(), vendor.getFirstName(), vendor.getIndividual());
+        } catch (DataAccessException e) {
+            LOG.error(e.getMessage(), e);
+        }
     }
-
 
 }

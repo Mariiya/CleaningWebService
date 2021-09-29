@@ -13,7 +13,7 @@ public interface VendorDao {
 
     Vendor getVendorById(BigInteger id) throws NotFoundException;
 
-    void create (Vendor vendor);
+    void create(Vendor vendor);
 
     void update(Vendor vendor);
 
@@ -44,4 +44,10 @@ public interface VendorDao {
             "                WHEN NOT MATCHED THEN\n" +
             "                    INSERT (old.vendorId, old.lastName, old.individual, old.firstName)\n" +
             "                    VALUES (SEQ_CURR(), new.lastName, new.individual, new.firstName)";
+
+    String UPDATE_VENDOR = "UPDATE vendor SET\n" +
+            "lastName = ? \n" +
+            "firstName = ? \n" +
+            "individual = ? \n" +
+            "WHERE vendorId = ?";
 }

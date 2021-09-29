@@ -37,5 +37,9 @@ public interface ConsumerDao {
             "                WHEN NOT MATCHED THEN\n" +
             "                    INSERT (old.consumerId, old.lastName, old.firstName)\n" +
             "                    VALUES (SEQ_CURR(), new.lastName, new.firstName)";
+    String UPDATE_CONSUMER = "UPDATE consumer SET\n" +
+            "lastName = ? \n" +
+            "firstName = ? \n" +
+            "WHERE consumerId = ?";
 }
 

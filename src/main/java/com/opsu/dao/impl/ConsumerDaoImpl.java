@@ -48,7 +48,11 @@ public class ConsumerDaoImpl implements ConsumerDao {
         //save
     }
 
-    public void update(Consumer consumer) {
+    public void update(Consumer consumer) { try {
+        jdbcTemplate.update(UPDATE_CONSUMER, consumer.getLastName(),consumer.getFirstName());
+    } catch (DataAccessException e) {
+        LOG.error(e.getMessage(), e);
+    }
         //save
     }
 
