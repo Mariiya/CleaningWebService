@@ -2,8 +2,6 @@ package com.opsu.dao.impl;
 
 import com.opsu.dao.VendorDao;
 import com.opsu.dao.mapper.VendorMapper;
-import com.opsu.models.Order;
-import com.opsu.models.User;
 import com.opsu.models.Vendor;
 import javassist.NotFoundException;
 import org.apache.log4j.Logger;

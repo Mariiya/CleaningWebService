@@ -1,21 +1,13 @@
 
 package com.opsu.dao.mapper;
 
-import com.opsu.dao.impl.ConsumerDaoImpl;
-import com.opsu.models.Consumer;
 import com.opsu.models.Order;
-import com.opsu.models.User;
-import com.opsu.models.Vendor;
-import com.opsu.models.enumeration.Role;
 import com.opsu.models.enumeration.Status;
-import javassist.NotFoundException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
 public class OrderMapper implements RowMapper<Order> {
     public Order mapRow(ResultSet resultSet, int i) throws SQLException {

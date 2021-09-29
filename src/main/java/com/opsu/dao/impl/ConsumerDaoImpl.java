@@ -2,9 +2,7 @@ package com.opsu.dao.impl;
 
 import com.opsu.dao.ConsumerDao;
 import com.opsu.dao.mapper.ConsumerMapper;
-import com.opsu.dao.mapper.VendorMapper;
 import com.opsu.models.Consumer;
-import com.opsu.models.Vendor;
 import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
