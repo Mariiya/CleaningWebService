@@ -27,7 +27,7 @@ public class ServicesManager {private final ServiceDao serviceDao;
 
     }
 
-    public void getAll() {
+    public void getAll(Service service) {
 
     }
 }

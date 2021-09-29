@@ -51,12 +51,4 @@ public class VendorDaoImpl implements VendorDao {
         //save
     }
 
-    public void update(Vendor vendor) {
-        try {
-            jdbcTemplate.update(UPDATE_VENDOR,vendor.getLastName(), vendor.getFirstName(), vendor.getIndividual());
-        } catch (DataAccessException e) {
-            LOG.error(e.getMessage(), e);
-        }
-    }
-
 }

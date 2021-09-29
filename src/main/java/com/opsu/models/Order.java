@@ -44,8 +44,7 @@ public class Order {
     public void setEndDate(Date endDate) {
         this.endDate= endDate;
     }
-    public float  getPrice() {return price ;
-    }
+    public float  getPrice() {return price ; }
     public void setPrice(float price) {
         this.price= price;
     }

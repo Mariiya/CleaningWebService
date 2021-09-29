@@ -40,19 +40,12 @@ public class ConsumerDaoImpl implements ConsumerDao {
         return jdbcTemplate.queryForObject(GET_CONSUMER_BY_LAST_NAME, new ConsumerMapper(),lastName, lastName);
     }
 
-    public void create(Consumer consumer) { try {
-        jdbcTemplate.update(CREATE_CONSUMER, consumer.getLastName(),consumer.getFirstName());
-    } catch (DataAccessException e) {
-        LOG.error(e.getMessage(), e);
-    }
-        //save
-    }
-
-    public void update(Consumer consumer) { try {
-        jdbcTemplate.update(UPDATE_CONSUMER, consumer.getLastName(),consumer.getFirstName());
-    } catch (DataAccessException e) {
-        LOG.error(e.getMessage(), e);
-    }
+    public void create(Consumer consumer) {
+        try {
+            jdbcTemplate.update(CREATE_CONSUMER, consumer.getLastName(), consumer.getFirstName());
+        } catch (DataAccessException e) {
+            LOG.error(e.getMessage(), e);
+        }
         //save
     }
 

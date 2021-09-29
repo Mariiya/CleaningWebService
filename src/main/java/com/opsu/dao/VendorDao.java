@@ -15,7 +15,6 @@ public interface VendorDao {
 
     void create(Vendor vendor);
 
-    void update(Vendor vendor);
 
 
     String GET_VENDOR_BY_ID = "SELECT vendorId, individual, firstName, lastName FROM VENDOR WHERE vendorId = ?";
@@ -45,9 +44,4 @@ public interface VendorDao {
             "                    INSERT (old.vendorId, old.lastName, old.individual, old.firstName)\n" +
             "                    VALUES (SEQ_CURR(), new.lastName, new.individual, new.firstName)";
 
-    String UPDATE_VENDOR = "UPDATE vendor SET\n" +
-            "lastName = ? \n" +
-            "firstName = ? \n" +
-            "individual = ? \n" +
-            "WHERE vendorId = ?";
 }

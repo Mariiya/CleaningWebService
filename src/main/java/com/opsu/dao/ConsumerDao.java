@@ -14,8 +14,6 @@ public interface ConsumerDao {
 
     void create (Consumer consumer);
 
-    void update(Consumer consumer);
-
     String GET_CONSUMER_BY_ID = "SELECT consumerId, firstName, lastName FROM CONSUMER WHERE consumerId = ?";
 
     String GET_CONSUMER_BY_LAST_NAME = "SELECT consumerId, firstName, lastName +\n" +
@@ -37,9 +35,5 @@ public interface ConsumerDao {
             "                WHEN NOT MATCHED THEN\n" +
             "                    INSERT (old.consumerId, old.lastName, old.firstName)\n" +
             "                    VALUES (SEQ_CURR(), new.lastName, new.firstName)";
-    String UPDATE_CONSUMER = "UPDATE consumer SET\n" +
-            "lastName = ? \n" +
-            "firstName = ? \n" +
-            "WHERE consumerId = ?";
 }
 
