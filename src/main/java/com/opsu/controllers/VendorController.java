@@ -2,14 +2,18 @@ package com.opsu.controllers;
 
 import com.opsu.models.Vendor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Validated
 @RequestMapping(value = "/vendor/")
 public class VendorController {
+
+    @GetMapping("{id}")
+    public void getVendor(@PathVariable String id) {
+
+    }
+
     @PostMapping("/create")
     public void createVendor(Vendor vendor) {
 

@@ -3,6 +3,8 @@ package com.opsu.controllers;
 import com.opsu.models.Consumer;
 import com.opsu.models.Order;
 import com.opsu.models.Service;
+import com.opsu.services.OrderProcessingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,16 @@ import java.util.Collections;
 @RequestMapping(value = "/order/")
 public class OrderProcessingController {
 
+    private final OrderProcessingService service;
+
+    @Autowired
+    public OrderProcessingController(OrderProcessingService service) {
+        this.service = service;
+    }
+
     @PostMapping("/cancel/{id}")
-    public void cancelOrder(BigInteger orderId, @PathVariable String id) {}
+    public void cancelOrder(BigInteger orderId, @PathVariable String id) {
+    }
 
     @GetMapping("/orders")
     public Collection<Order> getOrders() {
@@ -42,23 +52,31 @@ public class OrderProcessingController {
     }
 
     @PostMapping("/reject/{id}")
-    public void rejectOrder(@PathVariable BigInteger id) {    }
+    public void rejectOrder(@PathVariable BigInteger id) {
+    }
 
     @PostMapping("/create")
-    public void createOrder(@Valid @RequestBody Order order) {    }
+    public void createOrder(@Valid @RequestBody Order order) {
+    }
 
     @PostMapping("/create-service")
-    public void addSpecialService(@Valid @RequestBody Service service, @Valid @RequestBody Order order) {    }
+    public void addSpecialService(@Valid @RequestBody Service service, @Valid @RequestBody Order order) {
+    }
 
     @GetMapping("/{id}")
-    public Order getOrder(@PathVariable BigInteger id) {return null; }
+    public Order getOrder(@PathVariable BigInteger id) {
+        return null;
+    }
 
     @PostMapping("/assignOrder}")
-    public void assignOrder(@Valid @RequestBody Order order, @Valid @RequestBody Consumer consumer) {    }
+    public void assignOrder(@Valid @RequestBody Order order, @Valid @RequestBody Consumer consumer) {
+    }
 
     @PostMapping("/complete/{id}")
-    public void completeOrder(@PathVariable BigInteger id) {    }
+    public void completeOrder(@PathVariable BigInteger id) {
+    }
 
     @PostMapping("/change-price")
-    public void changePrice(@Valid @RequestBody Order order) {    }
+    public void changePrice(@Valid @RequestBody Order order) {
+    }
 }

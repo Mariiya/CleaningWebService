@@ -14,7 +14,7 @@ import java.util.Collections;
 @RequestMapping(value = "/service/")
 public class ServicesManagerController {
 
-    @PostMapping("/new")
+    @PostMapping("/create")
     public void addNewService(@Valid @RequestBody Service service) {
     }
 
@@ -32,7 +32,7 @@ public class ServicesManagerController {
     }
 
     @GetMapping("/{id}")
-    public Service getService(BigInteger id) {
+    public Service getService(@PathVariable String id) {
         return null;
     }
 }

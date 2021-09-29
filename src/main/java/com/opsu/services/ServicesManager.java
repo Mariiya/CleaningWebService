@@ -13,21 +13,21 @@ public class ServicesManager {private final ServiceDao serviceDao;
     }
 
 
-    public void create(ServiceDao serviceDao) {
+    public void create(Service service) {
 
     }
-    public void change(ServiceDao serviceDao) {
+    public void change(Service service) {
 
     }
-    public void delete(ServiceDao serviceDao) {
-
-    }
-
-    public void addNew(ServiceDao serviceDao) {
+    public void delete(Service service) {
 
     }
 
-    public void getAll(ServiceDao serviceDao) {
+    public void addNew(Service service) {
+
+    }
+
+    public void getAll() {
 
     }
 }
