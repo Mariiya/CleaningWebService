@@ -17,8 +17,12 @@ public interface OrderDao {
     boolean deleteOrder(Order order);
 
     String GET_ORDER_BY_ID = "SELECT\n" +
-            "title, status, consumer, vendor, startDate, endDate, price, address\n" +
-            "FROM orders\n " +
+            "orders.orderId, orders.title, orders.status, orders.consumerId, orders.vendorId, orders.startDate, orders.endDate, orders.price, orders.address\n" +
+            "consumer.consumerId, consumer.firstName, consumer.lastName, consumer.userId \n" +
+            "vendor.vendorId, vendor.firstName, vendor.lastName, vendor.individual, vendor.userId \n" +
+            "FROM orders\n" +
+            "LEFT JOIN consumer ON orders.consumerId = consumer.consumerID\n" +
+            "LEFT JOIN vendor ON orders.vendorId = vendor.vendorId\n" +
             "WHERE orderId = ?";
     String SAVE_NEW_ORDER = "MERGE INTO USERS old\n" +
             "                USING (SELECT  seq_next()  ORDERID,\n" +

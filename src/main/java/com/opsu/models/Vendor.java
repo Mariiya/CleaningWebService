@@ -5,9 +5,10 @@ import java.math.BigInteger;
 
 public class Vendor {
     private BigInteger vendorId;
-private  String firstName ;
-private  String lastName ;
-private  Boolean individual;
+    private  String firstName ;
+    private  String lastName ;
+    private  Boolean individual;
+    private User user;
 
     public BigInteger getId() {
         return vendorId;
@@ -37,10 +38,20 @@ private  Boolean individual;
     public void setIndividual(boolean individual) {
         this.individual= individual;
     }
-    public Vendor (BigInteger vendorId, String firstName , String lastName , Boolean individual ) {
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Vendor (BigInteger vendorId, String firstName , String lastName , Boolean individual , User user) {
         this.vendorId = vendorId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.individual = individual;
+        this.user = user;
     }
 }
