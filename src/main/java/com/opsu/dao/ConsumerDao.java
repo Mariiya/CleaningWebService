@@ -14,10 +14,17 @@ public interface ConsumerDao {
 
     void create (Consumer consumer);
 
-    String GET_CONSUMER_BY_ID = "SELECT consumerId, firstName, lastName FROM CONSUMER WHERE consumerId = ?";
+    String GET_CONSUMER_BY_ID = "SELECT consumerId, firstName, lastName, consumer.userId" +
+            "users.userId, users.email, users.password, users.phoneNumber, users.role" +
+            "FROM CONSUMER" +
+            "LEFT JOIN users ON consumer.userId = users.userId" +
+            "WHERE consumerId = ?";
 
-    String GET_CONSUMER_BY_LAST_NAME = "SELECT consumerId, firstName, lastName +\n" +
-            "                            FROM CONSUMER WHERE lastName = ? ";
+    String GET_CONSUMER_BY_LAST_NAME = "SELECT consumerId, firstName, lastName, consumer.userId" +
+            "users.userId, users.email, users.password, users.phoneNumber, users.role" +
+            "FROM CONSUMER" +
+            "LEFT JOIN users ON consumer.userId = users.userId" +
+            "WHERE lastName = ? ";
 
     String CREATE_CONSUMER = "MERGE INTO CONSUMER old\n" +
             "                USING (SELECT  seq_next()  consumerId,\n" +

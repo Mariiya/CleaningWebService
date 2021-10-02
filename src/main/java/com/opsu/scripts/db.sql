@@ -85,6 +85,7 @@ CREATE TABLE orders (
                         vendorId int DEFAULT NULL,
                         startDate date DEFAULT NULL,
                         endDate date DEFAULT NULL,
+                        price float DEFAULT NULL,
                         PRIMARY KEY (orderId),
                         CONSTRAINT orders_ibfk_1 FOREIGN KEY (consumerId) REFERENCES consumer (consumerId),
                         CONSTRAINT orders_ibfk_2 FOREIGN KEY (vendorId) REFERENCES vendor (vendorId)

@@ -23,8 +23,11 @@ public interface VendorDao {
             "LEFT JOIN users ON vendor.userId = users.userId" +
             "WHERE vendorId = ?";
 
-    String GET_VENDOR_BY_LAST_NAME = "SELECT vendorId, individual, firstName, lastName \n" +
-            "                        FROM VENDOR WHERE lastName = ? ";
+    String GET_VENDOR_BY_LAST_NAME = "SELECT vendorId, individual, firstName, lastName, vendor.userId \n" +
+            "users.userId, users.email, users.password, users.phoneNumber, users.role" +
+            "FROM VENDOR" +
+            "LEFT JOIN users ON vendor.userId = users.userId" +
+            "WHERE lastName = ? ";
 
     //Используем merge вместо insert чтобы избежать дубликатов в базе и ошибок при добавленнии еще одного пользвоателя
 // безопасно и надежно

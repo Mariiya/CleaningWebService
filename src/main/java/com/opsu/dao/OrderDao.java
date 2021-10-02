@@ -17,7 +17,7 @@ public interface OrderDao {
     boolean deleteOrder(Order order);
 
     String GET_ORDER_BY_ID = "SELECT\n" +
-            "orders.orderId, orders.title, orders.status, orders.consumerId, orders.vendorId, orders.startDate, orders.endDate, orders.price, orders.address\n" +
+            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
             "consumer.consumerId, consumer.firstName, consumer.lastName, consumer.userId \n" +
             "vendor.vendorId, vendor.firstName, vendor.lastName, vendor.individual, vendor.userId \n" +
             "FROM orders\n" +

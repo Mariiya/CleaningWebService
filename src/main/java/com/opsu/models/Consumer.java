@@ -6,7 +6,7 @@ public class Consumer {
     private String firstName;
     private String lastName;
     private BigInteger consumerId;
-
+    private User user;
 
     public BigInteger getId() {
         return consumerId;
@@ -32,10 +32,18 @@ public class Consumer {
         this.lastName = lastName;
     }
 
-    public Consumer( BigInteger consumerId, String firstName, String lastName) {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Consumer(BigInteger consumerId, String firstName, String lastName, User user) {
         this.consumerId = consumerId;
         this.firstName = firstName;
         this.lastName = lastName;
-
+        this.user = user;
     }
 }
