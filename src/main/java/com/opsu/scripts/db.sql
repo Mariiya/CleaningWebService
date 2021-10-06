@@ -81,11 +81,14 @@ CREATE TABLE vendor (
 --
 CREATE TABLE orders (
                         orderId int NOT NULL,
+                        title varchar2(255) DEFAULT NULL,
+                        status varchar2(255) DEFAULT NULL,
                         consumerId int DEFAULT NULL,
                         vendorId int DEFAULT NULL,
                         startDate date DEFAULT NULL,
                         endDate date DEFAULT NULL,
                         price float DEFAULT NULL,
+                        address varchar2(255) DEFAULT NULL,
                         PRIMARY KEY (orderId),
                         CONSTRAINT orders_ibfk_1 FOREIGN KEY (consumerId) REFERENCES consumer (consumerId),
                         CONSTRAINT orders_ibfk_2 FOREIGN KEY (vendorId) REFERENCES vendor (vendorId)

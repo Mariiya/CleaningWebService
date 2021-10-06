@@ -24,7 +24,7 @@ public interface OrderDao {
             "LEFT JOIN consumer ON orders.consumerId = consumer.consumerID\n" +
             "LEFT JOIN vendor ON orders.vendorId = vendor.vendorId\n" +
             "WHERE orderId = ?";
-    String SAVE_NEW_ORDER = "MERGE INTO USERS old\n" +
+    String SAVE_NEW_ORDER = "MERGE INTO ORDERS old\n" +
             "                USING (SELECT  seq_next()  ORDERID,\n" +
             "                              ?            title,\n" +
             "                              ?            status,\n" +
