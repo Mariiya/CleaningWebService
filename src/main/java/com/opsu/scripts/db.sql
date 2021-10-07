@@ -65,7 +65,7 @@ CREATE TABLE  consumer  (
                             lastName  varchar2(255) DEFAULT NULL,
                             userId  int DEFAULT NULL,
                             PRIMARY KEY ( consumerId ),
-                            CONSTRAINT  consumer_ibfk_1  FOREIGN KEY ( userId ) REFERENCES  "USER"  ( userId )
+                            CONSTRAINT  consumer_ibfk_1  FOREIGN KEY ( userId ) REFERENCES  "USERS"  ( userId )
 );
 
 --
