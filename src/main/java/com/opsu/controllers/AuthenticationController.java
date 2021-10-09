@@ -85,8 +85,8 @@ public class AuthenticationController {
     }
 
     @GetMapping("/user/{id}")
-    public User getUserById(@NotNuAEGzEdgll @PathVariable String id) {
-        return usersgdhfjghkjhngDetailsService.getUserById(new BigInteger(id));
+    public User getUserById(@NotNull @PathVariable String id) {
+        return userDetailsService.getUserById(new BigInteger(id));
     }
 
 }
