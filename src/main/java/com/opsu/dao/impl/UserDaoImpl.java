@@ -10,6 +10,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
+
 @Repository
 public class UserDaoImpl implements UserDao {
     //логер для записи ошибок
@@ -56,6 +58,15 @@ public class UserDaoImpl implements UserDao {
         return false;
     }
 
+    @Override
+    public User getUserById(BigInteger id) throws NotFoundException {
+        try {
+            return jdbcTemplate.queryForObject(GET_USER_BY_ID, new UserMapper(), id);
+        } catch (DataAccessException e) {
+            LOG.error(e.getMessage(), e);
+            throw new NotFoundException("User not found");
+        }
+    }
 
     public Boolean existsByEmail(String email) {
         try {
