@@ -1,22 +1,42 @@
 package com.opsu.dao;
 
 import com.opsu.models.ServiceCollection;
+import javassist.NotFoundException;
+
+import java.math.BigInteger;
 
 public interface ServiceCollectionDao {
 
-    ServiceCollection getServiceCollection();
+    ServiceCollection getServiceCollectionById(BigInteger id) throws NotFoundException;
 
-    void createServiceCollection();
+    void createServiceCollection(ServiceCollection serviceCollection);
 
-    void updateServiceCollection();
+    void updateServiceCollection(ServiceCollection serviceCollection);
 
-    void deleteServiceCollection();
+    boolean deleteServiceCollection(ServiceCollection serviceCollection);
 
-    String GET_SERVICECOLLECTION_BY_ID = "";
+    String GET_SERVICECOLLECTION_BY_ID = "SELECT serviceCollectionId, orderId, serviceId FROM SERVICECOLLECTION WHERE serviceCollectionId = ?";
 
-    String CREATE_SERVICECOLLECTION = "";
+    String CREATE_SERVICECOLLECTION = "MERGE INTO SERVICECOLLECTION old \n" +
+            "                            USING (SELECT  seq_next()  serviceCollectionId, \n" +
+            "                                          ?            orderId, \n" +
+            "                                          ?            serviceId \n" +
+            "                                   FROM DUAL) new \n" +
+            "                            ON (old.serviceCollectionId = new.serviceCollectionId) \n" +
+            "                            WHEN MATCHED THEN \n" +
+            "                                UPDATE \n" +
+            "                                SET old.orderId = new.orderId, \n" +
+            "                                    old.serviceId = new.serviceId \n" +
+            "                                WHERE old.orderId <> new.orderId \n" +
+            "                                  OR  old.serviceId    <> new.serviceId \n" +
+            "                            WHEN NOT MATCHED THEN \n" +
+            "                                INSERT (old.serviceCollectionId, old.orderId, old.serviceId) \n" +
+            "                                VALUES (SEQ_CURR(), new.orderId, new.serviceId)";
 
-    String UPDATE_SERVICECOLLECTION = "";
+    String UPDATE_SERVICECOLLECTION = "UPDATE SERVICECOLLECTION SET\n" +
+            "                orderId = ?, \n" +
+            "                serviceId = ? \n" +
+            "            WHERE serviceCollectionId = ?";
 
-    String DELETE_SERVICECOLLECTION = "";
+    String DELETE_SERVICECOLLECTION = "DELETE FROM SERVICECOLLECTION WHERE serviceCollectionId = ?";
 }

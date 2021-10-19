@@ -2,7 +2,6 @@ package com.opsu.dao.impl;
 
 import com.opsu.dao.ServiceDao;
 import com.opsu.dao.mapper.ServiceMapper;
-import com.opsu.dao.mapper.UserMapper;
 import com.opsu.models.Service;
 import javassist.NotFoundException;
 import org.apache.log4j.Logger;
