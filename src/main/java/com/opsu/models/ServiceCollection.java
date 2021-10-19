@@ -1,5 +1,6 @@
 package com.opsu.models;
 
+import javax.validation.constraints.Min;
 import java.math.BigInteger;
 
 public class ServiceCollection {
