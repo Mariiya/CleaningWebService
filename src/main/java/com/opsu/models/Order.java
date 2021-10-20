@@ -17,6 +17,7 @@ public class Order {
     @NotEmpty(message ="Title can not be empty")
     private String title;
 
+    @NotEmpty(message ="Status can not be empty")
     private Status status;
 
     private Consumer consumer;
@@ -24,9 +25,11 @@ public class Order {
 
     @Past
     private Date startDate;
+
     @FutureOrPresent
     private Date endDate;
 
+    @Positive
     @NotEmpty(message ="Price can not be empty")
     private float price;
 
