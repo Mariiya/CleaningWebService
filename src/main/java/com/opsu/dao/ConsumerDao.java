@@ -14,13 +14,13 @@ public interface ConsumerDao {
 
     void create (Consumer consumer);
 
-    String GET_CONSUMER_BY_ID = "SELECT consumerId, firstName, lastName, consumer.userId" +
+    String GET_CONSUMER_BY_ID = "SELECT consumerId, firstName, lastName, consumer.userId," +
             "users.userId, users.email, users.password, users.phoneNumber, users.role" +
             "FROM CONSUMER" +
             "LEFT JOIN users ON consumer.userId = users.userId" +
             "WHERE consumerId = ?";
 
-    String GET_CONSUMER_BY_LAST_NAME = "SELECT consumerId, firstName, lastName, consumer.userId" +
+    String GET_CONSUMER_BY_LAST_NAME = "SELECT consumerId, firstName, lastName, consumer.userId," +
             "users.userId, users.email, users.password, users.phoneNumber, users.role" +
             "FROM CONSUMER" +
             "LEFT JOIN users ON consumer.userId = users.userId" +
@@ -29,13 +29,13 @@ public interface ConsumerDao {
     String CREATE_CONSUMER = "MERGE INTO CONSUMER old\n" +
             "                USING (SELECT  seq_next()  consumerId,\n" +
             "                              ?            lastName,\n" +
-            "                              ?            firstName,\n" +
+            "                              ?            firstName\n" +
             "                       FROM DUAL) new\n" +
-            "                ON (old.consumerId = new.consumerId\n" +
+            "                ON (old.consumerId = new.consumerId)\n" +
             "                WHEN MATCHED THEN\n" +
             "                    UPDATE\n" +
             "                    SET old.lastName = new.lastName,\n" +
-            "                        old.firstName= new.firstName,\n" +
+            "                        old.firstName= new.firstName\n" +
             "                    WHERE old.lastName <> new.lastName\n" +
             "                       OR old.firstName <> new.firstName \n" +
             "                      OR  old.consumerId    <> new.consumerId\n" +

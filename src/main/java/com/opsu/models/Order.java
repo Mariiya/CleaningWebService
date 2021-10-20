@@ -3,19 +3,37 @@ package com.opsu.models;
 import com.opsu.models.enumeration.Status;
 
 
-
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.math.BigInteger;
 import java.util.Date;
 
 public class Order {
+
+    @Min(value=0,message ="Oder id is not be correct")
     private BigInteger id;
+
+    @Pattern(regexp = "^[A-Z][a-z]*(\\s(([a-z]{1,3})|(([a-z]')?[A-Z][a-z]*)))*$",message = "Vendor first name format is not correct")
+    @Size(min=2,max=30,message = "Title should contain from 2 to 30 digits")
+    @NotEmpty(message ="Title can not be empty")
     private String title;
+
     private Status status;
+
     private Consumer consumer;
     private Vendor vendor;
+
     private Date startDate;
     private Date endDate;
+
     private float price;
+
+    @NotEmpty(message ="Address can not be empty")
+    @Pattern(regexp = "^(?:[a-zA-Z0-9_'^&/+-])+(?:\\.(?:[a-zA-Z0-9_'^&/+-])+)" + "*@(?:(?:\\[?(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.)" +
+            "{3}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\]?)|(?:[a-zA-Z0-9-]+\\.)" + "+(?:[a-zA-Z]){2,}\\?)$",
+    message = "Address format is not correct")
     private String address;
 
     public BigInteger getId() {
