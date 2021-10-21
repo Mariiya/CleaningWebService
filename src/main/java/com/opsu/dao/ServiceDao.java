@@ -4,7 +4,7 @@ import com.opsu.models.Service;
 import javassist.NotFoundException;
 
 import java.math.BigInteger;
-import java.util.List;
+import java.util.Collection;
 
 public interface ServiceDao {
 
@@ -16,7 +16,7 @@ public interface ServiceDao {
 
     Service getService(BigInteger id) throws NotFoundException;
 
-    List<Service> getServices() throws NotFoundException;
+    Collection<Service> getServices() throws NotFoundException;
 
     String ADD_NEW_SERVICE = "MERGE INTO SERVICE old\n" +
             "                USING (SELECT  seq_next()  SERVICEID,\n" +

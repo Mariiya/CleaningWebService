@@ -1,18 +1,26 @@
 package com.opsu.dao;
 
 import com.opsu.models.Order;
+import com.opsu.models.Service;
 import javassist.NotFoundException;
-
-
 import java.math.BigInteger;
+import java.util.Collection;
 
 public interface OrderDao {
 
-    Order findOrderById(BigInteger id) throws NotFoundException;
+    Order getOrder(BigInteger id) throws NotFoundException;
 
-    void createOrder(Order order);
+    Collection<Order> getOrders() throws NotFoundException;
 
-    void updateOrder(Order order);
+    Collection<Order> getOrders(Service service) throws NotFoundException;
+
+    Collection<Order> getOrders(float price) throws NotFoundException;
+
+    Collection<Order> getOrders(String title) throws NotFoundException;
+
+    boolean createOrder(Order order);
+
+    boolean updateOrder(Order order);
 
     boolean deleteOrder(Order order);
 
@@ -24,6 +32,30 @@ public interface OrderDao {
             "LEFT JOIN consumer ON orders.consumerId = consumer.consumerID\n" +
             "LEFT JOIN vendor ON orders.vendorId = vendor.vendorId\n" +
             "WHERE orderId = ?";
+    String GET_ORDERS = "SELECT\n" +
+            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address,\n" +
+            "consumer.consumerId, consumer.firstName, consumer.lastName, consumer.userId, \n" +
+            "vendor.vendorId, vendor.firstName, vendor.lastName, vendor.individual, vendor.userId \n" +
+            "FROM orders\n" +
+            "LEFT JOIN consumer ON orders.consumerId = consumer.consumerID\n" +
+            "LEFT JOIN vendor ON orders.vendorId = vendor.vendorId";
+    String GET_ORDERS_BY_PRICE = "SELECT\n" +
+            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address,\n" +
+            "consumer.consumerId, consumer.firstName, consumer.lastName, consumer.userId, \n" +
+            "vendor.vendorId, vendor.firstName, vendor.lastName, vendor.individual, vendor.userId \n" +
+            "FROM orders\n" +
+            "LEFT JOIN consumer ON orders.consumerId = consumer.consumerID\n" +
+            "LEFT JOIN vendor ON orders.vendorId = vendor.vendorId\n" +
+            "WHERE price = ?";
+    String GET_ORDERS_BY_TITLE = "SELECT\n" +
+            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address,\n" +
+            "consumer.consumerId, consumer.firstName, consumer.lastName, consumer.userId, \n" +
+            "vendor.vendorId, vendor.firstName, vendor.lastName, vendor.individual, vendor.userId \n" +
+            "FROM orders\n" +
+            "LEFT JOIN consumer ON orders.consumerId = consumer.consumerID\n" +
+            "LEFT JOIN vendor ON orders.vendorId = vendor.vendorId\n" +
+            "WHERE title = ?";
+    String GET_ORDERS_BY_SERVICE = " ?";
     String SAVE_NEW_ORDER = "MERGE INTO ORDERS old\n" +
             "                USING (SELECT  seq_next()  ORDERID,\n" +
             "                              ?            title,\n" +

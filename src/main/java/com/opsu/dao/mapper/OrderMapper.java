@@ -37,6 +37,8 @@ public class OrderMapper implements RowMapper<Order> {
                 .withStatus(Status.valueOf(resultSet.getString("status")))
                 .withAddress(resultSet.getString("address"))
                 .withPrice(resultSet.getFloat("price"))
+                .withStartDate(resultSet.getDate("startDate"))
+                .withEndDate(resultSet.getDate("endDate"))
                 .build();
 
     }
