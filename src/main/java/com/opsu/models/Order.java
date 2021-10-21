@@ -3,10 +3,7 @@ package com.opsu.models;
 import com.opsu.models.enumeration.Status;
 
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -20,19 +17,25 @@ public class Order {
     @NotEmpty(message ="Title can not be empty")
     private String title;
 
+    @NotEmpty(message ="Status can not be empty")
     private Status status;
 
     private Consumer consumer;
     private Vendor vendor;
 
+    @Past
     private Date startDate;
+
+    @FutureOrPresent
     private Date endDate;
 
+    @Positive
+    @NotEmpty(message ="Price can not be empty")
     private float price;
 
     @NotEmpty(message ="Address can not be empty")
     @Pattern(regexp = "^(?:[a-zA-Z0-9_'^&/+-])+(?:\\.(?:[a-zA-Z0-9_'^&/+-])+)" + "*@(?:(?:\\[?(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.)" +
-            "{3}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\]?)|(?:[a-zA-Z0-9-]+\\.)" + "+(?:[a-zA-Z]){2,}\\?)$",
+            "{3}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)]?)|(?:[a-zA-Z0-9-]+\\.)" + "+(?:[a-zA-Z]){2,}\\?)$",
     message = "Address format is not correct")
     private String address;
 
