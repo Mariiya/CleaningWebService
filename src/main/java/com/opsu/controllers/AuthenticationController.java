@@ -1,21 +1,12 @@
 package com.opsu.controllers;
 
-import com.opsu.dao.UserDao;
-import com.opsu.models.JwtResponse;
-import com.opsu.models.LoginRequest;
-import com.opsu.models.User;
-import com.opsu.models.enumeration.Role;
-import com.opsu.secutity.jwt.JwtUtils;
-import com.opsu.secutity.services.UserDetailsImpl;
+import com.opsu.models.*;
 import com.opsu.secutity.services.UserDetailsServiceImpl;
 import com.opsu.services.AuthorizationService;
+import com.opsu.services.ConsumerService;
+import com.opsu.services.VendorService;
 import org.apache.log4j.Logger;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,63 +15,41 @@ import java.math.BigInteger;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 public class AuthenticationController {
     private static final Logger log = Logger.getLogger(AuthenticationController.class.getName());
 
-    private final AuthenticationManager authenticationManager;
+    private final AuthorizationService authorizationService;
+    private final ConsumerService consumerService;
+    private final VendorService vendorService;
     private final UserDetailsServiceImpl userDetailsService;
-    private final UserDao userDao;
-    private final PasswordEncoder encoder;
-    private final JwtUtils jwtUtils;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, AuthorizationService authorizationService, UserDetailsServiceImpl userDetailsService, UserDao userDao, PasswordEncoder encoder, JwtUtils jwtUtils) {
-        this.authenticationManager = authenticationManager;
+
+    public AuthenticationController(AuthorizationService authorizationService1, ConsumerService consumerService,
+                                    VendorService vendorService, UserDetailsServiceImpl userDetailsService) {
+        this.authorizationService = authorizationService1;
+        this.consumerService = consumerService;
+        this.vendorService = vendorService;
         this.userDetailsService = userDetailsService;
-        this.userDao = userDao;
-        this.encoder = encoder;
-        this.jwtUtils = jwtUtils;
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/auth/signin")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         log.debug("/signin " + loginRequest);
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        Role role;
-        String roleStr = String.valueOf(userDetails.getAuthorities());
-
-        if ("[ROLE_SERVICE_PROVIDER]".equals(roleStr)) {
-            role = Role.ROLE_SERVICE_PROVIDER;
-        } else {
-            role = Role.ROLE_CLIENT;
-        }
-        return ResponseEntity.ok(new JwtResponse(jwt, new User(
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                userDetails.getPassword(),
-                role)));
+        return ResponseEntity.ok(authorizationService.authenticateUser(loginRequest));
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody User signUpRequest) {
-        if (userDao.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Error: Email is already taken!");
-        }
+    @PostMapping("/auth/signup/vendor")
+    public ResponseEntity<?> createVendor(@Valid @RequestBody Vendor vendor) {
+        authorizationService.registerUser(vendor.getUser());
+        vendorService.create(vendor);
+        return ResponseEntity.ok("OK");
+    }
 
-        // Create new user's account
-        User user = new User(BigInteger.ONE, signUpRequest.getPhoneNumber(),
-                signUpRequest.getEmail(),
-                signUpRequest.getPassword(), signUpRequest.getRole());
-        userDao.save(user);
+    @PostMapping("/auth/signup/consumer")
+    public ResponseEntity<?> createConsumer(@Valid @RequestBody Consumer consumer) {
+        authorizationService.registerUser(consumer.getUser());
+        consumerService.create(consumer);
         return ResponseEntity.ok("OK");
     }
 

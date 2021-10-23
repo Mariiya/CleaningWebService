@@ -24,11 +24,6 @@ public class ConsumerController {
 
     }
 
-    @PostMapping("/create")
-    public void createConsumer(@Valid @RequestBody Consumer consumer) {
-
-    }
-
     @PostMapping("/update")
     public void updateConsumer(@Valid @RequestBody Consumer consumer) {
 

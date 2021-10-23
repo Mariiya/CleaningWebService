@@ -14,11 +14,6 @@ public class VendorController {
 
     }
 
-    @PostMapping("/create")
-    public void createVendor(Vendor vendor) {
-
-    }
-
     @PostMapping("/update")
     public void updateVendor(Vendor vendor) {
 
