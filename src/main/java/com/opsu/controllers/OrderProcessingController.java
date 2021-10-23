@@ -1,9 +1,11 @@
 package com.opsu.controllers;
 
+import com.opsu.dao.OrderDao;
 import com.opsu.models.Consumer;
 import com.opsu.models.Order;
 import com.opsu.models.Service;
 import com.opsu.services.OrderProcessingService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +21,14 @@ import java.util.Collections;
 @Validated
 @RequestMapping(value = "/order/")
 public class OrderProcessingController {
-
-    private final OrderProcessingService service;
+    private static final Logger log = Logger.getLogger(OrderProcessingController.class.getName());
+    private final OrderProcessingService processingService;
+    private final OrderDao orderDao;
 
     @Autowired
-    public OrderProcessingController(OrderProcessingService service) {
-        this.service = service;
+    public OrderProcessingController(OrderProcessingService processingService, OrderDao orderDao) {
+        this.orderDao = orderDao;
+        this.processingService = processingService;
     }
 
     @PostMapping("/cancel/{id}")

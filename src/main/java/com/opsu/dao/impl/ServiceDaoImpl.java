@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
-import java.util.List;
+import java.util.Collection;
 
 @Repository
 public class ServiceDaoImpl implements ServiceDao {
@@ -65,16 +65,13 @@ public class ServiceDaoImpl implements ServiceDao {
     }
 
     @Override
-    public List<Service> getServices() throws NotFoundException {
-        List<Service> serviceList;
+    public Collection<Service> getServices() throws NotFoundException {
         try {
-            serviceList = jdbcTemplate.query(GET_SERVICES, new ServiceMapper());
+            return jdbcTemplate.query(GET_SERVICES, new ServiceMapper());
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Services not found");
         }
-
-        return serviceList;
     }
 
 }
