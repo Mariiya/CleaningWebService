@@ -1,6 +1,7 @@
 package com.opsu.controllers;
 
 import com.opsu.dao.OrderDao;
+import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.Consumer;
 import com.opsu.models.Order;
 import com.opsu.models.Service;
@@ -31,56 +32,135 @@ public class OrderProcessingController {
         this.processingService = processingService;
     }
 
-    @PostMapping("/cancel/{id}")
-    public void cancelOrder(BigInteger orderId, @PathVariable String id) {
-    }
-
-    @GetMapping("/orders")
-    public Collection<Order> getOrders() {
-        return Collections.EMPTY_LIST;
-    }
-
-    @GetMapping("/by-service")
-    public Collection<Order> getOrders(@Valid @RequestBody Service service) {
-        return Collections.EMPTY_LIST;
-    }
-
-    @GetMapping("/by-price")
-    public Collection<Order> getOrders(@NotNull Double price) {
-        return Collections.EMPTY_LIST;
-    }
-
-    @GetMapping("/by-name")
-    public Collection<Order> getOrders(@NotNull @NotEmpty String name) {
-        return Collections.EMPTY_LIST;
-    }
-
-    @PostMapping("/reject/{id}")
-    public void rejectOrder(@PathVariable BigInteger id) {
-    }
-
     @PostMapping("/create")
     public void createOrder(@Valid @RequestBody Order order) {
-    }
-
-    @PostMapping("/create-service")
-    public void addSpecialService(@Valid @RequestBody Service service, @Valid @RequestBody Order order) {
+        try {
+            processingService.createOrder(order);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
     public Order getOrder(@PathVariable BigInteger id) {
-        return null;
+        try {
+            return processingService.getOrder(id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    @GetMapping("/orders")
+    public Collection<Order> getOrders() {
+        try {
+            return processingService.getOrders();
+        } catch (EmptyDataBaseException e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    @GetMapping("/by-service")
+    public Collection<Order> getOrders(@Valid @RequestBody Service service) {
+        try {
+            return processingService.getOrders(service);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    @GetMapping("/by-price")
+    public Collection<Order> getOrders(@NotNull Float price) {
+        try {
+            return processingService.getOrders(price);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    @GetMapping("/by-name")
+    public Collection<Order> getOrders(@NotNull @NotEmpty String name) {
+        try {
+            return processingService.getOrders(name);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    @PostMapping("/reject/{id}")
+    public void rejectOrder(@PathVariable BigInteger id) {
+        try {
+            processingService.rejectOrder(id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/cancel/{id}")
+    public void cancelOrder(BigInteger orderId, @PathVariable String id) {
+        try {
+            processingService.cancelOrder(orderId, id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
     @PostMapping("/assignOrder}")
     public void assignOrder(@Valid @RequestBody Order order, @Valid @RequestBody Consumer consumer) {
+        try {
+            processingService.assignOrder(order, consumer);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/inProgress/{id}")
+    public void inProgressOrder(@PathVariable BigInteger id) {
+        try {
+            processingService.inProgressOrder(id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/suspend/{id}")
+    public void suspendOrder(@PathVariable BigInteger id) {
+        try {
+            processingService.suspendOrder(id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
     @PostMapping("/complete/{id}")
     public void completeOrder(@PathVariable BigInteger id) {
+        try {
+            processingService.completeOrder(id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/delete/{order}")
+    public void deleteOrder(@PathVariable Order order) {
+        try {
+            processingService.deleteOrder(order);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
     @PostMapping("/change-price")
     public void changePrice(@Valid @RequestBody Order order) {
+            processingService.changePrice(order);
+    }
+
+    @PostMapping("/create-service")
+    public void addSpecialService(@Valid @RequestBody Service service, @Valid @RequestBody Order order) {
+        processingService.addSpecialService(service, order);
     }
 }

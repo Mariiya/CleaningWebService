@@ -100,14 +100,11 @@ public class OrderProcessingService {
         }
     }
 
-    public void changePrice(Order order, float price) throws Exception {
+    public void changePrice(Order order) {
         if((order == null)||(order.getId() == null)){
             throw new NumberFormatException("Order exception");
         }
-        order.setPrice(price);
-        if(!orderDao.updateOrder(order)){
-            throw new Exception("Order assign exception");
-        }
+
     }
 
     public void rejectOrder(BigInteger id) throws Exception {
@@ -131,6 +128,8 @@ public class OrderProcessingService {
         Order order = orderDao.getOrder(id);
         if(order == null){
             throw new EmptyDataBaseException("Order is null");
+        } else if (order.getStatus().equals(Status.STATUS_OPEN)){
+            throw new EmptyDataBaseException("You can't complete just opened order");
         }
         order.setStatus(Status.STATUS_COMPLETED);
         if(!orderDao.updateOrder(order)){
@@ -152,7 +151,7 @@ public class OrderProcessingService {
         }
     }
 
-    public void inProgressOrder(BigInteger orderId, String id) throws Exception {
+    public void inProgressOrder(BigInteger orderId) throws Exception {
         if((orderId == null)||(orderId.equals(BigInteger.ZERO))){
             throw new NumberFormatException("Wrong id input");
         }
@@ -166,7 +165,7 @@ public class OrderProcessingService {
         }
     }
 
-    public void suspendOrder(BigInteger orderId, String id) throws Exception {
+    public void suspendOrder(BigInteger orderId) throws Exception {
         if((orderId == null)||(orderId.equals(BigInteger.ZERO))){
             throw new NumberFormatException("Wrong id input");
         }
@@ -189,5 +188,7 @@ public class OrderProcessingService {
         }
     }
 
-    public void addSpecialService(Service service, Order order) {    }
+    public void addSpecialService(Service service, Order order) {
+
+    }
 }
