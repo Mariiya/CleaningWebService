@@ -60,21 +60,19 @@ CREATE TABLE "USERS" (
 
 --
 CREATE TABLE  consumer  (
-                            consumerId  int NOT NULL,
                             firstName  varchar2(255) DEFAULT NULL,
                             lastName  varchar2(255) DEFAULT NULL,
                             userId  int DEFAULT NULL,
-                            PRIMARY KEY ( consumerId ),
+                            PRIMARY KEY ( userId ),
                             CONSTRAINT  consumer_ibfk_1  FOREIGN KEY ( userId ) REFERENCES  "USERS"  ( userId )
 );
 
 --
 CREATE TABLE vendor (
-                        vendorId int NOT NULL  PRIMARY KEY ,
                         firstName varchar2(255) DEFAULT NULL,
                         lastName varchar2(255) DEFAULT NULL,
                         individual INT DEFAULT '1',
-                        userId int NOT NULL,
+                        userId int NOT NULL  PRIMARY KEY,
                         CONSTRAINT vendor_ibfk_1 FOREIGN KEY (userId) REFERENCES "USERS" (userId)
 );
 
@@ -90,8 +88,8 @@ CREATE TABLE orders (
                         price float DEFAULT NULL,
                         address varchar2(255) DEFAULT NULL,
                         PRIMARY KEY (orderId),
-                        CONSTRAINT orders_ibfk_1 FOREIGN KEY (consumerId) REFERENCES consumer (consumerId),
-                        CONSTRAINT orders_ibfk_2 FOREIGN KEY (vendorId) REFERENCES vendor (vendorId)
+                        CONSTRAINT orders_ibfk_1 FOREIGN KEY (consumerId) REFERENCES consumer (userId),
+                        CONSTRAINT orders_ibfk_2 FOREIGN KEY (vendorId) REFERENCES vendor (userId)
 );
 
 --

@@ -41,14 +41,14 @@ public class AuthenticationController {
 
     @PostMapping("/auth/signup/vendor")
     public ResponseEntity<?> createVendor(@Valid @RequestBody Vendor vendor) {
-        authorizationService.registerUser(vendor.getUser());
+        authorizationService.registerUser(vendor);
         vendorService.create(vendor);
         return ResponseEntity.ok("OK");
     }
 
     @PostMapping("/auth/signup/consumer")
     public ResponseEntity<?> createConsumer(@Valid @RequestBody Consumer consumer) {
-        authorizationService.registerUser(consumer.getUser());
+        authorizationService.registerUser(consumer);
         consumerService.create(consumer);
         return ResponseEntity.ok("OK");
     }

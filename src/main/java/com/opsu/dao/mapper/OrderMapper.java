@@ -19,15 +19,14 @@ public class OrderMapper implements RowMapper<Order> {
         BigInteger consumerId = BigInteger.valueOf(resultSet.getLong("consumer.consumerId"));
         String consumerFirstName = resultSet.getString("consumer.firstName");
         String consumerLastName = resultSet.getString("consumer.lastName");
-        User consumerUser = null;
-        Consumer consumer = new Consumer(consumerId, consumerFirstName, consumerLastName, consumerUser);
+        Consumer consumer = new Consumer(consumerId,null,null,null,null, consumerFirstName, consumerLastName);
         //Vendor
         BigInteger vendorId = BigInteger.valueOf(resultSet.getLong("vendor.vendorId"));
         String vendorFirstName = resultSet.getString("vendor.firstName");
         String vendorLastName = resultSet.getString("vendor.lastName");
         Boolean vendorIndividual = resultSet.getInt("vendor.individual") == 1;
         User vendorUser = null;
-        Vendor vendor = new Vendor(vendorId, vendorFirstName, vendorLastName, vendorIndividual, vendorUser);
+        Vendor vendor = new Vendor(vendorId,null,null,null,null, vendorFirstName, vendorLastName, vendorIndividual);
 
         return new OrderBuilder()
                 .withVendor(vendor)
