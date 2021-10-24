@@ -2,10 +2,12 @@ package com.opsu.models.builders;
 
 import com.opsu.models.Consumer;
 import com.opsu.models.Order;
+import com.opsu.models.Service;
 import com.opsu.models.Vendor;
 import com.opsu.models.enumeration.Status;
 
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Date;
 
 public class OrderBuilder {
@@ -16,6 +18,7 @@ public class OrderBuilder {
     private Vendor vendor;
     private Date startDate;
     private Date endDate;
+    private Collection<Service> services;
     private float price;
     private String address;
 
@@ -66,8 +69,13 @@ public class OrderBuilder {
         return this;
     }
 
+    public OrderBuilder withServices(Collection<Service> services){
+        this.services = services;
+        return this;
+    }
+
     public Order build() {
-        return new Order(id, title, status, consumer, vendor, startDate, endDate, price, address);
+        return new Order(id, title, status, consumer, vendor, startDate, endDate, services, price, address);
     }
 
 }

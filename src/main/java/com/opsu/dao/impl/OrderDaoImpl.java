@@ -72,7 +72,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Collection<Order> getOrders(String title) throws NotFoundException {
         try {
-            return jdbcTemplate.query(GET_ORDERS, new OrderMapper());
+            return jdbcTemplate.query(GET_ORDERS_BY_TITLE, new OrderMapper());
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Orders not found");
