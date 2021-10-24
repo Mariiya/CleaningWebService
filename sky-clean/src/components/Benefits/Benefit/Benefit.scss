@@ -1,0 +1,40 @@
+.benefit {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+
+  &__img-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 184px;
+    height: 184px;
+    border-radius: 50%;
+    background-color: #EADBD6;
+
+    @media screen and (max-width: 768px){
+      width: 154px;
+      height: 154px;
+    }
+  }
+
+  &__img {
+    @media screen and (max-width: 768px){
+      height: 60%;
+    }
+  }
+
+  &__title {
+    margin-top: 59px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 25px;
+    color: #ffffff;
+
+    @media screen and (max-width: 568px){
+      font-size: 14px;
+    }
+  }
+}

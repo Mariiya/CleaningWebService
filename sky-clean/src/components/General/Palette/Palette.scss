@@ -1,0 +1,37 @@
+.palette {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  padding: 17px 8px;
+  width: 223px;
+  height: 196px;
+  border-radius: 15px;
+  background-color: #ffffff;
+
+  &__link-container {
+    display: flex;
+    align-items: center;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 25px;
+    text-decoration: none;
+    color: #2F2E41;
+
+    @media screen and (max-width: 576px){
+      font-size: 14px;
+    }
+  }
+
+  &__img-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

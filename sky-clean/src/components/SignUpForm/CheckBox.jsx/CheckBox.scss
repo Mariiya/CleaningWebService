@@ -1,0 +1,29 @@
+.checkBox {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  &__switch {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &_active {
+      background-color: #FFB3AB;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+  }
+
+  p {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    cursor: default;
+  }
+}

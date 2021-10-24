@@ -1,0 +1,35 @@
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  @media screen and (max-width: 418px){
+    align-items: center;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px;
+    color: #2F2E41;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    color: #2F2E41;
+  }
+
+  &__item {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 18px;
+  }
+}

@@ -1,0 +1,44 @@
+.service {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 11px;
+  width: 288px;
+  height: 276px;
+  border-radius: 15px;
+  background-color: #ffffff;
+
+  &__img-container {
+    display: flex;
+    align-items: center;
+    margin-top: 29px;
+  }
+
+  &__img {
+    height: 100%;
+  }
+
+  &__title {
+    margin-top: 52px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 25px;
+    color: #2F2E41;
+
+    @media screen and (max-width: 576px){
+      font-size: 16px;
+    }
+  }
+
+  &__count {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 25px;
+    color: #2F2E41;
+
+    @media screen and (max-width: 576px){
+      font-size: 14px;
+    }
+  }
+}

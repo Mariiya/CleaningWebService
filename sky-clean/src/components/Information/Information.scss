@@ -1,0 +1,21 @@
+.information {
+  display: flex;
+  align-items: center;
+  background-color: #97CEED;
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 1160px;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin-top: 186px;
+    margin-bottom: 154px;
+  }
+}
