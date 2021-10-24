@@ -1,15 +1,15 @@
 package com.opsu.services;
 
 import com.opsu.dao.UserDao;
-import com.opsu.models.JwtResponse;
-import com.opsu.models.LoginRequest;
-import com.opsu.models.User;
+import com.opsu.models.*;
 import com.opsu.models.enumeration.Role;
 import com.opsu.secutity.jwt.JwtUtils;
 import com.opsu.secutity.services.UserDetailsImpl;
+import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,6 +33,7 @@ public class AuthorizationService {
         this.jwtUtils = jwtUtils;
         this.authenticationManager = authenticationManager;
     }
+
 
     public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -58,14 +59,23 @@ public class AuthorizationService {
                 role));
     }
 
-    public void registerUser(User userRequest) {
-        if (userDao.existsByEmail(userRequest.getEmail())) {
-            ResponseEntity
-                    .badRequest()
-                    .body("Error: Email is already taken!");
+    public boolean changeUserPassword(UserDetailsImpl updater, User user) throws NotFoundException {
+        if (!updater.getId().equals(user.getId())) {
+            throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
         }
+        User userFromDB = userDao.getUserById(updater.getId());
+        userFromDB.setPassword(user.getPassword());
+        userDao.save(user);
+        return true;
+        //TODO: mailSend
+    }
 
-        // Create new user's account
+    public Boolean existsByEmail(String email) {
+        return userDao.existsByEmail(email);
+
+    }
+
+    public void registerUser(User userRequest) {
         User user = new User(BigInteger.ONE, userRequest.getPhoneNumber(),
                 userRequest.getEmail(),
                 userRequest.getPassword(), userRequest.getRole());

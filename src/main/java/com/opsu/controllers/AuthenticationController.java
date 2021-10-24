@@ -1,12 +1,15 @@
 package com.opsu.controllers;
 
 import com.opsu.models.*;
+import com.opsu.secutity.services.UserDetailsImpl;
 import com.opsu.secutity.services.UserDetailsServiceImpl;
 import com.opsu.services.AuthorizationService;
 import com.opsu.services.ConsumerService;
 import com.opsu.services.VendorService;
+import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -39,8 +42,18 @@ public class AuthenticationController {
         return ResponseEntity.ok(authorizationService.authenticateUser(loginRequest));
     }
 
+    @PostMapping("/change-password")
+    public boolean changeUserPassword(@AuthenticationPrincipal UserDetailsImpl updater, @Valid @RequestBody User user) throws NotFoundException {
+        return authorizationService.changeUserPassword(updater, user);
+    }
+
     @PostMapping("/auth/signup/vendor")
     public ResponseEntity<?> createVendor(@Valid @RequestBody Vendor vendor) {
+        if (authorizationService.existsByEmail(vendor.getEmail())) {
+            ResponseEntity
+                    .badRequest()
+                    .body("Error: Email is already taken!");
+        }
         authorizationService.registerUser(vendor);
         vendorService.create(vendor);
         return ResponseEntity.ok("OK");
@@ -48,6 +61,11 @@ public class AuthenticationController {
 
     @PostMapping("/auth/signup/consumer")
     public ResponseEntity<?> createConsumer(@Valid @RequestBody Consumer consumer) {
+        if (authorizationService.existsByEmail(consumer.getEmail())) {
+            ResponseEntity
+                    .badRequest()
+                    .body("Error: Email is already taken!");
+        }
         authorizationService.registerUser(consumer);
         consumerService.create(consumer);
         return ResponseEntity.ok("OK");
