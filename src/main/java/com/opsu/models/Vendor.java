@@ -3,10 +3,7 @@ package com.opsu.models;
 
 import com.opsu.models.enumeration.Role;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.math.BigInteger;
 
 public class Vendor extends User{
@@ -21,7 +18,7 @@ public class Vendor extends User{
     @NotEmpty(message ="Vendor last name  can not be empty")
     private  String lastName ;
 
-    @NotEmpty(message ="Vendor individual should not be empty")
+    @NotNull(message ="Vendor individual should not be empty")
     private  Boolean individual;
 
     public String  getFirstName() {
