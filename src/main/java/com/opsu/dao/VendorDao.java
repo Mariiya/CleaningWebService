@@ -32,26 +32,23 @@ public interface VendorDao {
     //Используем merge вместо insert чтобы избежать дубликатов в базе и ошибок при добавленнии еще одного пользвоателя
 // безопасно и надежно
     String CREATE_VENDOR = "MERGE INTO VENDOR old\n" +
-            "                USING (SELECT  seq_next()  vendorId,\n" +
-            "                              ?            lastName,\n" +
-            "                              ?            firstName,\n" +
-            "                              ?            individual\n" +
-            "                              ?            userId\n" +
-            "                       FROM DUAL) new\n" +
-            "                ON (old.vendorId = new.vendorId)\n" +
-            "                WHEN MATCHED THEN\n" +
-            "                    UPDATE\n" +
-            "                    SET old.lastName = new.lastName,\n" +
-            "                        old.firstName= new.firstName,\n" +
-            "                        old.individual     = new.individual,\n" +
-            "                        old.userId = new.userId" +
-            "                    WHERE old.lastName <> new.lastName\n" +
-            "                      OR  old.individual       <> new.individual\n" +
-            "                       OR old.firstName <> new.firstName \n" +
-            "                      OR  old.vendorId    <> new.vendorId\n" +
-            "                      OR  old.userId <> new.userId\n" +
-            "                WHEN NOT MATCHED THEN\n" +
-            "                    INSERT (old.vendorId, old.lastName, old.individual, old.firstName, old.userId)\n" +
-            "                    VALUES (SEQ_CURR(), new.lastName, new.individual, new.firstName, new.userId)";
+            "                   USING (select ?            lastName,\n" +
+            "                                 ?            firstName,\n" +
+            "                                 ?            individual,\n" +
+            "                                 ?            userId\n" +
+            "                          FROM DUAL) new\n" +
+            "                   ON (old.userId = new.userId)\n" +
+            "                   WHEN MATCHED THEN\n" +
+            "                       UPDATE\n" +
+            "                       SET old.lastName = new.lastName,\n" +
+            "                           old.firstName= new.firstName,\n" +
+            "                           old.individual     = new.individual\n" +
+            "                       WHERE old.lastName <> new.lastName\n" +
+            "                         OR  old.individual       <> new.individual\n" +
+            "                        OR old.firstName <> new.firstName\n" +
+            "                         OR  old.userId <> new.userId\n" +
+            "                   WHEN NOT MATCHED THEN\n" +
+            "                       INSERT (old.lastName, old.individual, old.firstName, old.userId)\n" +
+            "                       VALUES (new.lastName, new.individual, new.firstName, new.userId)";
 
 }
