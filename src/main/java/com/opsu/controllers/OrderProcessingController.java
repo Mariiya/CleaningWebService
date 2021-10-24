@@ -1,6 +1,8 @@
 package com.opsu.controllers;
 
 import com.opsu.dao.OrderDao;
+import com.opsu.dao.ServiceCollectionDao;
+import com.opsu.dao.ServiceDao;
 import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.Consumer;
 import com.opsu.models.Order;
@@ -25,11 +27,15 @@ public class OrderProcessingController {
     private static final Logger log = Logger.getLogger(OrderProcessingController.class.getName());
     private final OrderProcessingService processingService;
     private final OrderDao orderDao;
+    private final ServiceDao serviceDao;
+    private final ServiceCollectionDao serviceCollectionDao;
 
     @Autowired
-    public OrderProcessingController(OrderProcessingService processingService, OrderDao orderDao) {
+    public OrderProcessingController(OrderProcessingService processingService, OrderDao orderDao, ServiceDao serviceDao, ServiceCollectionDao serviceCollectionDao) {
         this.orderDao = orderDao;
         this.processingService = processingService;
+        this.serviceDao = serviceDao;
+        this.serviceCollectionDao = serviceCollectionDao;
     }
 
     @PostMapping("/create")
@@ -100,8 +106,8 @@ public class OrderProcessingController {
         }
     }
 
-    @PostMapping("/cancel/{id}")
-    public void cancelOrder(BigInteger orderId, @PathVariable String id) {
+    @PostMapping("/cancel/{orderId}")
+    public void cancelOrder(@PathVariable BigInteger orderId, String id) {
         try {
             processingService.cancelOrder(orderId, id);
         } catch (Exception e) {
@@ -156,7 +162,7 @@ public class OrderProcessingController {
 
     @PostMapping("/change-price")
     public void changePrice(@Valid @RequestBody Order order) {
-            processingService.changePrice(order);
+        processingService.changePrice(order);
     }
 
     @PostMapping("/create-service")

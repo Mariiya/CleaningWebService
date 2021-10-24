@@ -37,7 +37,7 @@ public class ServiceCollectionDaoImpl implements ServiceCollectionDao {
     @Override
     public void createServiceCollection(ServiceCollection serviceCollection) {
         try {
-            jdbcTemplate.update(CREATE_SERVICECOLLECTION, serviceCollection.getOrderId(), serviceCollection.getServiceId());
+            jdbcTemplate.update(CREATE_SERVICECOLLECTION, serviceCollection.getOrder(), serviceCollection.getService());
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -46,7 +46,7 @@ public class ServiceCollectionDaoImpl implements ServiceCollectionDao {
     @Override
     public void updateServiceCollection(ServiceCollection serviceCollection) {
         try {
-            jdbcTemplate.update(UPDATE_SERVICECOLLECTION, serviceCollection.getOrderId(), serviceCollection.getServiceId(), serviceCollection.getId());
+            jdbcTemplate.update(UPDATE_SERVICECOLLECTION, serviceCollection.getOrder(), serviceCollection.getService(), serviceCollection.getId());
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
         }

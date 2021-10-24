@@ -25,35 +25,19 @@ public interface OrderDao {
     boolean deleteOrder(Order order);
 
     String GET_ORDER_BY_ID = "SELECT\n" +
-            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address,\n" +
-            "consumer.consumerId, consumer.firstName, consumer.lastName, consumer.userId, \n" +
-            "vendor.vendorId, vendor.firstName, vendor.lastName, vendor.individual, vendor.userId \n" +
+            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
             "FROM orders\n" +
-            "LEFT JOIN consumer ON orders.consumerId = consumer.consumerID\n" +
-            "LEFT JOIN vendor ON orders.vendorId = vendor.vendorId\n" +
             "WHERE orderId = ?";
     String GET_ORDERS = "SELECT\n" +
-            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address,\n" +
-            "consumer.consumerId, consumer.firstName, consumer.lastName, consumer.userId, \n" +
-            "vendor.vendorId, vendor.firstName, vendor.lastName, vendor.individual, vendor.userId \n" +
-            "FROM orders\n" +
-            "LEFT JOIN consumer ON orders.consumerId = consumer.consumerID\n" +
-            "LEFT JOIN vendor ON orders.vendorId = vendor.vendorId";
+            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
+            "FROM orders";
     String GET_ORDERS_BY_PRICE = "SELECT\n" +
-            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address,\n" +
-            "consumer.consumerId, consumer.firstName, consumer.lastName, consumer.userId, \n" +
-            "vendor.vendorId, vendor.firstName, vendor.lastName, vendor.individual, vendor.userId \n" +
+            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
             "FROM orders\n" +
-            "LEFT JOIN consumer ON orders.consumerId = consumer.consumerID\n" +
-            "LEFT JOIN vendor ON orders.vendorId = vendor.vendorId\n" +
             "WHERE price = ?";
     String GET_ORDERS_BY_TITLE = "SELECT\n" +
-            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address,\n" +
-            "consumer.consumerId, consumer.firstName, consumer.lastName, consumer.userId, \n" +
-            "vendor.vendorId, vendor.firstName, vendor.lastName, vendor.individual, vendor.userId \n" +
+            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
             "FROM orders\n" +
-            "LEFT JOIN consumer ON orders.consumerId = consumer.consumerID\n" +
-            "LEFT JOIN vendor ON orders.vendorId = vendor.vendorId\n" +
             "WHERE title = ?";
     String GET_ORDERS_BY_SERVICE = " ?";
     String SAVE_NEW_ORDER = "MERGE INTO ORDERS old\n" +

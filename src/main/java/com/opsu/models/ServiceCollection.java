@@ -5,13 +5,13 @@ import java.math.BigInteger;
 
 public class ServiceCollection {
     private BigInteger id;
-    private BigInteger orderId;
-    private BigInteger serviceId;
+    private Order order;
+    private Service service;
 
-    public ServiceCollection(BigInteger id, BigInteger orderId, BigInteger serviceId) {
+    public ServiceCollection(BigInteger id, Order order, Service service) {
         this.id = id;
-        this.orderId = orderId;
-        this.serviceId = serviceId;
+        this.order = order;
+        this.service = service;
     }
 
     public BigInteger getId() {
@@ -22,19 +22,19 @@ public class ServiceCollection {
         this.id = id;
     }
 
-    public BigInteger getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(BigInteger orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    public BigInteger getServiceId() {
-        return serviceId;
+    public Service getService() {
+        return service;
     }
 
-    public void setServiceId(BigInteger serviceId) {
-        this.serviceId = serviceId;
+    public void setService(Service service) {
+        this.service = service;
     }
 }

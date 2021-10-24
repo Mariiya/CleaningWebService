@@ -1,26 +1,33 @@
 package com.opsu.services;
 
-import com.opsu.dao.OrderDao;
+import com.opsu.dao.*;
 import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.Consumer;
 import com.opsu.models.Order;
 import com.opsu.models.Service;
+import com.opsu.models.Vendor;
 import com.opsu.models.enumeration.Status;
-import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigInteger;
 import java.util.Collection;
-import java.util.Collections;
 
 @org.springframework.stereotype.Service
 public class OrderProcessingService {
     private static Logger logger = Logger.getLogger(OrderProcessingService.class.getName());
     private final OrderDao orderDao;
+    private final ServiceDao serviceDao;
+    private final ServiceCollectionDao serviceCollectionDao;
+    private final VendorDao vendorDao;
+    private final ConsumerDao consumerDao;
 
     @Autowired
-    public OrderProcessingService(OrderDao orderDao) {
+    public OrderProcessingService(OrderDao orderDao, ServiceDao serviceDao, ServiceCollectionDao serviceCollectionDao, VendorDao vendorDao, ConsumerDao consumerDao) {
         this.orderDao = orderDao;
+        this.serviceDao = serviceDao;
+        this.serviceCollectionDao = serviceCollectionDao;
+        this.vendorDao = vendorDao;
+        this.consumerDao = consumerDao;
     }
 
     public void createOrder(Order order) throws Exception {
@@ -40,6 +47,10 @@ public class OrderProcessingService {
         if(order == null){
             throw new EmptyDataBaseException("Order is null");
         }
+        Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+        order.setVendor(vendor);
+        Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
+        order.setConsumer(consumer);
 
         return order;
     }
@@ -59,6 +70,9 @@ public class OrderProcessingService {
             throw new Exception("Service exception");
         }
         Collection<Order> orderCollection = orderDao.getOrders(service);
+        for(Order order : orderCollection){
+
+        }
         if(orderCollection.size() == 0){
             throw new EmptyDataBaseException("Order list is empty");
         }

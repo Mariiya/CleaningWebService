@@ -8,7 +8,7 @@ import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ServiceMapper implements RowMapper<Service> {
+public class  ServiceMapper implements RowMapper<Service> {
 
     @Override
     public Service mapRow(ResultSet resultSet, int i) throws SQLException {

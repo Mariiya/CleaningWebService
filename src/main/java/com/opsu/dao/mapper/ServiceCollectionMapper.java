@@ -1,5 +1,6 @@
 package com.opsu.dao.mapper;
 
+import com.opsu.models.Order;
 import com.opsu.models.Service;
 import com.opsu.models.ServiceCollection;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,8 +13,8 @@ public class ServiceCollectionMapper implements RowMapper<ServiceCollection> {
     @Override
     public ServiceCollection mapRow(ResultSet resultSet, int i) throws SQLException {
         BigInteger id = BigInteger.valueOf(resultSet.getLong("serviceCollectionId"));
-        BigInteger orderId = BigInteger.valueOf(resultSet.getLong("orderId"));
-        BigInteger serviceId = BigInteger.valueOf(resultSet.getLong("serviceId"));
-        return new ServiceCollection(id, orderId, serviceId);
+        Order order = new Order(BigInteger.valueOf(resultSet.getLong("orderId")), null, null, null, null, null, null,0, null);
+        Service service = new Service(BigInteger.valueOf(resultSet.getLong("serviceId")), null, null);
+        return new ServiceCollection(id, order, service);
     }
 }
