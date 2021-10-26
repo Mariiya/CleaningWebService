@@ -24,42 +24,49 @@ public class ServicesManagerController {
     }
 
     @PostMapping("/create")
-    public void addNewService(@Valid @RequestBody Service service) {
+    public Boolean addNewService(@Valid @RequestBody Service service) {
         try{
             servicesManager.addNewService(service);
+            return true;
         }
         catch (Exception e){
             log.error(e.getMessage());
+            return false;
         }
     }
 
     @PostMapping("/custom")
-    public void addNewCustomService(@Valid @RequestBody Service service) {
+    public Service addNewCustomService(@Valid @RequestBody Service service) {
         try{
-            servicesManager.addNewCustomService(service);
+            return servicesManager.addNewCustomService(service);
         }
         catch (Exception e){
             log.error(e.getMessage());
+            return null;
         }
     }
 
     @PostMapping("/update")
-    public void changeService(@Valid @RequestBody Service service) {
+    public Boolean changeService(@Valid @RequestBody Service service) {
         try{
             servicesManager.updateService(service);
+            return true;
         }
         catch (Exception e){
             log.error(e.getMessage());
+            return false;
         }
     }
 
     @PostMapping("/delete/{id}")
-    public void deleteService(@PathVariable BigInteger id) {
+    public Boolean deleteService(@PathVariable BigInteger id) {
         try{
             servicesManager.deleteService(id);
+            return true;
         }
         catch (Exception e){
             log.error(e.getMessage());
+            return false;
         }
     }
 

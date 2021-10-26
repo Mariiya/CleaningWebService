@@ -29,9 +29,10 @@ public class ServicesManager {
             throw new Exception("Error creating Service");
         }
     }
-    public void addNewCustomService(Service service) throws Exception {
+    public Service addNewCustomService(Service service) throws Exception {
         try{
             serviceDao.addNewCustomService(service);
+            return serviceDao.getCustomService(service);
         }
         catch (Exception e){
             log.error(e.getMessage());

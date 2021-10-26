@@ -49,8 +49,8 @@ public interface OrderDao {
             "WHERE consumerId = ?" +
             "   OR vendorId = ?";
     String GET_ORDERS_BY_SERVICE = " ?";
-    String SAVE_NEW_ORDER = "INSERT INTO ORDERS (orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address) " +
-            "                    VALUES (SEQ.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    String SAVE_NEW_ORDER = "INSERT INTO ORDERS (orderId, title, description, status, consumerId, startDate, endDate, price, address) " +
+            "                    VALUES (SEQ.nextval, ?, ?, ?, ?, ?, ?, ?, ?)";
     String UPDATE_ORDER = "UPDATE orders SET\n" +
                 "title = ? ,\n" +
                 "description = ?,\n" +
@@ -67,7 +67,7 @@ public interface OrderDao {
             "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address " +
             "FROM ORDERS " +
             "WHERE " +
-            "(title = ? AND description = ? AND status = ? AND consumerId = ? AND vendorId = ? AND " +
+            "(title = ? AND description = ? AND status = ? AND consumerId = ? AND " +
             "startDate = ? AND endDate = ? AND price = ? AND address = ? ) " +
             "AND ROWNUM <= 1 " +
             "ORDER BY orderID desc";

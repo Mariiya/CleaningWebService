@@ -84,4 +84,14 @@ public class ServiceDaoImpl implements ServiceDao {
         }
     }
 
+    @Override
+    public Service getCustomService(Service service) throws NotFoundException {
+        try {
+            return jdbcTemplate.queryForObject(GET_CUSTOM_SERVICE_WITH_ID, new ServiceMapper(), service.getName(), service.getDescription());
+        } catch (DataAccessException e) {
+            LOG.error(e.getMessage(), e);
+            throw new NotFoundException("Service not found");
+        }
+    }
+
 }

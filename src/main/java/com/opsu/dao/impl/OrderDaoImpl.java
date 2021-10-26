@@ -5,6 +5,7 @@ import com.opsu.dao.mapper.OrderMapper;
 import com.opsu.dao.mapper.RowNumMapper;
 import com.opsu.models.Order;
 import com.opsu.models.Service;
+import com.opsu.models.Vendor;
 import com.opsu.models.enumeration.Status;
 import javassist.NotFoundException;
 import org.apache.log4j.Logger;
@@ -115,7 +116,7 @@ public class OrderDaoImpl implements OrderDao {
             java.sql.Date startDate = new java.sql.Date(order.getStartDate().getTime());
             java.sql.Date endDate = new java.sql.Date(order.getEndDate().getTime());
             BigInteger id = BigInteger.ZERO;
-           boolean result =  jdbcTemplate.update(SAVE_NEW_ORDER, order.getTitle(), order.getDescription(), order.getStatus().name(), order.getConsumer().getId(), order.getVendor().getId(), startDate, endDate, order.getPrice(), order.getAddress()) != 0;
+            boolean result =  jdbcTemplate.update(SAVE_NEW_ORDER, order.getTitle(), order.getDescription(), order.getStatus().name(), order.getConsumer().getId(), startDate, endDate, order.getPrice(), order.getAddress()) != 0;
             jdbcTemplate.update("commit");
             return result;
         } catch (DataAccessException e) {
@@ -151,7 +152,7 @@ public class OrderDaoImpl implements OrderDao {
         try {
             java.sql.Date startDate = new java.sql.Date(order.getStartDate().getTime());
             java.sql.Date endDate = new java.sql.Date(order.getEndDate().getTime());
-            return jdbcTemplate.queryForObject(GET_ID_OF_ORDER, new OrderMapper(), order.getTitle(), order.getDescription(), order.getStatus().name(), order.getConsumer().getId(), order.getVendor().getId(), startDate, endDate, order.getPrice(), order.getAddress());
+            return jdbcTemplate.queryForObject(GET_ID_OF_ORDER, new OrderMapper(), order.getTitle(), order.getDescription(), order.getStatus().name(), order.getConsumer().getId(), startDate, endDate, order.getPrice(), order.getAddress());
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Orders not found");
