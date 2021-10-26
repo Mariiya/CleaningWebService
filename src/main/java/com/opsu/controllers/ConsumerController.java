@@ -2,17 +2,21 @@ package com.opsu.controllers;
 
 import com.opsu.models.Consumer;
 
+
 import com.opsu.secutity.services.UserDetailsImpl;
-import com.opsu.services.AuthorizationService;
+
 import com.opsu.services.ConsumerService;
 
+import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
 import java.math.BigInteger;
@@ -24,10 +28,8 @@ import java.math.BigInteger;
 public class ConsumerController {
     private static final Logger log = Logger.getLogger(ConsumerController.class.getName());
     private final ConsumerService consumerService;
-    private final AuthorizationService authorizationService;
     @Autowired
-    public ConsumerController(ConsumerService consumerService,AuthorizationService authorizationService1) {
-        this.authorizationService = authorizationService1;
+    public ConsumerController(ConsumerService consumerService) {
         this.consumerService = consumerService;
     }
 
@@ -52,10 +54,18 @@ public class ConsumerController {
             return null;
         }
     }
+    @PostMapping("/create")
+    public void create(@Valid @RequestBody Consumer consumer) {
+        try {
+            consumerService.create(consumer);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
 
-    //@PostMapping("/update")
-   // public void update(@AuthenticationPrincipal UserDetailsImpl updater, @Valid @RequestBody Consumer consumer)throws NotFoundException {
-     //   consumerService.update(updater,consumer);
+    @PostMapping("/update")
+    public void update( UserDetailsImpl updater, @Valid @RequestBody Consumer consumer)throws NotFoundException {
+        consumerService.update(updater,consumer);
 
-    //}
+    }
 }

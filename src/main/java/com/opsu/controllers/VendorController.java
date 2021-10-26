@@ -1,13 +1,15 @@
 package com.opsu.controllers;
 
-import com.opsu.models.Consumer;
+
+import javassist.NotFoundException;
 import com.opsu.models.Vendor;
 import com.opsu.services.VendorService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+import com.opsu.secutity.services.UserDetailsImpl;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigInteger;
 @RestController
@@ -43,8 +45,20 @@ public class VendorController {
             return null;
         }
     }
+
+    @PostMapping("/create")
+    public void create(@Valid @RequestBody Vendor vendor) {
+        try {
+            vendorService.create(vendor);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
     @PostMapping("/update")
-    public void updateVendor(Vendor vendor) {
+    public void updateVendor(UserDetailsImpl updater, @Valid
+    @RequestBody Vendor vendor) throws NotFoundException {
+        vendorService.update(updater,vendor);
 
     }
 }
