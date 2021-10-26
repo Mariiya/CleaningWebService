@@ -16,10 +16,10 @@ import java.sql.SQLException;
 public class OrderMapper implements RowMapper<Order> {
     public Order mapRow(ResultSet resultSet, int i) throws SQLException {
         //Consumer
-        BigInteger consumerId = BigInteger.valueOf(resultSet.getLong("consumer.consumerId"));
+        BigInteger consumerId = BigInteger.valueOf(resultSet.getLong("consumerId"));
         Consumer consumer = new Consumer(consumerId,null,null,null,null, null, null);
         //Vendor
-        BigInteger vendorId = BigInteger.valueOf(resultSet.getLong("vendor.vendorId"));
+        BigInteger vendorId = BigInteger.valueOf(resultSet.getLong("vendorId"));
         Vendor vendor = new Vendor(vendorId,null,null,null,null, null, null, null);
 
         return new OrderBuilder()

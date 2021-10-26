@@ -36,9 +36,9 @@ public class ServiceDaoImpl implements ServiceDao {
     }
 
     @Override
-    public void changeService(Service service) {
+    public void updateService(Service service) {
         try {
-            jdbcTemplate.update(CHANGE_SERVICE, service.getName(), service.getDescription(), service.getId());
+            jdbcTemplate.update(UPDATE_SERVICE, service.getName(), service.getDescription(), service.getId());
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
         }

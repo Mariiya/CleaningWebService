@@ -25,7 +25,7 @@ public interface OrderDao {
     boolean deleteOrder(Order order);
 
     String GET_ORDER_BY_ID = "SELECT\n" +
-            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
+            "orderId, title, status, consumerId, vendorId, startDate, endDate, price, address\n" +
             "FROM orders\n" +
             "WHERE orderId = ?";
     String GET_ORDERS = "SELECT\n" +
@@ -38,7 +38,7 @@ public interface OrderDao {
     String GET_ORDERS_BY_TITLE = "SELECT\n" +
             "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
             "FROM orders\n" +
-            "WHERE title = ?";
+            "WHERE title like '%?%'";
     String GET_ORDERS_BY_SERVICE = " ?";
     String SAVE_NEW_ORDER = "MERGE INTO ORDERS old\n" +
             "                USING (SELECT  seq_next()  ORDERID,\n" +
