@@ -2,7 +2,7 @@ package com.opsu.models;
 
 import com.opsu.models.enumeration.Role;
 
-import javax.validation.constraints.Min;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
