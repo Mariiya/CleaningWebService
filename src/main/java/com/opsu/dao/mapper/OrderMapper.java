@@ -16,18 +16,11 @@ import java.sql.SQLException;
 public class OrderMapper implements RowMapper<Order> {
     public Order mapRow(ResultSet resultSet, int i) throws SQLException {
         //Consumer
-        BigInteger consumerId = BigInteger.valueOf(resultSet.getLong("consumer.consumerId"));
-        String consumerFirstName = resultSet.getString("consumer.firstName");
-        String consumerLastName = resultSet.getString("consumer.lastName");
-        User consumerUser = null;
-        Consumer consumer = new Consumer(consumerId, consumerFirstName, consumerLastName, consumerUser);
+        BigInteger consumerId = BigInteger.valueOf(resultSet.getLong("consumerId"));
+        Consumer consumer = new Consumer(consumerId,null,null,null,null, null, null);
         //Vendor
-        BigInteger vendorId = BigInteger.valueOf(resultSet.getLong("vendor.vendorId"));
-        String vendorFirstName = resultSet.getString("vendor.firstName");
-        String vendorLastName = resultSet.getString("vendor.lastName");
-        Boolean vendorIndividual = resultSet.getInt("vendor.individual") == 1;
-        User vendorUser = null;
-        Vendor vendor = new Vendor(vendorId, vendorFirstName, vendorLastName, vendorIndividual, vendorUser);
+        BigInteger vendorId = BigInteger.valueOf(resultSet.getLong("vendorId"));
+        Vendor vendor = new Vendor(vendorId,null,null,null,null, null, null, null);
 
         return new OrderBuilder()
                 .withVendor(vendor)
@@ -37,6 +30,7 @@ public class OrderMapper implements RowMapper<Order> {
                 .withStatus(Status.valueOf(resultSet.getString("status")))
                 .withAddress(resultSet.getString("address"))
                 .withPrice(resultSet.getFloat("price"))
+                .withServices(null)
                 .withStartDate(resultSet.getDate("startDate"))
                 .withEndDate(resultSet.getDate("endDate"))
                 .build();

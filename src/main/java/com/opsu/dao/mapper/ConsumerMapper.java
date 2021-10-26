@@ -11,7 +11,6 @@ import java.sql.SQLException;
 
 public class ConsumerMapper implements RowMapper<Consumer> {
     public Consumer mapRow(ResultSet resultSet, int i) throws SQLException {
-    BigInteger consumerId =BigInteger.valueOf(resultSet.getLong("consumerId"));
     String firstName = resultSet.getString("firstName");
     String lastName = resultSet.getString("lastName");
     //select user
@@ -20,8 +19,7 @@ public class ConsumerMapper implements RowMapper<Consumer> {
     String password = resultSet.getString("users.password");
     String phoneNumber = resultSet.getString("users.phoneNumber");
     Role role = Role.ROLE_CLIENT;
-    //Create user object
-    User user = new User(userId, email, password, phoneNumber, role);
-    return new Consumer( consumerId, firstName, lastName, user);
+
+    return new Consumer( userId, email, password, phoneNumber, role, firstName, lastName);
 }
 }

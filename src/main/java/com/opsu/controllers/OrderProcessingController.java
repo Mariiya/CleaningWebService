@@ -1,6 +1,5 @@
 package com.opsu.controllers;
 
-import com.opsu.dao.OrderDao;
 import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.Consumer;
 import com.opsu.models.Order;
@@ -10,13 +9,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.Collection;
-import java.util.Collections;
 
 @RestController
 @Validated
@@ -24,11 +21,9 @@ import java.util.Collections;
 public class OrderProcessingController {
     private static final Logger log = Logger.getLogger(OrderProcessingController.class.getName());
     private final OrderProcessingService processingService;
-    private final OrderDao orderDao;
 
     @Autowired
-    public OrderProcessingController(OrderProcessingService processingService, OrderDao orderDao) {
-        this.orderDao = orderDao;
+    public OrderProcessingController(OrderProcessingService processingService) {
         this.processingService = processingService;
     }
 
@@ -52,7 +47,7 @@ public class OrderProcessingController {
     }
 
     @GetMapping("/orders")
-    public Collection<Order> getOrders() {
+    public Collection<Order> getOrders() throws Exception {
         try {
             return processingService.getOrders();
         } catch (EmptyDataBaseException e) {
@@ -91,19 +86,19 @@ public class OrderProcessingController {
         }
     }
 
-    @PostMapping("/reject/{id}")
-    public void rejectOrder(@PathVariable BigInteger id) {
+    @PostMapping("/reject/{order}")
+    public void rejectOrder(@PathVariable Order order) {
         try {
-            processingService.rejectOrder(id);
+            processingService.rejectOrder(order);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
     }
 
-    @PostMapping("/cancel/{id}")
-    public void cancelOrder(BigInteger orderId, @PathVariable String id) {
+    @PostMapping("/cancel/{order}")
+    public void cancelOrder(@PathVariable Order order) {
         try {
-            processingService.cancelOrder(orderId, id);
+            processingService.cancelOrder(order);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -118,28 +113,28 @@ public class OrderProcessingController {
         }
     }
 
-    @PostMapping("/inProgress/{id}")
-    public void inProgressOrder(@PathVariable BigInteger id) {
+    @PostMapping("/inProgress/{order}")
+    public void inProgressOrder(@PathVariable Order order) {
         try {
-            processingService.inProgressOrder(id);
+            processingService.inProgressOrder(order);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
     }
 
-    @PostMapping("/suspend/{id}")
-    public void suspendOrder(@PathVariable BigInteger id) {
+    @PostMapping("/suspend/{order}")
+    public void suspendOrder(@PathVariable Order order) {
         try {
-            processingService.suspendOrder(id);
+            processingService.suspendOrder(order);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
     }
 
-    @PostMapping("/complete/{id}")
-    public void completeOrder(@PathVariable BigInteger id) {
+    @PostMapping("/complete/{order}")
+    public void completeOrder(@PathVariable Order order) {
         try {
-            processingService.completeOrder(id);
+            processingService.completeOrder(order);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -155,12 +150,20 @@ public class OrderProcessingController {
     }
 
     @PostMapping("/change-price")
-    public void changePrice(@Valid @RequestBody Order order) {
-            processingService.changePrice(order);
+    public void changePrice(@Valid @RequestBody Order order, @Valid @RequestBody Float price) {
+        try {
+            processingService.changePrice(order, price);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
     @PostMapping("/create-service")
     public void addSpecialService(@Valid @RequestBody Service service, @Valid @RequestBody Order order) {
-        processingService.addSpecialService(service, order);
+        try {
+            processingService.addSpecialService(service, order);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 }

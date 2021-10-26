@@ -10,7 +10,7 @@ public interface ServiceDao {
 
     void addNewService(Service service);
 
-    void changeService(Service service);
+    void updateService(Service service);
 
     boolean deleteService(Service service);
 
@@ -34,7 +34,7 @@ public interface ServiceDao {
             "                    INSERT (old.SERVICEID, old.name, old.description)\n" +
             "                    VALUES (SEQ_CURR(), new.name, new.description)";
 
-    String CHANGE_SERVICE = "UPDATE service SET\n" +
+    String UPDATE_SERVICE = "UPDATE service SET\n" +
             "                name = ?, \n" +
             "                description = ? \n" +
             "            WHERE serviceId = ?";

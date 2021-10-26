@@ -1,11 +1,18 @@
 package com.opsu.services;
 
+import com.opsu.controllers.ServicesManagerController;
 import com.opsu.dao.ServiceDao;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.opsu.models.Service;
 
-@Service
-public class ServicesManager {private final ServiceDao serviceDao;
+import java.math.BigInteger;
+import java.util.Collection;
+
+@org.springframework.stereotype.Service
+public class ServicesManager {
+    private static final Logger log = Logger.getLogger(ServicesManager.class.getName());
+    private final ServiceDao serviceDao;
 
     @Autowired
     public ServicesManager (ServiceDao serviceDao) {
@@ -13,21 +20,51 @@ public class ServicesManager {private final ServiceDao serviceDao;
     }
 
 
-    public void create(Service service) {
-
+    public void addNewService(Service service) throws Exception {
+        try{
+            serviceDao.addNewService(service);
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            throw new Exception("Error creating Service");
+        }
     }
-    public void change(Service service) {
-
+    public void updateService(Service service) throws Exception {
+        try{
+            serviceDao.updateService(service);
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            throw new Exception("Error creating Service");
+        }
     }
-    public void delete(Service service) {
-
+    public void deleteService(Service service) throws Exception {
+        try{
+            serviceDao.deleteService(service);
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            throw new Exception("Error creating Service");
+        }
     }
 
-    public void addNew(Service service) {
-
+    public Service getService(BigInteger id) throws Exception {
+        try{
+            return serviceDao.getService(id);
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            throw new Exception("Error creating Service");
+        }
     }
 
-    public void getAll(Service service) {
-
+    public Collection<Service> getAll() throws Exception {
+        try{
+            return serviceDao.getServices();
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            throw new Exception("Error creating Service");
+        }
     }
 }

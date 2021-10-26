@@ -5,6 +5,7 @@ import com.opsu.models.enumeration.Status;
 
 import javax.validation.constraints.*;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Date;
 
 public class Order {
@@ -32,6 +33,8 @@ public class Order {
     @Positive
     @NotEmpty(message ="Price can not be empty")
     private float price;
+
+    private Collection<Service> services;
 
     @NotEmpty(message ="Address can not be empty")
     @Pattern(regexp = "^(?:[a-zA-Z0-9_'^&/+-])+(?:\\.(?:[a-zA-Z0-9_'^&/+-])+)" + "*@(?:(?:\\[?(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.)" +
@@ -87,15 +90,21 @@ public class Order {
     public void setVendor(Vendor vendor) {
         this.vendor=vendor;
     }
-
     public Status  getStatus() {
         return status;
     }
     public void setStatus (Status status) {
         this.status= status;
     }
+    public Collection<Service> getServices() {
+        return services;
+    }
+    public void setServices(Collection<Service> services) {
+        this.services = services;
+    }
+
     public Order(BigInteger id , String title, Status status , Consumer consumer, Vendor vendor, Date startDate,
-                 Date endDate, float price, String address) {
+                 Date endDate, Collection<Service> services, float price, String address) {
         this.id = id;
         this.title = title;
         this.status = status;
@@ -103,6 +112,7 @@ public class Order {
         this.endDate = endDate;
         this.consumer = consumer;
         this.vendor= vendor;
+        this.services = services;
         this.price = price;
         this.address= address;
     }

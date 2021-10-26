@@ -1,23 +1,22 @@
 package com.opsu.services;
 
 import com.opsu.dao.UserDao;
-import com.opsu.models.JwtResponse;
-import com.opsu.models.LoginRequest;
-import com.opsu.models.User;
+import com.opsu.models.*;
 import com.opsu.models.enumeration.Role;
 import com.opsu.secutity.jwt.JwtUtils;
 import com.opsu.secutity.services.UserDetailsImpl;
+import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.math.BigInteger;
 
 @Service
@@ -26,15 +25,17 @@ public class AuthorizationService {
     private final UserDao userDao;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
+    private NotificationService notificationService;
 
     @Autowired
-    public AuthorizationService(UserDao userDao, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
+    public AuthorizationService(UserDao userDao, JwtUtils jwtUtils, AuthenticationManager authenticationManager, NotificationService notificationService) {
         this.userDao = userDao;
         this.jwtUtils = jwtUtils;
         this.authenticationManager = authenticationManager;
+        this.notificationService = notificationService;
     }
 
-    public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public JwtResponse authenticateUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
@@ -58,18 +59,43 @@ public class AuthorizationService {
                 role));
     }
 
-    public void registerUser(User userRequest) {
-        if (userDao.existsByEmail(userRequest.getEmail())) {
-            ResponseEntity
-                    .badRequest()
-                    .body("Error: Email is already taken!");
+    public boolean changeUserPassword(UserDetailsImpl updater, User user) throws NotFoundException, IOException, MessagingException {
+        if (!updater.getId().equals(user.getId())) {
+            throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
         }
+        User userFromDB = userDao.getUserById(updater.getId());
+        userFromDB.setPassword(user.getPassword());
+        userDao.save(userFromDB);
+        notificationService.changePasswordNotification(user);
+        return true;
+    }
 
-        // Create new user's account
+    public Boolean existsByEmail(String email) {
+        return userDao.existsByEmail(email);
+
+    }
+
+    public void registerUser(User userRequest) throws IOException, MessagingException {
         User user = new User(BigInteger.ONE, userRequest.getPhoneNumber(),
                 userRequest.getEmail(),
                 userRequest.getPassword(), userRequest.getRole());
         userDao.save(user);
+        notificationService.sendRegistrationNotification(userRequest);
+    }
+
+    public boolean updateUser(UserDetailsImpl updater, User user) throws NotFoundException {
+        if (!updater.getId().equals(user.getId())) {
+            throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
+        }
+        User userFromDB = userDao.getUserById(updater.getId());
+        userFromDB.setPhoneNumber(user.getPhoneNumber());
+        userFromDB.setEmail(user.getEmail());
+        userDao.save(userFromDB);
+        return true;
+    }
+
+    public User getUserById(BigInteger userId) throws NotFoundException {
+        return userDao.getUserById(userId);
     }
 
 }

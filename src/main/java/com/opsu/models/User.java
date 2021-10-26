@@ -2,27 +2,24 @@ package com.opsu.models;
 
 import com.opsu.models.enumeration.Role;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.math.BigInteger;
 
 public class User {
-    @Min(value=0,message ="User id is not be correct")
+    @Min(value = 0, message = "User id is not be correct")
     private BigInteger id;
-    @NotEmpty(message ="User name number can not be empty")
-    @Size (min=13,max=13,message = "User number should contain 13 digits")
+    @NotEmpty(message = "User name number can not be empty")
+    @Size(min = 13, max = 13, message = "User number should contain 13 digits")
     private String phoneNumber;
-    @NotEmpty(message ="User email can not be empty")
-    @Size (min=50,message = "User email length should be from 1 to 50  digits")
+    @NotEmpty(message = "User email can not be empty")
     @Pattern(regexp = "^(?:[a-zA-Z0-9_'^&/+-])+(?:\\.(?:[a-zA-Z0-9_'^&/+-])+)" + "*@(?:(?:\\[?(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.)" +
             "{3}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\]?)|(?:[a-zA-Z0-9-]+\\.)" + "+(?:[a-zA-Z]){2,}\\.?)$",
             message = "Email format is not correct")
     private String email;
 
+    @NotEmpty
     private String password;
-
+    @NotNull
     private Role role;
 
     public BigInteger getId() {

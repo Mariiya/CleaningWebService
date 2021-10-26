@@ -50,7 +50,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getPhoneNumber();
+        return user.getEmail();
     }
 
     @Override
