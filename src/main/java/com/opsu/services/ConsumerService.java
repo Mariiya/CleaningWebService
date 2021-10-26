@@ -13,38 +13,39 @@ import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
-import java.util.concurrent.Callable;
 
 @Service
 public class ConsumerService {
     private static final Logger logger = Logger.getLogger(ConsumerService.class.getName());
     private final ConsumerDao consumerDao;
-
+private final AuthorizationService authorizationService;
     @Autowired
-    public  ConsumerService(ConsumerDao consumerDao) {
+    public  ConsumerService(ConsumerDao consumerDao, AuthorizationService authorizationService) {
         this.consumerDao = consumerDao;
+        this.authorizationService = authorizationService;
     }
 
-    public Consumer getConsumerById(BigInteger id)  {
+    public Consumer getConsumerById(BigInteger id) throws NotFoundException {
         if ((id==null)||(id.equals(BigInteger.ZERO))){
             throw new NumberFormatException("Wrong id input");
         }
-        return null;
+        return consumerDao.getConsumerById(id);
     }
 
     public void create(Consumer consumer) {
 
     }
-    //public boolean update(UserDetailsImpl updater, Consumer consumer) throws NotFoundException {
-      //  if (!updater.getId().equals(consumer.getId())) {
-        //    throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
-        //}
-        //Consumer consumer = consumerDao.getConsumerById(updater.getId());
-        //consumer.setLastName(consumer.getLastName());
-        //consumer.setEmail(consumer.getEmail());
-        //consumerDao.save(consumer);
-        //return true;
-    //}
+    public boolean update(UserDetailsImpl updater, Consumer consumer) throws NotFoundException {
+        if (!updater.getId().equals(consumer.getId())) {
+            throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
+        }
+        Consumer consumerfromDB = consumerDao.getConsumerById(updater.getId());
+        consumerfromDB.setLastName(consumer.getLastName());
+        consumerfromDB.setFirstName(consumer.getFirstName());
+        authorizationService.updateUser(updater,consumerfromDB);
+        consumerDao.save(consumerfromDB);
+        return true;
+    }
 
 
     public Consumer findConsumerByLastName(String lastname) throws Exception {
