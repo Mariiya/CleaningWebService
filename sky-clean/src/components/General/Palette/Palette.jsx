@@ -1,5 +1,6 @@
 //general
 import React from 'react';
+import {Link} from "react-router-dom";
 //styles
 import './Palette.scss'
 //assets
@@ -7,13 +8,13 @@ import {ReactComponent as ArrowRight} from "../../../assets/icons/order-arrow-ri
 
 function Palette({palette}) {
   return (
-    <div className="palette">
+    <Link className="palette" to={`/${palette.link}`}>
       <div className="palette__link-container">
-        <a href={`/${palette.link}`}
+        <h3
           className="palette__link">
           {palette.linkTitle}
           <ArrowRight/>
-        </a>
+        </h3>
       </div>
       <div className="palette__img-container">
         <img
@@ -22,7 +23,7 @@ function Palette({palette}) {
           alt={palette.linkTitle}
         />
       </div>
-    </div>
+    </Link>
   );
 };
 

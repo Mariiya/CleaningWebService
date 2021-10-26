@@ -1,5 +1,6 @@
 //general
 import React from 'react';
+import {Link} from "react-router-dom";
 //components
 import Palette from './Palette/Palette';
 //styles
@@ -11,8 +12,8 @@ import CreateOrder from "../../assets/icons/general-create-order.svg";
 
 function General() {
   const palettes = [
-    {link: '#', linkTitle: 'Create order', src: CreateOrder},
-    {link: '#', linkTitle: 'Take order', src: TakeOrder}];
+    {link: 'orders', linkTitle: 'Create order', src: CreateOrder},
+    {link: 'orders', linkTitle: 'Take order', src: TakeOrder}];
 
   return (
     <div className="general">
@@ -27,11 +28,11 @@ function General() {
             </h2>
             <div className="general__data-btn-container">
               What should I do?
-              <a
-                href="/#"
+              <Link
+                to="/orders"
                 className="general__data-btn">
                 Search Specialist
-              </a>
+              </Link>
             </div>
           </div>
           <div className="general__image-container">

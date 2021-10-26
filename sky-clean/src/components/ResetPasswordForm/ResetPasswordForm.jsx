@@ -3,7 +3,6 @@ import React from 'react';
 //styles
 import './ResetPasswordForm.scss';
 import FormInput from "../../UI/FormInput/FormInput";
-import {NavLink} from "react-router-dom";
 
 function ResetPasswordForm() {
   return (

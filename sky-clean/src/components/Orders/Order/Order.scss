@@ -1,0 +1,111 @@
+.order {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  max-width: 325px;
+  width: 100%;
+  border-radius: 15px;
+  background-color: #ececec;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      top: 0;
+      left: 0;
+      background-color: #2F2E41;
+    }
+  }
+
+  &__services {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    height: 130px;
+    padding: 18px 0;
+  }
+
+  &__checkBox {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  &__checkBox-icon {
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background-color: #FFB3AB;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 46px;
+  }
+
+  &__moreLink {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    height: 100%;
+    border-radius: 15px;
+    text-decoration: none;
+    background-color: #ffffff;
+    transition: 0.5s;
+
+    &:hover {
+      svg {
+        transform: translateX(10px);
+      }
+    }
+
+    svg {
+      transition: 0.5s;
+    }
+  }
+
+  &__title {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 20px;
+    color: #2F2E41;
+  }
+
+  &__consumer {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 18px;
+    color: #2F2E41;
+  }
+
+  &__price {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 34px;
+    color: #2F2E41;
+  }
+}

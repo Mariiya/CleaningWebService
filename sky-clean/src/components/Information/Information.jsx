@@ -10,8 +10,8 @@ import specialist from '../../assets/icons/information-specialist.svg';
 
 function Information() {
   const userTypes = [
-    {src: customer, type: 'customer', description: 'If you would like to become our Client, just follow the link below'},
-    {src: specialist, type: 'specialist', description: 'If you would like to become our Specialist, just follow the link below'},
+    {link: 'sign-up', src: customer, type: 'customer', description: 'If you would like to become our Client, just follow the link below'},
+    {link: 'sign-up', src: specialist, type: 'specialist', description: 'If you would like to become our Specialist, just follow the link below'},
   ];
 
   return (

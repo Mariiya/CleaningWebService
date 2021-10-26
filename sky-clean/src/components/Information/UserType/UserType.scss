@@ -74,5 +74,18 @@
     line-height: 25px;
     color: #ffffff;
     background-color: #01A0DA;
+    transition: 0.5s;
+
+    &:hover {
+      background-color: #72cef5;
+
+      svg {
+        transform: translateX(5px);
+      }
+    }
+
+    svg {
+      transition: 0.5s;
+    }
   }
 }

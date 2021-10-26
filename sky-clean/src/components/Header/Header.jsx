@@ -30,7 +30,7 @@ function Header() {
         <nav className="header__navigation">
           <div className="header__main">
             <NavLink className="header__main-link" to="/">Main</NavLink>
-            <a className="header__main-link" href="/#">Orders</a>
+            <NavLink className="header__main-link" to="/orders">Orders</NavLink>
           </div>
 
           <div className="header__controls">
@@ -60,7 +60,7 @@ function Header() {
         }>
           <div className="header__mobile-wrapper wrapper">
             <NavLink className="header__main-link" to="/">Main</NavLink>
-            <a className="header__main-link" href="/#">Orders</a>
+            <NavLink className="header__main-link" to="/orders">Orders</NavLink>
             <NavLink className="header__main-link" to="/sign-in">Sign in</NavLink>
             <NavLink className="header__main-link" to="/sign-up">Sign up</NavLink>
           </div>

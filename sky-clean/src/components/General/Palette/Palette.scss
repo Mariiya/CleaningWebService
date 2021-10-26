@@ -1,4 +1,5 @@
 .palette {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 17px;
@@ -6,11 +7,20 @@
   width: 223px;
   height: 196px;
   border-radius: 15px;
+  text-decoration: none;
   background-color: #ffffff;
+  transition: 0.5s;
+
+  &:hover {
+    background-color: rgb(184, 184, 184);
+
+    svg {
+      transform: translateX(15px);
+    }
+  }
 
   &__link-container {
     display: flex;
-    align-items: center;
   }
 
   &__link {
@@ -25,6 +35,10 @@
 
     @media screen and (max-width: 576px){
       font-size: 14px;
+    }
+
+    svg {
+      transition: 0.5s;
     }
   }
 

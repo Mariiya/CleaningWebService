@@ -10,6 +10,7 @@ import MainPage from '../../pages/MainPage/MainPage';
 import SignInPage from "../../pages/SignInPage/SignInPage";
 import SignUpPage from "../../pages/SignUpPage/SignUpPage";
 import ResetPasswordPage from "../../pages/ResetPasswordPage/ResetPasswordPage"
+import OrdersPage from "../../pages/OrdersPage/OrdersPage";
 //styles
 import './Application.scss';
 
@@ -24,6 +25,7 @@ function Application() {
             <Route path="/sign-in" component={SignInPage}/>
             <Route path="/sign-up" component={SignUpPage}/>
             <Route path="/password-reset" component={ResetPasswordPage}/>
+            <Route path="/orders" component={OrdersPage}/>
           </Switch>
         </Main>
         <Footer/>

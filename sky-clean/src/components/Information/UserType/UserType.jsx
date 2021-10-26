@@ -1,5 +1,6 @@
 //general
 import React from 'react';
+import {Link} from "react-router-dom";
 //styles
 import './UserType.scss';
 //assets
@@ -22,12 +23,12 @@ function UserType({userType}) {
         <h4 className="userType__description">
           {userType.description} :
         </h4>
-        <a
+        <Link
           className="userType__link"
-          href={`/${userType.link}`}>
+          to={`/${userType.link}`}>
           Go to {userType.type}
           <RightArrow/>
-        </a>
+        </Link>
       </div>
     </div>
   );

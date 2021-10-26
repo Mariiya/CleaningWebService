@@ -37,9 +37,9 @@ function Footer() {
                 Main
               </NavLink>
 
-              <a href="/#" className="footer__link">
+              <NavLink to="/orders" className="footer__link">
                 Orders
-              </a>
+              </NavLink>
             </nav>
           </div>
           <div className="footer__contacts">
