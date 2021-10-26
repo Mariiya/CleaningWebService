@@ -8,16 +8,12 @@ import com.opsu.secutity.services.UserDetailsImpl;
 import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.validation.Valid;
 import java.math.BigInteger;
 
 @Service
@@ -35,7 +31,7 @@ public class AuthorizationService {
     }
 
 
-    public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public JwtResponse authenticateUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
@@ -65,7 +61,7 @@ public class AuthorizationService {
         }
         User userFromDB = userDao.getUserById(updater.getId());
         userFromDB.setPassword(user.getPassword());
-        userDao.save(user);
+        userDao.save(userFromDB);
         return true;
         //TODO: mailSend
     }
@@ -80,6 +76,21 @@ public class AuthorizationService {
                 userRequest.getEmail(),
                 userRequest.getPassword(), userRequest.getRole());
         userDao.save(user);
+    }
+
+    public boolean updateUser(UserDetailsImpl updater, User user) throws NotFoundException {
+        if (!updater.getId().equals(user.getId())) {
+            throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
+        }
+        User userFromDB = userDao.getUserById(updater.getId());
+        userFromDB.setPhoneNumber(user.getPhoneNumber());
+        userFromDB.setEmail(user.getEmail());
+        userDao.save(userFromDB);
+        return true;
+    }
+
+    public User getUserById(BigInteger userId) throws NotFoundException {
+        return userDao.getUserById(userId);
     }
 
 }
