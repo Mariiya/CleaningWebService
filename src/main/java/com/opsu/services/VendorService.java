@@ -16,7 +16,7 @@ public class VendorService {  private final VendorDao vendorDao;
         this.vendorDao = vendorDao;
     }
 
-    public Vendor getVendorById(BigInteger id) throws Exception {
+    public Vendor getVendorById(BigInteger id) {
         if ((id==null)||(id.equals(BigInteger.ZERO))){
             throw new NumberFormatException("Wrong id input");
         }
@@ -28,6 +28,10 @@ public class VendorService {  private final VendorDao vendorDao;
     public void create(Vendor vendor) {
 
     }
+    public Vendor  findVendorByLastName (String lastname) throws Exception {
+        return vendorDao.findVendorByLastName (lastname);
+    }
+
 
     public void update(Vendor vendor) {
 

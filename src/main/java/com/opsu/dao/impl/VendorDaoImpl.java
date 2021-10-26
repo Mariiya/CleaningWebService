@@ -1,6 +1,7 @@
 package com.opsu.dao.impl;
 
 import com.opsu.dao.VendorDao;
+
 import com.opsu.dao.mapper.VendorMapper;
 import com.opsu.models.Vendor;
 import javassist.NotFoundException;
@@ -26,8 +27,13 @@ public class VendorDaoImpl implements VendorDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Vendor findVendorByLastName(String lastName) {
-        return jdbcTemplate.queryForObject(GET_VENDOR_BY_LAST_NAME, new VendorMapper(), lastName);
+    public Vendor findVendorByLastName(String lastName) throws NotFoundException{
+        try{
+            return jdbcTemplate.queryForObject(GET_VENDOR_BY_LAST_NAME, new VendorMapper(),lastName, lastName);
+        }catch (DataAccessException e) {
+            LOG.error(e.getMessage(), e);
+            throw new NotFoundException("Vendor not found");
+        }
     }
 
     @Override
@@ -42,6 +48,13 @@ public class VendorDaoImpl implements VendorDao {
     }
 
     public void create(Vendor vendor) { try {
+        jdbcTemplate.update(CREATE_VENDOR, vendor.getLastName(), vendor.getFirstName(), vendor.getIndividual());
+    } catch (DataAccessException e) {
+        LOG.error(e.getMessage(), e);
+    }
+        //save
+    }
+    public void save(Vendor vendor) { try {
         jdbcTemplate.update(CREATE_VENDOR, vendor.getLastName(), vendor.getFirstName(), vendor.getIndividual());
     } catch (DataAccessException e) {
         LOG.error(e.getMessage(), e);

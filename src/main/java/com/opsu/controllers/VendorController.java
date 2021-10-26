@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotEmpty;
 import java.math.BigInteger;
 @RestController
 @Validated
@@ -32,6 +34,15 @@ public class VendorController {
             }
     }
 
+    @GetMapping("/by-lastname")
+    public Vendor findVendorByLastName( @NotEmpty String lastname) {
+        try {
+            return vendorService.findVendorByLastName(lastname);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
     @PostMapping("/update")
     public void updateVendor(Vendor vendor) {
 

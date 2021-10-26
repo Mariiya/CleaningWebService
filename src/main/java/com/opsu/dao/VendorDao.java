@@ -14,7 +14,7 @@ public interface VendorDao {
     Vendor getVendorById(BigInteger id) throws NotFoundException;
 
     void create(Vendor vendor);
-
+    void save(Vendor vendor);
 
 
     String GET_VENDOR_BY_ID = "SELECT individual, firstName, lastName, vendor.userId,\n" +
