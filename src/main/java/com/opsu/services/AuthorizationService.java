@@ -14,6 +14,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.math.BigInteger;
 
 @Service
@@ -22,14 +25,15 @@ public class AuthorizationService {
     private final UserDao userDao;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
+    private NotificationService notificationService;
 
     @Autowired
-    public AuthorizationService(UserDao userDao, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
+    public AuthorizationService(UserDao userDao, JwtUtils jwtUtils, AuthenticationManager authenticationManager, NotificationService notificationService) {
         this.userDao = userDao;
         this.jwtUtils = jwtUtils;
         this.authenticationManager = authenticationManager;
+        this.notificationService = notificationService;
     }
-
 
     public JwtResponse authenticateUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -55,15 +59,15 @@ public class AuthorizationService {
                 role));
     }
 
-    public boolean changeUserPassword(UserDetailsImpl updater, User user) throws NotFoundException {
+    public boolean changeUserPassword(UserDetailsImpl updater, User user) throws NotFoundException, IOException, MessagingException {
         if (!updater.getId().equals(user.getId())) {
             throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
         }
         User userFromDB = userDao.getUserById(updater.getId());
         userFromDB.setPassword(user.getPassword());
         userDao.save(userFromDB);
+        notificationService.changePasswordNotification(user);
         return true;
-        //TODO: mailSend
     }
 
     public Boolean existsByEmail(String email) {
@@ -71,11 +75,12 @@ public class AuthorizationService {
 
     }
 
-    public void registerUser(User userRequest) {
+    public void registerUser(User userRequest) throws IOException, MessagingException {
         User user = new User(BigInteger.ONE, userRequest.getPhoneNumber(),
                 userRequest.getEmail(),
                 userRequest.getPassword(), userRequest.getRole());
         userDao.save(user);
+        notificationService.sendRegistrationNotification(userRequest);
     }
 
     public boolean updateUser(UserDetailsImpl updater, User user) throws NotFoundException {

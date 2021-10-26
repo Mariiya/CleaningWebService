@@ -12,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.math.BigInteger;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -43,12 +45,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/change-password")
-    public boolean changeUserPassword(@AuthenticationPrincipal UserDetailsImpl updater, @Valid @RequestBody User user) throws NotFoundException {
+    public boolean changeUserPassword(@AuthenticationPrincipal UserDetailsImpl updater, @Valid @RequestBody User user) throws NotFoundException, IOException, MessagingException {
         return authorizationService.changeUserPassword(updater, user);
     }
 
     @PostMapping("/auth/signup/vendor")
-    public ResponseEntity<?> createVendor(@Valid @RequestBody Vendor vendor) {
+    public ResponseEntity<?> createVendor(@Valid @RequestBody Vendor vendor) throws IOException, MessagingException {
         if (authorizationService.existsByEmail(vendor.getEmail())) {
             ResponseEntity
                     .badRequest()
@@ -60,7 +62,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/auth/signup/consumer")
-    public ResponseEntity<?> createConsumer(@Valid @RequestBody Consumer consumer) {
+    public ResponseEntity<?> createConsumer(@Valid @RequestBody Consumer consumer) throws IOException, MessagingException {
         if (authorizationService.existsByEmail(consumer.getEmail())) {
             ResponseEntity
                     .badRequest()
