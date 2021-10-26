@@ -8,8 +8,7 @@ import java.math.BigInteger;
 
 
 public class Vendor extends User{
-    @Min(value = 0, message = "Vendor id is not be correct")
-    private BigInteger id;
+
     @Pattern(regexp = "^[A-Z][a-z]*(\\s(([a-z]{1,3})|(([a-z]')?[A-Z][a-z]*)))*$",message = "Vendor first name format is not correct")
     @Size(min=2,max=20,message = "Vendor first name should contain from 2 to 20 digits")
     @NotEmpty(message ="Vendor first name  can not be empty")
@@ -23,13 +22,7 @@ public class Vendor extends User{
     @NotNull(message ="Vendor individual should not be empty")
     private  Boolean individual;
 
-   public BigInteger getId() {
-        return id;
-    }
 
-    public void setId(BigInteger id) {
-        this.id = id;
-    }
     public String  getFirstName() {
         return firstName;
     }
@@ -53,7 +46,7 @@ public class Vendor extends User{
 
     public Vendor (BigInteger id, String phoneNumber, String email, String password, Role role, String firstName , String lastName , Boolean individual) {
       super(id, phoneNumber, email, password, role);
-        this.id = id;
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.individual = individual;
