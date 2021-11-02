@@ -18,6 +18,8 @@ public class Order {
     @NotEmpty(message ="Title can not be empty")
     private String title;
 
+    private String description;
+
     @NotEmpty(message ="Status can not be empty")
     private Status status;
 
@@ -55,6 +57,12 @@ public class Order {
     }
     public void setTitle(String title) {
         this.title= title;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
     public Date  getStartDate() {
         return startDate;
@@ -103,10 +111,11 @@ public class Order {
         this.services = services;
     }
 
-    public Order(BigInteger id , String title, Status status , Consumer consumer, Vendor vendor, Date startDate,
+    public Order(BigInteger id , String title, String description, Status status , Consumer consumer, Vendor vendor, Date startDate,
                  Date endDate, Collection<Service> services, float price, String address) {
         this.id = id;
         this.title = title;
+        this.description = description;
         this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;

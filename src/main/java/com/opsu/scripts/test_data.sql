@@ -1,15 +1,15 @@
 -------------------------------------------------Test data for CLEANING_SERVICE ---------------------------------------------
 ----------SERVICE----------
-INSERT INTO SERVICE (serviceId, name, description)
-VALUES (SEQ.nextval, 'Washing dishes', 'Cleaning all dirty dishes');
-INSERT INTO SERVICE (serviceId, name, description)
-VALUES (SEQ.nextval, 'Sweep the floor', 'Dry cleaning with a broom of the floor surface');
-INSERT INTO SERVICE (serviceId, name, description)
-VALUES (SEQ.nextval, 'Wash the floor', 'Wet cleaning of the floor surface');
-INSERT INTO SERVICE (serviceId, name, description)
-VALUES (SEQ.nextval, 'Wipe off the dust', 'Dry cleaning bookshelves');
-INSERT INTO SERVICE (serviceId, name, description)
-VALUES (SEQ.nextval, 'Test', 'Test');
+INSERT INTO SERVICE (serviceId, name, description, custom)
+VALUES (SEQ.nextval, 'Washing dishes', 'Cleaning all dirty dishes', 0);
+INSERT INTO SERVICE (serviceId, name, description, custom)
+VALUES (SEQ.nextval, 'Sweep the floor', 'Dry cleaning with a broom of the floor surface', 0);
+INSERT INTO SERVICE (serviceId, name, description, custom)
+VALUES (SEQ.nextval, 'Wash the floor', 'Wet cleaning of the floor surface', 0);
+INSERT INTO SERVICE (serviceId, name, description, custom)
+VALUES (SEQ.nextval, 'Wipe off the dust', 'Dry cleaning bookshelves', 0);
+INSERT INTO SERVICE (serviceId, name, description, custom)
+VALUES (SEQ.nextval, 'Test', 'Test', 1);
 ----------USERS----------
 INSERT INTO USERS (userId, email, password, phoneNumber, role)
 VALUES (SEQ.nextval, 'test1@mail.com', '12345', '+380501021010', 'ROLE_CLIENT');
@@ -38,22 +38,22 @@ VALUES ('Rich', 'Firm', 0, (SELECT userID FROM USERS WHERE email = 'test5@mail.c
 INSERT INTO VENDOR (firstName, lastName, individual, userId)
 VALUES ('Poor', 'Company', 0, (SELECT userID FROM USERS WHERE email = 'test6@mail.com'));
 ----------ORDERS----------
-INSERT INTO ORDERS (orderId, title, status, consumerId, vendorId, startDate, endDate, price, address)
-VALUES (SEQ.nextval, 'test', 'STATUS_COMPLETED', (SELECT USERID FROM CONSUMER WHERE lastName = 'Ivanov'), (SELECT USERID FROM VENDOR WHERE lastName = 'Test'), DATE '2021-01-12', DATE '2021-01-12', 300, 'Govorova st., 12');
-INSERT INTO ORDERS (orderId, title, status, consumerId, vendorId, startDate, endDate, price, address)
-VALUES (SEQ.nextval, 'test2', 'STATUS_COMPLETED', (SELECT USERID FROM CONSUMER WHERE lastName = 'Petrenko'), (SELECT USERID FROM VENDOR WHERE lastName = 'Test'), DATE '2021-10-01',DATE  '2021-06-06', 211, null);
-INSERT INTO ORDERS (orderId, title, status, consumerId, vendorId, startDate, endDate, price, address)
-VALUES (SEQ.nextval, 'test3', 'STATUS_COMPLETED', (SELECT USERID FROM CONSUMER WHERE lastName = 'Ivanov'), (SELECT USERID FROM VENDOR WHERE lastName = 'Telesik'), DATE '2021-04-04', DATE '2021-04-05', 123023, 'Deribasovskaya st. 10');
-INSERT INTO ORDERS (orderId, title, status, consumerId, vendorId, startDate, endDate, price, address)
-VALUES (SEQ.nextval, 'test4', 'STATUS_OPEN', (SELECT USERID FROM CONSUMER WHERE lastName = 'Petrenko'), (SELECT USERID FROM VENDOR WHERE lastName = 'Telesik'),DATE  '2021-05-08', null, 250, 'Pushkina st. 105');
-INSERT INTO ORDERS (orderId, title, status, consumerId, vendorId, startDate, endDate, price, address)
-VALUES (SEQ.nextval, 'test5', 'STATUS_IN_PROGRES', (SELECT USERID FROM CONSUMER WHERE lastName = 'Ivanov'), (SELECT USERID FROM VENDOR WHERE lastName = 'Firm'), DATE '2020-12-04',  null, 100, 'Zhukova st., 10a');
-INSERT INTO ORDERS (orderId, title, status, consumerId, vendorId, startDate, endDate, price, address)
-VALUES (SEQ.nextval, 'test6', 'STATUS_CANCELED', (SELECT USERID FROM CONSUMER WHERE lastName = 'Petrenko'), (SELECT USERID FROM VENDOR WHERE lastName = 'Firm'), DATE  '2021-01-02',DATE  '2021-11-10', 0, 'Preobrazhenskaya st., 43');
-INSERT INTO ORDERS (orderId, title, status, consumerId, vendorId, startDate, endDate, price, address)
-VALUES (SEQ.nextval, 'test7', 'STATUS_SUSPENDED', (SELECT USERID FROM CONSUMER WHERE lastName = 'Ivanov'), (SELECT USERID FROM VENDOR WHERE lastName = 'Company'), DATE  '2020-05-03',null, 12323, 'Nebesnoyi sotni st., 145');
-INSERT INTO ORDERS (orderId, title, status, consumerId, vendorId, startDate, endDate, price, address)
-VALUES (SEQ.nextval, 'test8', 'STATUS_COMPLETED', (SELECT USERID FROM CONSUMER WHERE lastName = 'Petrenko'), (SELECT USERID FROM VENDOR WHERE lastName = 'Company'), DATE  '2021-10-10',DATE  '2021-10-10', 898, 'test');
+INSERT INTO ORDERS (orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address)
+VALUES (SEQ.nextval, 'test', 'test description1', 'STATUS_COMPLETED', (SELECT USERID FROM CONSUMER WHERE lastName = 'Ivanov'), (SELECT USERID FROM VENDOR WHERE lastName = 'Test'), DATE '2021-01-12', DATE '2021-01-12', 300, 'Govorova st., 12');
+INSERT INTO ORDERS (orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address)
+VALUES (SEQ.nextval, 'test2', 'test description2', 'STATUS_COMPLETED', (SELECT USERID FROM CONSUMER WHERE lastName = 'Petrenko'), (SELECT USERID FROM VENDOR WHERE lastName = 'Test'), DATE '2021-10-01',DATE  '2021-06-06', 211, null);
+INSERT INTO ORDERS (orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address)
+VALUES (SEQ.nextval, 'test3', 'test description3', 'STATUS_COMPLETED', (SELECT USERID FROM CONSUMER WHERE lastName = 'Ivanov'), (SELECT USERID FROM VENDOR WHERE lastName = 'Telesik'), DATE '2021-04-04', DATE '2021-04-05', 123023, 'Deribasovskaya st. 10');
+INSERT INTO ORDERS (orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address)
+VALUES (SEQ.nextval, 'test4', 'test description4', 'STATUS_OPEN', (SELECT USERID FROM CONSUMER WHERE lastName = 'Petrenko'), (SELECT USERID FROM VENDOR WHERE lastName = 'Telesik'),DATE  '2021-05-08', null, 250, 'Pushkina st. 105');
+INSERT INTO ORDERS (orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address)
+VALUES (SEQ.nextval, 'test5', 'test description5', 'STATUS_IN_PROGRES', (SELECT USERID FROM CONSUMER WHERE lastName = 'Ivanov'), (SELECT USERID FROM VENDOR WHERE lastName = 'Firm'), DATE '2020-12-04',  null, 100, 'Zhukova st., 10a');
+INSERT INTO ORDERS (orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address)
+VALUES (SEQ.nextval, 'test6', 'test description6', 'STATUS_CANCELED', (SELECT USERID FROM CONSUMER WHERE lastName = 'Petrenko'), (SELECT USERID FROM VENDOR WHERE lastName = 'Firm'), DATE  '2021-01-02',DATE  '2021-11-10', 0, 'Preobrazhenskaya st., 43');
+INSERT INTO ORDERS (orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address)
+VALUES (SEQ.nextval, 'test7', 'test description7', 'STATUS_SUSPENDED', (SELECT USERID FROM CONSUMER WHERE lastName = 'Ivanov'), (SELECT USERID FROM VENDOR WHERE lastName = 'Company'), DATE  '2020-05-03',null, 12323, 'Nebesnoyi sotni st., 145');
+INSERT INTO ORDERS (orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address)
+VALUES (SEQ.nextval, 'test8', 'test description8', 'STATUS_COMPLETED', (SELECT USERID FROM CONSUMER WHERE lastName = 'Petrenko'), (SELECT USERID FROM VENDOR WHERE lastName = 'Company'), DATE  '2021-10-10',DATE  '2021-10-10', 898, 'test');
 ----------SERVICECOLLECTION----------
 INSERT INTO servicecollection (serviceCollectionId, orderId, serviceId)
 VALUES (SEQ.nextval, (SELECT orderID FROM ORDERS WHERE title = 'test5'), (SELECT serviceID FROM SERVICE WHERE name = 'Washing dishes'));

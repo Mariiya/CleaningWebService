@@ -1,6 +1,5 @@
 package com.opsu.dao.mapper;
 
-import com.opsu.models.Order;
 import com.opsu.models.Service;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -15,6 +14,7 @@ public class  ServiceMapper implements RowMapper<Service> {
         BigInteger id = BigInteger.valueOf(resultSet.getLong("serviceId"));
         String name = resultSet.getString("name");
         String description = resultSet.getString("description");
-        return new Service(id, name, description);
+        Boolean custom = (resultSet.getInt("custom")) == 1;
+        return new Service(id, name, description, custom);
     }
 }

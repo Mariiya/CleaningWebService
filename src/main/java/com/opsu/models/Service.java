@@ -13,6 +13,8 @@ public class Service {
     @Size(min=2,max=20,message = "Name of the service should contain from 2 to 20 digits")
     private String name;
 
+    private Boolean custom;
+
 
     private String description;
 
@@ -36,14 +38,22 @@ public class Service {
         return description;
     }
 
+    public Boolean getCustom() {
+        return custom;
+    }
+
+    public void setCustom(Boolean custom) {
+        this.custom = custom;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public Service (BigInteger id, String name, String description) {
+    public Service (BigInteger id, String name, String description, Boolean custom) {
         this.id = id;
         this.name = name;
         this.description = description;
-
+        this.custom = custom;
     }
 }

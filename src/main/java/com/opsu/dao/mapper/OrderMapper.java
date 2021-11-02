@@ -3,7 +3,6 @@ package com.opsu.dao.mapper;
 
 import com.opsu.models.Consumer;
 import com.opsu.models.Order;
-import com.opsu.models.User;
 import com.opsu.models.Vendor;
 import com.opsu.models.builders.OrderBuilder;
 import com.opsu.models.enumeration.Status;
@@ -27,6 +26,7 @@ public class OrderMapper implements RowMapper<Order> {
                 .withConsumer(consumer)
                 .withId(BigInteger.valueOf(resultSet.getLong("orderId")))
                 .withTitle(resultSet.getString("title"))
+                .withDescription(resultSet.getString("description"))
                 .withStatus(Status.valueOf(resultSet.getString("status")))
                 .withAddress(resultSet.getString("address"))
                 .withPrice(resultSet.getFloat("price"))

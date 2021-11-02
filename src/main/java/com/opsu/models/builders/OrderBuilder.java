@@ -13,6 +13,7 @@ import java.util.Date;
 public class OrderBuilder {
     private BigInteger id;
     private String title;
+    private String description;
     private Status status;
     private Consumer consumer;
     private Vendor vendor;
@@ -31,6 +32,11 @@ public class OrderBuilder {
 
     public OrderBuilder withTitle(String title) {
         this.title = title;
+        return this;
+    }
+
+    public OrderBuilder withDescription(String description){
+        this.description = description;
         return this;
     }
 
@@ -75,7 +81,7 @@ public class OrderBuilder {
     }
 
     public Order build() {
-        return new Order(id, title, status, consumer, vendor, startDate, endDate, services, price, address);
+        return new Order(id, title, description, status, consumer, vendor, startDate, endDate, services, price, address);
     }
 
 }

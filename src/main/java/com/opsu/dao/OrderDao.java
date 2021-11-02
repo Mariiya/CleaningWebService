@@ -25,24 +25,25 @@ public interface OrderDao {
     boolean deleteOrder(Order order);
 
     String GET_ORDER_BY_ID = "SELECT\n" +
-            "orderId, title, status, consumerId, vendorId, startDate, endDate, price, address\n" +
+            "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
             "FROM orders\n" +
             "WHERE orderId = ?";
     String GET_ORDERS = "SELECT\n" +
-            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
+            "orderId, title, description, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
             "FROM orders";
     String GET_ORDERS_BY_PRICE = "SELECT\n" +
-            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
+            "orderId, title, description, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
             "FROM orders\n" +
             "WHERE price = ?";
     String GET_ORDERS_BY_TITLE = "SELECT\n" +
-            "orderId, title, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
+            "orderId, title, description, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
             "FROM orders\n" +
             "WHERE title like '%?%'";
     String GET_ORDERS_BY_SERVICE = " ?";
     String SAVE_NEW_ORDER = "MERGE INTO ORDERS old\n" +
             "                USING (SELECT  seq_next()  ORDERID,\n" +
             "                              ?            title,\n" +
+            "                              ?            description,\n" +
             "                              ?            status,\n" +
             "                              ?            consumerId,\n" +
             "                              ?            vendorId,\n" +
@@ -55,6 +56,7 @@ public interface OrderDao {
             "                WHEN MATCHED THEN\n" +
             "                    UPDATE\n" +
             "                    SET old.title = new.title,\n" +
+            "                        old.description = new.description,\n" +
             "                        old.status = new.status,\n" +
             "                        old.consumerId     = new.consumerId,\n" +
             "                        old.vendorId     = new.vendorId,\n" +
@@ -63,6 +65,7 @@ public interface OrderDao {
             "                        old.price     = new.price,\n" +
             "                        old.address     = new.address\n" +
             "                    WHERE old.title <> new.title\n" +
+            "                      OR  old.description <> new.description\n" +
             "                      OR  old.status    <> new.status\n" +
             "                      OR  old.consumerId   <> new.consumerId\n" +
             "                      OR  old.vendorId       <> new.vendorId\n" +
@@ -71,10 +74,11 @@ public interface OrderDao {
             "                      OR  old.price     <> new.price\n" +
             "                      OR  old.address     <> new.address\n" +
             "                WHEN NOT MATCHED THEN\n" +
-            "                    INSERT (old.ORDERID, old.title, old.status, old.consumer, old.vendor, old.startDate, old.endDate, old.price, old.address)\n" +
-            "                    VALUES (SEQ_CURR(), new.title, new.status, new.consumerId, new.vendorId, new.startDate, new.endDate, new.price, new.address)";
+            "                    INSERT (old.ORDERID, old.title, old.description, old.status, old.consumer, old.vendor, old.startDate, old.endDate, old.price, old.address)\n" +
+            "                    VALUES (SEQ_CURR(), new.title, new.description, new.status, new.consumerId, new.vendorId, new.startDate, new.endDate, new.price, new.address)";
     String UPDATE_ORDER = "UPDATE orders SET\n" +
                 "title = ? ,\n" +
+                "description = ?,\n" +
                 "status = ? ,\n" +
                 "consumerId = ? ,\n" +
                 "vendorId = ? ,\n" +

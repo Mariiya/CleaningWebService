@@ -82,7 +82,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean createOrder(Order order) {
         try {
-            return jdbcTemplate.update(SAVE_NEW_ORDER, order.getTitle(), order.getStatus(), order.getConsumer().getId(), order.getVendor().getId(), order.getStartDate(), order.getEndDate(), order.getPrice(), order.getAddress()) != 0;
+            return jdbcTemplate.update(SAVE_NEW_ORDER, order.getTitle(), order.getDescription(), order.getStatus(), order.getConsumer().getId(), order.getVendor().getId(), order.getStartDate(), order.getEndDate(), order.getPrice(), order.getAddress()) != 0;
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             return false;
@@ -92,7 +92,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean updateOrder(Order order) {
         try {
-            return jdbcTemplate.update(UPDATE_ORDER, order.getTitle(), order.getStatus(), order.getConsumer().getId(), order.getVendor().getId(), order.getStartDate(), order.getEndDate(), order.getPrice(), order.getAddress(), order.getId()) != 0;
+            return jdbcTemplate.update(UPDATE_ORDER, order.getTitle(), order.getDescription(), order.getStatus(), order.getConsumer().getId(), order.getVendor().getId(), order.getStartDate(), order.getEndDate(), order.getPrice(), order.getAddress(), order.getId()) != 0;
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             return false;

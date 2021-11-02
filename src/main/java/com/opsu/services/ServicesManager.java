@@ -29,6 +29,15 @@ public class ServicesManager {
             throw new Exception("Error creating Service");
         }
     }
+    public void addNewCustomService(Service service) throws Exception {
+        try{
+            serviceDao.addNewCustomService(service);
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            throw new Exception("Error creating Service");
+        }
+    }
     public void updateService(Service service) throws Exception {
         try{
             serviceDao.updateService(service);
@@ -38,9 +47,9 @@ public class ServicesManager {
             throw new Exception("Error creating Service");
         }
     }
-    public void deleteService(Service service) throws Exception {
+    public void deleteService(BigInteger id) throws Exception {
         try{
-            serviceDao.deleteService(service);
+            serviceDao.deleteService(id);
         }
         catch (Exception e){
             log.error(e.getMessage());

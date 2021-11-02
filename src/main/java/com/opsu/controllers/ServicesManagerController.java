@@ -33,6 +33,16 @@ public class ServicesManagerController {
         }
     }
 
+    @PostMapping("/custom")
+    public void addNewCustomService(@Valid @RequestBody Service service) {
+        try{
+            servicesManager.addNewCustomService(service);
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+        }
+    }
+
     @PostMapping("/update")
     public void changeService(@Valid @RequestBody Service service) {
         try{
@@ -43,17 +53,17 @@ public class ServicesManagerController {
         }
     }
 
-    @PostMapping("/delete/{service}")
-    public void deleteService(@PathVariable Service service) {
+    @PostMapping("/delete/{id}")
+    public void deleteService(@PathVariable BigInteger id) {
         try{
-            servicesManager.deleteService(service);
+            servicesManager.deleteService(id);
         }
         catch (Exception e){
             log.error(e.getMessage());
         }
     }
 
-    @GetMapping()
+    @GetMapping("/services")
     public Collection<Service> getAllServices() {
         try{
             return servicesManager.getAll();
