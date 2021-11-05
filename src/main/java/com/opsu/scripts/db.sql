@@ -98,7 +98,7 @@ CREATE TABLE service (
                          serviceId int NOT NULL,
                          name varchar(255) DEFAULT NULL,
                          description varchar(255) DEFAULT NULL,
-                         custom INT DEFAULT '1',
+                         isCustom INT DEFAULT '1',
                          PRIMARY KEY (serviceId)
 );
 

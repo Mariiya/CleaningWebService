@@ -1,14 +1,14 @@
 -------------------------------------------------Test data for CLEANING_SERVICE ---------------------------------------------
 ----------SERVICE----------
-INSERT INTO SERVICE (serviceId, name, description, custom)
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
 VALUES (SEQ.nextval, 'Washing dishes', 'Cleaning all dirty dishes', 0);
-INSERT INTO SERVICE (serviceId, name, description, custom)
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
 VALUES (SEQ.nextval, 'Sweep the floor', 'Dry cleaning with a broom of the floor surface', 0);
-INSERT INTO SERVICE (serviceId, name, description, custom)
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
 VALUES (SEQ.nextval, 'Wash the floor', 'Wet cleaning of the floor surface', 0);
-INSERT INTO SERVICE (serviceId, name, description, custom)
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
 VALUES (SEQ.nextval, 'Wipe off the dust', 'Dry cleaning bookshelves', 0);
-INSERT INTO SERVICE (serviceId, name, description, custom)
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
 VALUES (SEQ.nextval, 'Test', 'Test', 1);
 ----------USERS----------
 INSERT INTO USERS (userId, email, password, phoneNumber, role)

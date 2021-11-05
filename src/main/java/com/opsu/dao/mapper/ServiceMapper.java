@@ -14,7 +14,7 @@ public class  ServiceMapper implements RowMapper<Service> {
         BigInteger id = BigInteger.valueOf(resultSet.getLong("serviceId"));
         String name = resultSet.getString("name");
         String description = resultSet.getString("description");
-        Boolean custom = (resultSet.getInt("custom")) == 1;
-        return new Service(id, name, description, custom);
+        Boolean isCustom = (resultSet.getInt("isCustom")) == 1;
+        return new Service(id, name, description, isCustom);
     }
 }
