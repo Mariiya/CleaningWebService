@@ -11,8 +11,6 @@ public interface ConsumerDao {
     Consumer getConsumerById(BigInteger id) throws NotFoundException;
 
     Consumer findConsumerByLastName(String lastName) throws NotFoundException;
-
-    void create (Consumer consumer);
     void save (Consumer consumer);
     String GET_CONSUMER_BY_ID = "SELECT  firstName, lastName, consumer.userId," +
             "users.userId, users.email, users.password, users.phoneNumber, users.role" +

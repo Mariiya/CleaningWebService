@@ -37,7 +37,7 @@ private final AuthorizationService authorizationService;
     }
 
     public void create(Consumer consumerRequest) throws IOException, MessagingException {
-        Consumer consumer = new Consumer(BigInteger.ONE,
+        Consumer consumer = new Consumer(consumerRequest.getId(),
                 consumerRequest.getPhoneNumber(),
                 consumerRequest.getEmail(),
                 consumerRequest.getPassword(),

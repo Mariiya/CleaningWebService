@@ -13,7 +13,6 @@ public interface VendorDao {
 
     Vendor getVendorById(BigInteger id) throws NotFoundException;
 
-    void create(Vendor vendor);
     void save(Vendor vendor);
 
 

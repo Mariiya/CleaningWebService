@@ -50,7 +50,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/auth/signup/vendor")
-    public ResponseEntity<?> createVendor(@Valid @RequestBody Vendor vendor) throws IOException, MessagingException {
+    public ResponseEntity<?> createVendor(@Valid @RequestBody Vendor vendor) throws IOException, MessagingException, NotFoundException {
         if (authorizationService.existsByEmail(vendor.getEmail())) {
             ResponseEntity
                     .badRequest()
@@ -62,7 +62,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/auth/signup/consumer")
-    public ResponseEntity<?> createConsumer(@Valid @RequestBody Consumer consumer) throws IOException, MessagingException {
+    public ResponseEntity<?> createConsumer(@Valid @RequestBody Consumer consumer) throws IOException, MessagingException, NotFoundException {
         if (authorizationService.existsByEmail(consumer.getEmail())) {
             ResponseEntity
                     .badRequest()

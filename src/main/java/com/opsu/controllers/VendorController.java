@@ -46,14 +46,6 @@ public class VendorController {
         }
     }
 
-    @PostMapping("/create")
-    public void create(@Valid @RequestBody Vendor vendor) {
-        try {
-            vendorService.create(vendor);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
 
     @PostMapping("/update")
     public void updateVendor(UserDetailsImpl updater, @Valid

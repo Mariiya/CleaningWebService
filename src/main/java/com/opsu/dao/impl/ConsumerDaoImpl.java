@@ -4,6 +4,7 @@ import com.opsu.dao.ConsumerDao;
 import com.opsu.dao.mapper.ConsumerMapper;
 import com.opsu.models.Consumer;
 
+import com.opsu.models.User;
 import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,17 +45,9 @@ public class ConsumerDaoImpl implements ConsumerDao {
         }
     }
 
-    public void create(Consumer consumer) {
-        try {
-            jdbcTemplate.update(CREATE_CONSUMER, consumer.getLastName(), consumer.getFirstName());
-        } catch (DataAccessException e) {
-            LOG.error(e.getMessage(), e);
-        }
-        //save
-    }
     public void save(Consumer consumer) {
         try {
-            jdbcTemplate.update(CREATE_CONSUMER,consumer.getLastName(), consumer.getFirstName());
+            jdbcTemplate.update(CREATE_CONSUMER,consumer.getId(),consumer.getLastName(), consumer.getFirstName());
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
         }

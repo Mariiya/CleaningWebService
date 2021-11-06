@@ -75,12 +75,18 @@ public class AuthorizationService {
 
     }
 
-    public void registerUser(User userRequest) throws IOException, MessagingException {
+    public User registerUser(User userRequest) throws IOException, MessagingException, NotFoundException {
+       if(existsByEmail(userRequest.getEmail())) {
+           throw new IllegalArgumentException("User with this email already exists");
+       }
         User user = new User(BigInteger.ONE, userRequest.getPhoneNumber(),
                 userRequest.getEmail(),
                 userRequest.getPassword(), userRequest.getRole());
         userDao.save(user);
+        user = userDao.findByPhoneNumberOrEmail(user.getEmail());
+        userRequest.setId(user.getId());
         notificationService.sendRegistrationNotification(userRequest);
+        return user;
     }
 
     public boolean updateUser(UserDetailsImpl updater, User user) throws NotFoundException {

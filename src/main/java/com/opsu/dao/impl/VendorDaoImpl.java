@@ -47,15 +47,9 @@ public class VendorDaoImpl implements VendorDao {
 
     }
 
-    public void create(Vendor vendor) { try {
-        jdbcTemplate.update(CREATE_VENDOR, vendor.getLastName(), vendor.getFirstName(), vendor.getIndividual());
-    } catch (DataAccessException e) {
-        LOG.error(e.getMessage(), e);
-    }
-        //save
-    }
+
     public void save(Vendor vendor) { try {
-        jdbcTemplate.update(CREATE_VENDOR, vendor.getLastName(), vendor.getFirstName(), vendor.getIndividual());
+        jdbcTemplate.update(CREATE_VENDOR,  vendor.getLastName(), vendor.getFirstName(), vendor.getIndividual(),vendor.getId());
     } catch (DataAccessException e) {
         LOG.error(e.getMessage(), e);
     }

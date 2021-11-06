@@ -37,7 +37,7 @@ public class VendorService {  private final VendorDao vendorDao;
 
 
         public void create(Vendor vendorRequest) throws IOException, MessagingException {
-            Vendor vendor = new Vendor(BigInteger.ONE,
+            Vendor vendor = new Vendor(vendorRequest.getId(),
                     vendorRequest.getPhoneNumber(),
                     vendorRequest.getEmail(),
                     vendorRequest.getPassword(),

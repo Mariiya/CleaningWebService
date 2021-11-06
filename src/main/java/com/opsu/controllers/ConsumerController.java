@@ -54,14 +54,6 @@ public class ConsumerController {
             return null;
         }
     }
-    @PostMapping("/create")
-    public void create(@Valid @RequestBody Consumer consumer) {
-        try {
-            consumerService.create(consumer);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
 
     @PostMapping("/update")
     public void update( UserDetailsImpl updater, @Valid @RequestBody Consumer consumer)throws NotFoundException {
