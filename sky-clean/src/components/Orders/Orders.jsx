@@ -10,69 +10,27 @@ const Orders = () => {
         {id: 1, title: "Clean room", consumer: 'Ivan Ivanov',
             services: [
             {id: 1, title: 'Eco clean'},
-            {id: 2, title: 'Eco clean'}],
-            price: 2000},
-        {id: 2, title: "Clean room", consumer: 'Ivan Ivanov',
+            {id: 2, title: 'Cleaning of apartments'}],
+            price: 3000},
+        {id: 2, title: "Clean room", consumer: 'Andrey Andreev',
             services: [
-                {id: 1, title: 'Eco clean'},
-                {id: 2, title: 'Eco clean'},
-                {id: 3, title: 'Eco clean'},
-                {id: 4, title: 'Eco clean'},],
-            price: 2000},
-        {id: 3, title: "Clean room", consumer: 'Ivan Ivanov',
+                {id: 1, title: 'Spring-cleaning'},
+                {id: 2, title: 'Cleaning after renovation'},
+                {id: 3, title: 'Dry cleaning'},
+                {id: 4, title: 'Cleaning of cottages'},],
+            price: 4000},
+        {id: 3, title: "Cleaning of cottage", consumer: 'Evgeniy Petrov',
             services: [
-                {id: 1, title: 'Eco clean'},
-                {id: 2, title: 'Eco clean'},
-                {id: 3, title: 'Eco clean'}],
-            price: 2000},
-        {id: 4, title: "Clean room", consumer: 'Ivan Ivanov',
+                {id: 1, title: 'Washing windows'},
+                {id: 2, title: 'Spring-cleaning'},
+                {id: 3, title: 'Dry cleaning'}],
+            price: 5000},
+        {id: 4, title: "Clean facade", consumer: 'Michail Michailov',
             services: [
-                {id: 1, title: 'Eco clean'},
+                {id: 1, title: 'Facade washing'},
                 {id: 2, title: 'Eco clean'},
-                {id: 3, title: 'Eco clean'}],
-            price: 2000},
-        {id: 5, title: "Clean room", consumer: 'Ivan Ivanov',
-            services: [
-                {id: 1, title: 'Eco clean'},
-                {id: 2, title: 'Eco clean'},
-                {id: 3, title: 'Eco clean'}],
-            price: 2000},
-        {id: 6, title: "Clean room", consumer: 'Ivan Ivanov',
-            services: [
-                {id: 1, title: 'Eco clean'},
-                {id: 2, title: 'Eco clean'},
-                {id: 3, title: 'Eco clean'}],
-            price: 2000},
-        {id: 7, title: "Clean room", consumer: 'Ivan Ivanov',
-            services: [
-                {id: 1, title: 'Eco clean'},
-                {id: 2, title: 'Eco clean'},
-                {id: 3, title: 'Eco clean'}],
-            price: 2000},
-        {id: 8, title: "Clean room", consumer: 'Ivan Ivanov',
-            services: [
-                {id: 1, title: 'Eco clean'},
-                {id: 2, title: 'Eco clean'},
-                {id: 3, title: 'Eco clean'}],
-            price: 2000},
-        {id: 9, title: "Clean room", consumer: 'Ivan Ivanov',
-            services: [
-                {id: 1, title: 'Eco clean'},
-                {id: 2, title: 'Eco clean'},
-                {id: 3, title: 'Eco clean'}],
-            price: 2000}]
-
-    const count = 15
-
-    const getPages = count => {
-        let content = [];
-        for (let i = 1; i <= count; i++) {
-            const item = i;
-            item < 4 && content.push(<div key={i}>{item}</div>)
-        }
-        content[content.length - 1].key !== String(count) && content.push(<div key={count + 1}>...</div>, <div className="orders__page" key={count + 2}>{count}</div>)
-        return content;
-    };
+                {id: 3, title: 'Spring-cleaning'}],
+            price: 1500},]
 
     return (
         <div className="orders">
@@ -85,10 +43,6 @@ const Orders = () => {
                     {orders && orders.map((order) => (
                         <Order key={order.id} order={order}/>
                     ))}
-                </div>
-
-                <div className="orders__pagination">
-                    {getPages(count)}
                 </div>
             </div>
         </div>
