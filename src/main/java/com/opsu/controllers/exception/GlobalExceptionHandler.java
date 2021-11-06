@@ -59,7 +59,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntityBuilder.build(err);
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
+    @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException exception) {
 
             List<String> details = exception.getConstraintViolations().stream().map(error -> error.getMessageTemplate()).collect(Collectors.toList());
@@ -69,6 +69,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                     details,BigInteger.valueOf(101L));
             return ResponseEntityBuilder.build(err);
 
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException exception) {
+        ApiError err = new ApiError(LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST,
+                "Validation Errors",
+                Collections.singletonList(exception.getMessage()),BigInteger.valueOf(101L));
+        return ResponseEntityBuilder.build(err);
     }
 
     @ExceptionHandler({NotFoundException.class,EmptyDataBaseException.class})
@@ -99,7 +108,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     protected ResponseEntity<ApiError> handleExceptionInternal(Exception ex, ApiError body, HttpHeaders headers,
                                                                HttpStatus status, WebRequest request) {
-
         if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
             request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, WebRequest.SCOPE_REQUEST);
         }
