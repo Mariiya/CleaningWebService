@@ -8,7 +8,7 @@ import './styles/index.scss';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Application/>
+    <Application />
   </React.StrictMode>,
   document.getElementById('root')
 );

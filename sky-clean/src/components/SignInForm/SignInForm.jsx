@@ -1,11 +1,21 @@
 //general
 import React from 'react';
+import {NavLink} from "react-router-dom";
+//ui
+import FormInput from "../../UI/FormInput/FormInput";
 //styles
 import './SignInForm.scss';
-import FormInput from "../../UI/FormInput/FormInput";
-import {NavLink} from "react-router-dom";
+
 
 function SignInForm() {
+  const [password, setPassword] = React.useState('')
+  
+  const onPasswordHandleChange = (str) => {
+    setPassword(str)
+  }
+  
+  
+  
   return (
     <form className="signInForm">
       <div className="signInForm__body">
@@ -20,7 +30,7 @@ function SignInForm() {
           <div className="signInForm__field">
             <p>Password</p>
             <div className="signInForm__input">
-              <FormInput type="password"/>
+              <FormInput type="password" value={password} onChange={onPasswordHandleChange}/>
             </div>
           </div>
         </div>

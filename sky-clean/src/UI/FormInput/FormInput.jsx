@@ -9,7 +9,7 @@ function FormInput({onChange, value, placeholder = "", type = "text"}) {
       className="formInput"
       type={type}
       placeholder={placeholder}
-      onChange={onChange}
+      onChange={(event) => onChange(event.target.value)}
       value={value}/>
   );
 };
