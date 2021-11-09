@@ -3,12 +3,15 @@ import React from 'react'
 import {useFormik} from "formik";
 import * as Yup from 'yup'
 import {sha256} from "js-sha256";
+import {useHistory} from "react-router";
 //api
 import {getAccessToken} from "../../api/auth.api";
 //components
 import SignInForm from "./SignInForm";
 
 const SingInFormEditor = () => {
+  const history = useHistory()
+  
   const initialValues = {
     email: '',
     password: '',
@@ -33,7 +36,10 @@ const SingInFormEditor = () => {
         password: sha256(password)
       }
       getAccessToken(data, '/api/auth/signin').then((response) => {
-        console.log(response)
+        if (response.token) {
+          localStorage.setItem('accessToken', response.token)
+          history.push('/')
+        }
       })
       form.resetForm()
     }
