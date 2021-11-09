@@ -1,8 +1,9 @@
 //generals
 import React from 'react';
-import {Route, Routes, BrowserRouter as Router} from "react-router-dom";
+import {Route, Switch, BrowserRouter as Router} from "react-router-dom";
 //custom hooks
 import ScrollToTop from "../../hooks/ScrollToTop";
+import PrivateRoute from "../../hooks/PrivateRoute";
 //pages
 import MainPage from '../../pages/MainPage/MainPage';
 import SignInPage from "../../pages/SignInPage/SignInPage";
@@ -18,20 +19,22 @@ import Footer from "../Footer/Footer";
 import './Application.scss';
 
 function Application() {
-  return(
+  const isAuth = true
+  
+  return (
     <Router>
       <div className="application">
         <ScrollToTop/>
         <Header/>
         <Main>
-          <Routes>
-            <Route exact path="/" element={<MainPage/>}/>
-            <Route path="/sign-in" element={<SignInPage/>}/>
-            <Route path="/sign-up" element={<SignUpPage/>}/>
-            <Route path="/password-reset" element={<ResetPasswordPage/>}/>
-            <Route path="/orders" element={<OrdersPage/>}/>
-            <Route path="*" element={<NotFound/>} />
-          </Routes>
+          <Switch>
+            <Route exact path="/" component={MainPage}/>
+            <Route path="/sign-in" component={SignInPage}/>
+            <Route path="/sign-up" component={SignUpPage}/>
+            <Route path="/password-reset" component={ResetPasswordPage}/>
+            <PrivateRoute path="/orders" children={<OrdersPage/>} isAuth={isAuth}/>
+            <Route path="*" component={NotFound}/>
+          </Switch>
         </Main>
         <Footer/>
       </div>

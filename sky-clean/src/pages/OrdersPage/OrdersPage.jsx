@@ -7,10 +7,6 @@ import Orders from "../../components/Orders/Orders";
 import './OrdersPage.scss'
 
 function OrdersPage() {
-  // React.useEffect(() => {
-  //   document.getElementById('root').scrollTo(0,0)
-  // }, []);
-  
     return (
         <div className="ordersPage">
             <OrdersFilter/>
