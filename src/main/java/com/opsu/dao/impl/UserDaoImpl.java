@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -31,7 +33,11 @@ public class UserDaoImpl implements UserDao {
 
     public User findByPhoneNumberOrEmail(String phoneNumberOrEmail) throws NotFoundException {
         try {
-            return jdbcTemplate.queryForObject(GET_USER_BY_PHONE_NUMBER_OR_EMAIL, new UserMapper(), phoneNumberOrEmail, phoneNumberOrEmail);
+            List<User> list =  jdbcTemplate.query(GET_USER_BY_PHONE_NUMBER_OR_EMAIL, new UserMapper(), phoneNumberOrEmail, phoneNumberOrEmail);
+            if(!list.isEmpty()){
+                return list.get(0);
+            }
+            return null;
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("User not found");

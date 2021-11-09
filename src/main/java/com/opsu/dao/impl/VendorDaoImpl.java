@@ -18,9 +18,7 @@ import java.math.BigInteger;
 public class VendorDaoImpl implements VendorDao {
 
     private static final Logger LOG = Logger.getLogger(VendorDaoImpl.class);
-    //Утилита от Спринга для работы с БД
     private final JdbcTemplate jdbcTemplate;
-
 
     @Autowired
     public VendorDaoImpl(JdbcTemplate jdbcTemplate) {
