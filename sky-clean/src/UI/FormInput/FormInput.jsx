@@ -3,14 +3,13 @@ import React from 'react';
 //styles
 import './FormInput.scss';
 
-function FormInput({onChange, value, placeholder = "", type = "text"}) {
+function FormInput({placeholder = "", type = "text", ...rest}) {
   return (
     <input
       className="formInput"
       type={type}
       placeholder={placeholder}
-      onChange={(event) => onChange(event.target.value)}
-      value={value}/>
+      {...rest}/>
   );
 };
 

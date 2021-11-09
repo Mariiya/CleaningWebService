@@ -1,14 +1,14 @@
 //general
 import React from 'react';
 //components
-import SignUpForm from "../../components/SignUpForm/SignUpForm";
+import SignUpFormEditor from "../../components/SignUpForm/SignUpFormEditor";
 //styles
 import './SignUpPage.scss';
 
 function SignUpPage() {
   return (
     <div className="signUpPage">
-      <SignUpForm/>
+      <SignUpFormEditor />
     </div>
   );
 };

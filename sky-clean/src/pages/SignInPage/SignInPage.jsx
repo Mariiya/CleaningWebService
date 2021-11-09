@@ -1,14 +1,14 @@
 //general
 import React from 'react';
 //components
-import SignInForm from "../../components/SignInForm/SignInForm";
+import SingInFormEditor from "../../components/SignInForm/SignInFormEditor";
 //styles
 import './SignInPage.scss';
 
 function SignInPage() {
   return (
     <div className="signInPage">
-      <SignInForm/>
+      <SingInFormEditor/>
     </div>
   );
 };

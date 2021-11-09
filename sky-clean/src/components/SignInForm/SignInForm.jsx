@@ -7,30 +7,23 @@ import FormInput from "../../UI/FormInput/FormInput";
 import './SignInForm.scss';
 
 
-function SignInForm() {
-  const [password, setPassword] = React.useState('')
-  
-  const onPasswordHandleChange = (str) => {
-    setPassword(str)
-  }
-  
-  
+function SignInForm({values, errors, formik, handleChange}) {
   
   return (
-    <form className="signInForm">
+    <form className="signInForm" onSubmit={formik.handleSubmit}>
       <div className="signInForm__body">
         <div className="signInForm__inputs">
           <div className="signInForm__field">
             <p>E-mail</p>
             <div className="signInForm__input">
-              <FormInput type="mail"/>
+              <FormInput name="email" type="email" value={values.email} onChange={handleChange}/>
             </div>
           </div>
 
           <div className="signInForm__field">
             <p>Password</p>
             <div className="signInForm__input">
-              <FormInput type="password" value={password} onChange={onPasswordHandleChange}/>
+              <FormInput name="password" type="password" value={values.password} onChange={handleChange}/>
             </div>
           </div>
         </div>

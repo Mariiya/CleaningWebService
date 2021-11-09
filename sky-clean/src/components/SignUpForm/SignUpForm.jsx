@@ -6,56 +6,54 @@ import FormInput from "../../UI/FormInput/FormInput";
 import CheckBox from "./CheckBox.jsx/CheckBox";
 import {NavLink} from "react-router-dom";
 
-function SignUpForm() {
-  const [checkBoxState, setCheckBoxState] = React.useState(false);
-
+function SignUpForm({values, errors, formik, handleChange, setCheckBoxState, checkBoxState}) {
   const handleCheckBoxChange = () => {
     setCheckBoxState(!checkBoxState)
   }
 
   return (
-    <form className="signUpForm">
+    <form className="signUpForm" onSubmit={formik.handleSubmit}>
       <div className="signUpForm__body">
         <div className="signUpForm__inputs">
           <div className="signUpForm__field">
             <p>First Name</p>
             <div className="signUpForm__input">
-              <FormInput/>
+              <FormInput name="firstName" value={values.firstName} onChange={handleChange}/>
             </div>
           </div>
 
           <div className="signUpForm__field">
             <p>Last Name</p>
             <div className="signUpForm__input">
-              <FormInput/>
+              <FormInput name="lastName" value={values.lastName} onChange={handleChange}/>
             </div>
           </div>
 
           <div className="signUpForm__field">
             <p>Phone number</p>
             <div className="signUpForm__input">
-              <FormInput type="phone"/>
+              <FormInput type="phone" name="phoneNumber" value={values.phoneNumber} onChange={handleChange}/>
             </div>
           </div>
 
           <div className="signUpForm__field">
             <p>E-mail</p>
             <div className="signUpForm__input">
-              <FormInput type="mail"/>
+              <FormInput type="email" name="email" value={values.email} onChange={handleChange}/>
             </div>
           </div>
 
           <div className="signUpForm__field">
             <p>Password</p>
             <div className="signUpForm__input">
-              <FormInput type="password"/>
+              <FormInput type="password" name="password" value={values.password} onChange={handleChange}/>
             </div>
           </div>
 
           <div className="signUpForm__field">
             <p>Repeat password</p>
             <div className="signUpForm__input">
-              <FormInput type="password"/>
+              <FormInput type="password" name="repeatPassword" value={values.repeatPassword} onChange={handleChange}/>
             </div>
           </div>
         </div>
