@@ -12,17 +12,16 @@ const SignUpFormEditor = () => {
   const [checkBoxState, setCheckBoxState] = React.useState(false);
   
   const initialValues = {
-    id: 42,
-    firstName: 'daniil ',
-    lastName:'bavykin',
-    phoneNumber: '+380996304341',
-    email: 'bavykin.daniil.inc@gmail.com',
-    password: 'qwerty123',
-    repeatPassword: 'qwerty123',
+    firstName: '',
+    lastName:'',
+    phoneNumber: '',
+    email: '',
+    password: '',
+    repeatPassword: '',
     role: 'ROLE_CLIENT',
   }
   
-  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+  const phoneRegExp = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/
   
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -34,8 +33,8 @@ const SignUpFormEditor = () => {
       .max(20, 'Too long!')
       .required('Required'),
     phoneNumber: Yup.string()
-      .matches(phoneRegExp, 'Phone number is not valid')
-      .min(11, 'Too Short!')
+      .matches(phoneRegExp, "Must be only digits")
+      .min(13, 'Too Short!')
       .max(15, 'Too Long!'),
     email: Yup.string().email('Invalid email').required('Required'),
     password: Yup.string()
@@ -50,22 +49,20 @@ const SignUpFormEditor = () => {
   
   const form = useFormik({
     initialValues: initialValues,
+    validationSchema: validationSchema,
     validateOnChange: false,
     onSubmit: (values) => {
-      const {firstName, lastName, id, password, role, email, phoneNumber, repeatPassword} = values
+      const {firstName, lastName, password, role, email, phoneNumber, repeatPassword} = values
       if (password === repeatPassword) {
         const data = {
           firstName,
           lastName,
-          id,
           phoneNumber,
           email,
           password: sha256(password),
           role,
         }
-        addNewUser(data, '/api/auth/signup/consumer').then((response) => {
-          console.log(response)
-        })
+        addNewUser(data, '/api/auth/signup/consumer')
       }
       form.resetForm()
     }
