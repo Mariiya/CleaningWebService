@@ -13,7 +13,7 @@ public interface ConsumerDao {
     Consumer findConsumerByLastName(String lastName) throws NotFoundException;
     void save (Consumer consumer);
     String GET_CONSUMER_BY_ID = "SELECT  firstName, lastName, consumer.userId," +
-            " users.userId, users.email, users.password, users.phoneNumber, users.role " +
+            "  users.email, users.password, users.phoneNumber, users.role " +
             " FROM CONSUMER" +
             " LEFT JOIN users ON consumer.userId = users.userId" +
             " WHERE consumer.userId = ?";
