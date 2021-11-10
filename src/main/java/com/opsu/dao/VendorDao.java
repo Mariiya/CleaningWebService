@@ -1,7 +1,6 @@
 package com.opsu.dao;
 
 
-import com.opsu.models.User;
 import com.opsu.models.Vendor;
 import javassist.NotFoundException;
 

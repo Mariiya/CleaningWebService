@@ -15,10 +15,10 @@ import java.sql.SQLException;
             String lastName = resultSet.getString("lastName");
             Boolean individual = resultSet.getInt("individual") == 1; //поправил
             //select user
-            BigInteger userId =BigInteger.valueOf(resultSet.getLong("vendor.userId"));
-            String email = resultSet.getString("users.email");
-            String password = resultSet.getString("users.password");
-            String phoneNumber = resultSet.getString("users.phoneNumber");
+            BigInteger userId =BigInteger.valueOf(resultSet.getLong("userId"));
+            String email = resultSet.getString("email");
+            String password = resultSet.getString("password");
+            String phoneNumber = resultSet.getString("phoneNumber");
             Role role = Role.ROLE_SERVICE_PROVIDER;
 
             return new Vendor(userId, email, password, phoneNumber, role,firstName, lastName, individual);
