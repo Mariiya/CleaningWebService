@@ -2,7 +2,10 @@ package com.opsu.dao;
 
 import com.opsu.models.Order;
 import com.opsu.models.Service;
+import com.opsu.models.enumeration.Status;
 import javassist.NotFoundException;
+import org.hibernate.type.BigIntegerType;
+
 import java.math.BigInteger;
 import java.util.Collection;
 
@@ -18,27 +21,40 @@ public interface OrderDao {
 
     Collection<Order> getOrders(String title) throws NotFoundException;
 
+    Collection<Order> getOrders(Status status) throws NotFoundException;
+
+    Collection<Order> getOrders(BigInteger userId) throws NotFoundException;
+
     boolean createOrder(Order order);
 
     boolean updateOrder(Order order);
 
-    boolean deleteOrder(Order order);
+    boolean deleteOrder(BigInteger id);
 
     String GET_ORDER_BY_ID = "SELECT\n" +
             "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
             "FROM orders\n" +
             "WHERE orderId = ?";
     String GET_ORDERS = "SELECT\n" +
-            "orderId, title, description, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
+            "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
             "FROM orders";
     String GET_ORDERS_BY_PRICE = "SELECT\n" +
-            "orderId, title, description, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
+            "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
             "FROM orders\n" +
             "WHERE price = ?";
     String GET_ORDERS_BY_TITLE = "SELECT\n" +
-            "orderId, title, description, status, orders.consumerId, orders.vendorId, startDate, endDate, price, address\n" +
+            "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
             "FROM orders\n" +
-            "WHERE title like '%?%'";
+            "WHERE title like ?";
+    String GET_ORDERS_BY_STATUS = "SELECT\n" +
+            "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
+            "FROM orders\n" +
+            "WHERE status = ?";
+    String GET_ORDERS_BY_USER = "SELECT\n" +
+            "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
+            "FROM orders\n" +
+            "WHERE consumerId = ?" +
+            "   OR vendorId = ?";
     String GET_ORDERS_BY_SERVICE = " ?";
     String SAVE_NEW_ORDER = "MERGE INTO ORDERS old\n" +
             "                USING (SELECT  seq_next()  ORDERID,\n" +

@@ -4,6 +4,7 @@ import com.opsu.dao.OrderDao;
 import com.opsu.dao.mapper.OrderMapper;
 import com.opsu.models.Order;
 import com.opsu.models.Service;
+import com.opsu.models.enumeration.Status;
 import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,27 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Collection<Order> getOrders(String title) throws NotFoundException {
         try {
-            return jdbcTemplate.query(GET_ORDERS_BY_TITLE, new OrderMapper());
+            return jdbcTemplate.query(GET_ORDERS_BY_TITLE, new OrderMapper(), new String("%" + title + "%"));
+        } catch (DataAccessException e) {
+            LOG.error(e.getMessage(), e);
+            throw new NotFoundException("Orders not found");
+        }
+    }
+
+    @Override
+    public Collection<Order> getOrders(Status status) throws NotFoundException {
+        try {
+            return jdbcTemplate.query(GET_ORDERS_BY_STATUS, new OrderMapper(), status);
+        } catch (DataAccessException e) {
+            LOG.error(e.getMessage(), e);
+            throw new NotFoundException("Orders not found");
+        }
+    }
+
+    @Override
+    public Collection<Order> getOrders(BigInteger userId) throws NotFoundException {
+        try {
+            return jdbcTemplate.query(GET_ORDERS_BY_USER, new OrderMapper(), userId, userId);
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Orders not found");
@@ -100,9 +121,9 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public boolean deleteOrder(Order order) {
+    public boolean deleteOrder(BigInteger id) {
         try {
-            return jdbcTemplate.update(DELETE_ORDER, order.getId()) == 1;
+            return jdbcTemplate.update(DELETE_ORDER, id) == 1;
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             return false;

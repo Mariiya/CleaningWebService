@@ -36,8 +36,8 @@ public class VendorController {
             }
     }
 
-    @GetMapping("/{lastname}")
-    public Vendor findVendorByLastName( @PathVariable String lastname) {
+    @GetMapping("/lastname")
+    public Vendor findVendorByLastName( @RequestParam String lastname) {
         try {
             return vendorService.findVendorByLastName(lastname);
         } catch (Exception e) {
