@@ -45,7 +45,6 @@ private final AuthorizationService authorizationService;
                 consumerRequest.getFirstName(),
                 consumerRequest.getLastName());
         consumerDao.save(consumer);
-        notificationService.sendRegistrationNotification(consumerRequest);
     }
 
     public boolean update(UserDetailsImpl updater, Consumer consumer) throws NotFoundException {

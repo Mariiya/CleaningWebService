@@ -46,7 +46,6 @@ public class VendorService {  private final VendorDao vendorDao;
                     vendorRequest.getLastName(),
                     vendorRequest.getIndividual());
             vendorDao.save(vendor);
-            notificationService.sendRegistrationNotification(vendorRequest);
         }
 
     public Vendor  findVendorByLastName (String lastname) throws Exception {

@@ -20,6 +20,6 @@ public class ConsumerMapper implements RowMapper<Consumer> {
     String phoneNumber = resultSet.getString("phoneNumber");
     Role role = Role.ROLE_CLIENT;
 
-    return new Consumer( userId, email, password, phoneNumber, role, firstName, lastName);
+    return new Consumer(userId, email, password, phoneNumber, role, firstName, lastName);
 }
 }
