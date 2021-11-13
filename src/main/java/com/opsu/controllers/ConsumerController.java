@@ -12,12 +12,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 
 import java.math.BigInteger;
 
@@ -45,19 +45,8 @@ public class ConsumerController {
 
     }
 
-    @GetMapping("/by-lastname")
-    public Consumer findConsumerByLastName( @NotEmpty String lastname) {
-        try {
-            return consumerService.findConsumerByLastName(lastname);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return null;
-        }
-    }
-
     @PostMapping("/update")
-    public void update( UserDetailsImpl updater, @Valid @RequestBody Consumer consumer)throws NotFoundException {
+    public void update(@AuthenticationPrincipal UserDetailsImpl updater, @Valid @RequestBody Consumer consumer)throws NotFoundException {
         consumerService.update(updater,consumer);
-
     }
 }

@@ -20,13 +20,11 @@ import java.math.BigInteger;
 public class ConsumerService {
     private static final Logger logger = Logger.getLogger(ConsumerService.class.getName());
     private final ConsumerDao consumerDao;
-    private NotificationService notificationService;
 private final AuthorizationService authorizationService;
     @Autowired
-    public  ConsumerService(ConsumerDao consumerDao, AuthorizationService authorizationService,NotificationService notificationService) {
+    public  ConsumerService(ConsumerDao consumerDao, AuthorizationService authorizationService) {
         this.consumerDao = consumerDao;
         this.authorizationService = authorizationService;
-        this.notificationService= notificationService;
     }
 
     public Consumer getConsumerById(BigInteger id) throws NotFoundException {
@@ -58,7 +56,6 @@ private final AuthorizationService authorizationService;
         consumerDao.save(consumerfromDB);
         return true;
     }
-
 
     public Consumer findConsumerByLastName(String lastname) throws Exception {
         return consumerDao.findConsumerByLastName(lastname);
