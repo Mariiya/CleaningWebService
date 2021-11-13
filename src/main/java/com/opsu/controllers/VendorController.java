@@ -29,7 +29,7 @@ public class VendorController {
     @GetMapping("{id}")
         public Vendor getVendorById(@PathVariable BigInteger id) {
             try {
-                return vendorService.getVendorById (id);
+                return vendorService.getVendorById(id);
             } catch (Exception e){
                 log.error(e.getMessage());
                 return null;
@@ -37,8 +37,8 @@ public class VendorController {
             }
     }
 
-    @GetMapping("/by-lastname")
-    public Vendor findVendorByLastName( @NotEmpty String lastname) {
+    @GetMapping("/lastname")
+    public Vendor findVendorByLastName( @RequestParam String lastname) {
         try {
             return vendorService.findVendorByLastName(lastname);
         } catch (Exception e) {
