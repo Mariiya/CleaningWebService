@@ -5,6 +5,7 @@ import com.opsu.controllers.exception.web.ApiError;
 import com.opsu.controllers.exception.web.ResponseEntityBuilder;
 import com.opsu.exceptions.EmptyDataBaseException;
 import javassist.NotFoundException;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,6 +70,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                     details,BigInteger.valueOf(101L));
             return ResponseEntityBuilder.build(err);
 
+    }
+
+    @ExceptionHandler({PermissionDeniedDataAccessException.class})
+    public ResponseEntity<Object> handleIllegalArgumentException(PermissionDeniedDataAccessException exception) {
+        ApiError err = new ApiError(LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST,
+                "Validation Errors",
+                Collections.singletonList("Sorry, You can not access this data"),BigInteger.valueOf(101L));
+        return ResponseEntityBuilder.build(err);
     }
 
     @ExceptionHandler({IllegalArgumentException.class})

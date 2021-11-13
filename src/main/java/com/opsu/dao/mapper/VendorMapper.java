@@ -21,7 +21,7 @@ import java.sql.SQLException;
             String phoneNumber = resultSet.getString("phoneNumber");
             Role role = Role.ROLE_SERVICE_PROVIDER;
 
-            return new Vendor(userId, email, password, phoneNumber, role,firstName, lastName, individual);
+            return new Vendor(userId, phoneNumber, email, password,  role,firstName, lastName, individual);
         }
     }
 
