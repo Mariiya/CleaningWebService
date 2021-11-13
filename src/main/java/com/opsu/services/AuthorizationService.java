@@ -72,7 +72,6 @@ public class AuthorizationService {
 
     public Boolean existsByEmail(String email) {
         return userDao.existsByEmail(email);
-
     }
 
     public User registerUser(User userRequest) throws IOException, MessagingException, NotFoundException {
