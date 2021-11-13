@@ -29,7 +29,7 @@ public class OrderProcessingController {
     }
 
     @PostMapping("/create")
-    public void createOrder(@Valid @RequestBody Order order) {
+    public void createOrder(@RequestBody Order order) {
         try {
             processingService.createOrder(order);
         } catch (Exception e) {
@@ -126,7 +126,7 @@ public class OrderProcessingController {
     }
 
     @PostMapping("/assignOrder")
-    public void assignOrder(@Valid @RequestBody BigInteger orderId, @Valid @RequestBody BigInteger consumerId) {
+    public void assignOrder(@RequestParam BigInteger orderId, @RequestParam BigInteger consumerId) {
         try {
             processingService.assignOrder(orderId, consumerId);
         } catch (Exception e) {

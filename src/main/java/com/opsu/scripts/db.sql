@@ -80,7 +80,7 @@ CREATE TABLE vendor (
 CREATE TABLE orders (
                         orderId int NOT NULL,
                         title varchar2(255) DEFAULT NULL,
-                        description varchar(255) DEFAULT NULL,
+                        description varchar2(255) DEFAULT NULL,
                         status varchar2(255) DEFAULT NULL,
                         consumerId int DEFAULT NULL,
                         vendorId int DEFAULT NULL,

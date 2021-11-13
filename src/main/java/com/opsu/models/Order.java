@@ -20,7 +20,7 @@ public class Order {
 
     private String description;
 
-    @NotEmpty(message ="Status can not be empty")
+    @NotNull(message ="Status can not be empty")
     private Status status;
 
     private Consumer consumer;
