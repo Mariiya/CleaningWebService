@@ -40,7 +40,6 @@ public class Consumer extends User {
 
     public Consumer(BigInteger id, String phoneNumber, String email, String password, Role role, String firstName, String lastName) {
         super(id, phoneNumber, email, password, role);
-
         this.firstName = firstName;
         this.lastName = lastName;
     }
