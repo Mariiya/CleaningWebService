@@ -9,6 +9,9 @@ import com.opsu.services.ConsumerService;
 import com.opsu.services.VendorService;
 import javassist.NotFoundException;
 import org.apache.log4j.Logger;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -50,8 +53,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/auth/reset-password")
-    public String changeUserPassword(@RequestParam String email) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
-        return authorizationService.resetPassword(email);
+    public JSONObject changeUserPassword(@RequestParam String email) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException, JSONException {
+        return new JSONObject().put("code",authorizationService.resetPassword(email));
     }
 
     @PostMapping("/auth/new-password")
