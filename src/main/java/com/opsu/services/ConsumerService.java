@@ -1,6 +1,7 @@
 package com.opsu.services;
 
 import com.opsu.dao.*;
+import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.*;
 
 
@@ -34,7 +35,7 @@ private final AuthorizationService authorizationService;
         return consumerDao.getConsumerById(id);
     }
 
-    public void create(Consumer consumerRequest) throws IOException, MessagingException {
+    public boolean create(Consumer consumerRequest) throws IOException, MessagingException, EmptyDataBaseException {
         Consumer consumer = new Consumer(consumerRequest.getId(),
                 consumerRequest.getPhoneNumber(),
                 consumerRequest.getEmail(),
@@ -42,10 +43,10 @@ private final AuthorizationService authorizationService;
                 consumerRequest.getRole(),
                 consumerRequest.getFirstName(),
                 consumerRequest.getLastName());
-        consumerDao.save(consumer);
+       return consumerDao.save(consumer);
     }
 
-    public boolean update(UserDetailsImpl updater, Consumer consumer) throws NotFoundException {
+    public boolean update(UserDetailsImpl updater, Consumer consumer) throws NotFoundException, EmptyDataBaseException {
         if (!updater.getId().equals(consumer.getId())) {
             throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
         }

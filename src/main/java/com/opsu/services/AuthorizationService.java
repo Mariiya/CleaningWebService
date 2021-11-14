@@ -1,6 +1,7 @@
 package com.opsu.services;
 
 import com.opsu.dao.UserDao;
+import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.*;
 import com.opsu.models.enumeration.Role;
 import com.opsu.secutity.jwt.JwtUtils;
@@ -59,7 +60,7 @@ public class AuthorizationService {
                 role));
     }
 
-    public boolean changeUserPassword(UserDetailsImpl updater, User user) throws NotFoundException, IOException, MessagingException {
+    public boolean changeUserPassword(UserDetailsImpl updater, User user) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
         if (!updater.getId().equals(user.getId())) {
             throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
         }
@@ -74,7 +75,7 @@ public class AuthorizationService {
         return userDao.existsByEmail(email);
     }
 
-    public User registerUser(User userRequest) throws IOException, MessagingException, NotFoundException {
+    public User registerUser(User userRequest) throws IOException, MessagingException, NotFoundException, EmptyDataBaseException {
        if(existsByEmail(userRequest.getEmail())) {
            throw new IllegalArgumentException("User with this email already exists");
        }
@@ -88,7 +89,7 @@ public class AuthorizationService {
         return user;
     }
 
-    public boolean updateUser(UserDetailsImpl updater, User user) throws NotFoundException {
+    public boolean updateUser(UserDetailsImpl updater, User user) throws NotFoundException, EmptyDataBaseException {
         if (!updater.getId().equals(user.getId())) {
             throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
         }

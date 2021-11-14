@@ -2,6 +2,7 @@ package com.opsu.dao.impl;
 
 import com.opsu.dao.UserDao;
 import com.opsu.dao.mapper.UserMapper;
+import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.User;
 import javassist.NotFoundException;
 import org.apache.log4j.Logger;
@@ -44,12 +45,13 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    public void save(User user) {
+    public boolean save(User user) throws EmptyDataBaseException {
         try {
             jdbcTemplate.update(CREATE_USER, user.getPhoneNumber(), user.getEmail(), user.getPassword(), user.getRole().name());
         } catch (DataAccessException e) {
-            LOG.error(e.getMessage(), e);
+            throw new EmptyDataBaseException("Error during User saving");
         }
+        return true;
     }
 
     public Boolean existsByPhoneNumber(String number) {

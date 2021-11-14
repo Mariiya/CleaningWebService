@@ -1,5 +1,6 @@
 package com.opsu.dao;
 
+import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.User;
 import javassist.NotFoundException;
 
@@ -9,7 +10,7 @@ public interface UserDao {
 
     User findByPhoneNumberOrEmail(String numberOrEmail) throws NotFoundException;
 
-    void save(User user);
+    boolean save(User user) throws EmptyDataBaseException;
 
     Boolean existsByPhoneNumber(String number);
 

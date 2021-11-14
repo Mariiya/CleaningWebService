@@ -1,5 +1,6 @@
 package com.opsu.controllers;
 
+import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.*;
 import com.opsu.secutity.services.UserDetailsImpl;
 import com.opsu.secutity.services.UserDetailsServiceImpl;
@@ -45,32 +46,32 @@ public class AuthenticationController {
     }
 
     @PostMapping("/change-password")
-    public boolean changeUserPassword(@AuthenticationPrincipal UserDetailsImpl updater, @Valid @RequestBody User user) throws NotFoundException, IOException, MessagingException {
+    public boolean changeUserPassword(@AuthenticationPrincipal UserDetailsImpl updater, @Valid @RequestBody User user) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
         return authorizationService.changeUserPassword(updater, user);
     }
 
     @PostMapping("/auth/signup/vendor")
-    public ResponseEntity<?> createVendor(@Valid @RequestBody Vendor vendor) throws IOException, MessagingException, NotFoundException {
+    public ResponseEntity<?> createVendor(@Valid @RequestBody Vendor vendor) throws IOException, MessagingException, NotFoundException, EmptyDataBaseException {
         if (authorizationService.existsByEmail(vendor.getEmail())) {
             ResponseEntity
                     .badRequest()
                     .body("Error: Email is already taken!");
         }
         authorizationService.registerUser(vendor);
-        vendorService.create(vendor);
-        return ResponseEntity.ok("OK");
+        Boolean success = vendorService.create(vendor);
+        return ResponseEntity.ok(success);
     }
 
     @PostMapping("/auth/signup/consumer")
-    public ResponseEntity<?> createConsumer(@Valid @RequestBody Consumer consumer) throws IOException, MessagingException, NotFoundException {
+    public ResponseEntity<?> createConsumer(@Valid @RequestBody Consumer consumer) throws IOException, MessagingException, NotFoundException, EmptyDataBaseException {
         if (authorizationService.existsByEmail(consumer.getEmail())) {
             ResponseEntity
                     .badRequest()
                     .body("Error: Email is already taken!");
         }
         authorizationService.registerUser(consumer);
-        consumerService.create(consumer);
-        return ResponseEntity.ok("OK");
+        Boolean success = consumerService.create(consumer);
+        return ResponseEntity.ok(success);
     }
 
     @GetMapping("/user/{id}")

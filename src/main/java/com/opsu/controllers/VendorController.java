@@ -1,6 +1,7 @@
 package com.opsu.controllers;
 
 
+import com.opsu.exceptions.EmptyDataBaseException;
 import javassist.NotFoundException;
 import com.opsu.models.Vendor;
 import com.opsu.services.VendorService;
@@ -50,8 +51,7 @@ public class VendorController {
 
     @PostMapping("/update")
     public void updateVendor(@AuthenticationPrincipal UserDetailsImpl updater, @Valid
-    @RequestBody Vendor vendor) throws NotFoundException {
+    @RequestBody Vendor vendor) throws NotFoundException, EmptyDataBaseException {
         vendorService.update(updater,vendor);
-
     }
 }

@@ -1,5 +1,6 @@
 package com.opsu.controllers;
 
+import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.Consumer;
 
 
@@ -46,7 +47,7 @@ public class ConsumerController {
     }
 
     @PostMapping("/update")
-    public void update(@AuthenticationPrincipal UserDetailsImpl updater, @Valid @RequestBody Consumer consumer)throws NotFoundException {
+    public void update(@AuthenticationPrincipal UserDetailsImpl updater, @Valid @RequestBody Consumer consumer) throws NotFoundException, EmptyDataBaseException {
         consumerService.update(updater,consumer);
     }
 }

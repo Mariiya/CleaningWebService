@@ -1,6 +1,7 @@
 package com.opsu.dao;
 
 
+import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.Vendor;
 import javassist.NotFoundException;
 
@@ -12,7 +13,7 @@ public interface VendorDao {
 
     Vendor getVendorById(BigInteger id) throws NotFoundException;
 
-    void save(Vendor vendor);
+     boolean save(Vendor vendor) throws EmptyDataBaseException;
 
 
     String GET_VENDOR_BY_ID = "SELECT individual, firstName, lastName, vendor.userId,\n" +

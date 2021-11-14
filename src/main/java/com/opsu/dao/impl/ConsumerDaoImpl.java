@@ -2,6 +2,7 @@ package com.opsu.dao.impl;
 
 import com.opsu.dao.ConsumerDao;
 import com.opsu.dao.mapper.ConsumerMapper;
+import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.Consumer;
 
 import com.opsu.models.User;
@@ -45,11 +46,12 @@ public class ConsumerDaoImpl implements ConsumerDao {
         }
     }
 
-    public void save(Consumer consumer) {
+    public boolean save(Consumer consumer) throws EmptyDataBaseException {
         try {
             jdbcTemplate.update(CREATE_CONSUMER,consumer.getId(),consumer.getLastName(), consumer.getFirstName());
         } catch (DataAccessException e) {
-            LOG.error(e.getMessage(), e);
+            throw new EmptyDataBaseException("Error during Consumer saving");
         }
+        return true;
     }
 }

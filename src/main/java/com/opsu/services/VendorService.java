@@ -3,6 +3,7 @@ package com.opsu.services;
 import com.opsu.dao.VendorDao;
 
 
+import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.Vendor;
 import com.opsu.secutity.services.UserDetailsImpl;
 import javassist.NotFoundException;
@@ -36,7 +37,7 @@ public class VendorService {  private final VendorDao vendorDao;
     }
 
 
-        public void create(Vendor vendorRequest) throws IOException, MessagingException {
+        public  boolean create(Vendor vendorRequest) throws IOException, MessagingException, EmptyDataBaseException {
             Vendor vendor = new Vendor(vendorRequest.getId(),
                     vendorRequest.getPhoneNumber(),
                     vendorRequest.getEmail(),
@@ -45,7 +46,7 @@ public class VendorService {  private final VendorDao vendorDao;
                     vendorRequest.getFirstName(),
                     vendorRequest.getLastName(),
                     vendorRequest.getIndividual());
-            vendorDao.save(vendor);
+           return vendorDao.save(vendor);
         }
 
     public Vendor  findVendorByLastName (String lastname) throws Exception {
@@ -53,7 +54,7 @@ public class VendorService {  private final VendorDao vendorDao;
     }
 
 
-    public boolean update(UserDetailsImpl updater, Vendor vendor) throws NotFoundException {
+    public boolean update(UserDetailsImpl updater, Vendor vendor) throws NotFoundException, EmptyDataBaseException {
         if (!updater.getId().equals(vendor.getId())) {
             throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
         }
