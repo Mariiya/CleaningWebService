@@ -48,6 +48,7 @@ public class ServiceDaoImpl implements ServiceDao {
     public void updateService(Service service) {
         try {
             jdbcTemplate.update(UPDATE_SERVICE, service.getName(), service.getDescription(), service.getId());
+            jdbcTemplate.execute("commit");
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
         }

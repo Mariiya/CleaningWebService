@@ -84,8 +84,10 @@ public class AuthorizationService {
                 userRequest.getPassword(), userRequest.getRole());
         userDao.save(user);
         user = userDao.findByPhoneNumberOrEmail(user.getEmail());
-        userRequest.setId(user.getId());
-        notificationService.sendRegistrationNotification(userRequest);
+        if (user!=null) {
+            userRequest.setId(user.getId());
+            notificationService.sendRegistrationNotification(userRequest);
+        }
         return user;
     }
 

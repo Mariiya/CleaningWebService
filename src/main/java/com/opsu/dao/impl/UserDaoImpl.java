@@ -48,6 +48,7 @@ public class UserDaoImpl implements UserDao {
     public boolean save(User user) throws EmptyDataBaseException {
         try {
             jdbcTemplate.update(CREATE_USER, user.getPhoneNumber(), user.getEmail(), user.getPassword(), user.getRole().name());
+            jdbcTemplate.execute("commit");
         } catch (DataAccessException e) {
             throw new EmptyDataBaseException("Error during User saving");
         }

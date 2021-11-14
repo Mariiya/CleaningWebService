@@ -48,6 +48,7 @@ public class VendorDaoImpl implements VendorDao {
 
     public boolean save(Vendor vendor) throws EmptyDataBaseException { try {
         jdbcTemplate.update(CREATE_VENDOR,  vendor.getLastName(), vendor.getFirstName(), vendor.getIndividual(),vendor.getId());
+        jdbcTemplate.execute("commit");
     } catch (DataAccessException e) {
          throw new EmptyDataBaseException("Error during Vendor saving");
     }

@@ -106,7 +106,9 @@ public class OrderDaoImpl implements OrderDao {
             java.sql.Date startDate = new java.sql.Date(order.getStartDate().getTime());
             java.sql.Date endDate = new java.sql.Date(order.getEndDate().getTime());
             BigInteger id = BigInteger.ZERO;
-            return jdbcTemplate.update(SAVE_NEW_ORDER, order.getTitle(), order.getDescription(), order.getStatus().name(), order.getConsumer().getId(), order.getVendor().getId(), startDate, endDate, order.getPrice(), order.getAddress()) != 0;
+           boolean result =  jdbcTemplate.update(SAVE_NEW_ORDER, order.getTitle(), order.getDescription(), order.getStatus().name(), order.getConsumer().getId(), order.getVendor().getId(), startDate, endDate, order.getPrice(), order.getAddress()) != 0;
+            jdbcTemplate.execute("commit");
+            return result;
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             return false;
