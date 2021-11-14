@@ -29,6 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             user = userRepository.findByPhoneNumberOrEmail(email);
         } catch (NotFoundException e) {
             log.error(e.getMessage(), e);
+            throw new UsernameNotFoundException("User Not Found with email: " + email);
         }
         if (user == null) {
             AuthenticationException e = new UsernameNotFoundException("User Not Found with email: " + email);
@@ -43,8 +44,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         try {
             return userRepository.getUserById(userId);
         } catch (NotFoundException e) {
-            log.error(e.getMessage(), e);
+            throw new UsernameNotFoundException("User Not Found");
         }
-        return null;
     }
 }
