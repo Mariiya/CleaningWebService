@@ -7,6 +7,8 @@ import com.opsu.models.enumeration.Role;
 import com.opsu.secutity.jwt.JwtUtils;
 import com.opsu.secutity.services.UserDetailsImpl;
 import javassist.NotFoundException;
+import net.bytebuddy.utility.RandomString;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.PermissionDeniedDataAccessException;
@@ -38,7 +40,7 @@ public class AuthorizationService {
     }
 
     public JwtResponse authenticateUser(LoginRequest loginRequest) throws NotFoundException {
-        if(!userDao.existsByEmail(loginRequest.getEmail())){
+        if (!userDao.existsByEmail(loginRequest.getEmail())) {
             throw new NotFoundException("User with such email is not registered in the system");
         }
         Authentication authentication;
@@ -66,6 +68,18 @@ public class AuthorizationService {
                 role));
     }
 
+
+    public boolean newPasswordAfterReset(String email) throws NotFoundException, EmptyDataBaseException {
+        User user = userDao.findByEmail(email);
+        if (user == null) {
+            throw new NotFoundException("User with this email is not registered in the system");
+        }
+        String newPassword = RandomString.make(10);
+        String newPasswordEncoded = DigestUtils.sha256Hex(newPassword);
+        user.setPassword(newPasswordEncoded);
+        userDao.update(user);
+       return notificationService.newPasswordNotification(user,newPassword);
+    }
     public boolean changeUserPassword(UserDetailsImpl updater, User user) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
         if (!updater.getId().equals(user.getId())) {
             throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
@@ -73,8 +87,15 @@ public class AuthorizationService {
         User userFromDB = userDao.getUserById(updater.getId());
         userFromDB.setPassword(user.getPassword());
         userDao.update(userFromDB);
-        notificationService.changePasswordNotification(user);
         return true;
+    }
+
+    public String resetPassword(String email) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
+        User user = userDao.findByEmail(email);
+        if (user == null) {
+            throw new NotFoundException("User with this email is not registered in the system");
+        }
+         return notificationService.changePasswordNotification(user);
     }
 
     public Boolean existsByEmail(String email) {

@@ -3,6 +3,7 @@ package com.opsu.services;
 import com.opsu.models.NotificationBuildInfo;
 import com.opsu.models.Order;
 import com.opsu.models.User;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class NotificationService {
         );
 
         changePasswordNotification = new NotificationBuildInfo(
-                "Your password has changed.",
+                "Code for password reset",
                 "For more info follow go to your account in Sky-clean service."
         );
     }
@@ -83,8 +84,17 @@ public class NotificationService {
                 "Very nice to meet you in our service! Have a great cooperation!");
     }
 
-    public synchronized void changePasswordNotification(User user) {
+    public synchronized String changePasswordNotification(User user) {
+        String code = RandomString.make(10);
+        System.out.println(code);
         mailService.sendMessage(user.getEmail(), changePasswordNotification.getTitle(),
-                changePasswordNotification.getBody());
+                "Code:" + code + '\n' + changePasswordNotification.getBody());
+        return code;
+    }
+
+    public synchronized boolean newPasswordNotification(User user, String newPassword) {
+        mailService.sendMessage(user.getEmail(), "New password for Sky-Clean service",
+                "Your new credentials: "+ '\n' + "Login: "+ user.getEmail()+'\n'+"Password: "+newPassword);
+        return true;
     }
 }
