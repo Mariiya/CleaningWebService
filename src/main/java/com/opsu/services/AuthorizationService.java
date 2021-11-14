@@ -90,11 +90,12 @@ public class AuthorizationService {
         return true;
     }
 
-    public String resetPassword(String email) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
+    public PasswordCode resetPassword(String email) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
         User user = userDao.findByEmail(email);
         if (user == null) {
             throw new NotFoundException("User with this email is not registered in the system");
         }
+
          return notificationService.changePasswordNotification(user);
     }
 

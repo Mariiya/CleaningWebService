@@ -2,6 +2,7 @@ package com.opsu.services;
 
 import com.opsu.models.NotificationBuildInfo;
 import com.opsu.models.Order;
+import com.opsu.models.PasswordCode;
 import com.opsu.models.User;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,8 +85,9 @@ public class NotificationService {
                 "Very nice to meet you in our service! Have a great cooperation!");
     }
 
-    public synchronized String changePasswordNotification(User user) {
-        String code = RandomString.make(10);
+    public synchronized PasswordCode changePasswordNotification(User user) {
+       PasswordCode code = new PasswordCode();
+       code.code = RandomString.make(10);
         System.out.println(code);
         mailService.sendMessage(user.getEmail(), changePasswordNotification.getTitle(),
                 "Code:" + code + '\n' + changePasswordNotification.getBody());

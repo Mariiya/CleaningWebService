@@ -53,8 +53,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/auth/reset-password")
-    public JSONObject changeUserPassword(@RequestParam String email) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException, JSONException {
-        return new JSONObject().put("code",authorizationService.resetPassword(email));
+    public ResponseEntity<PasswordCode> changeUserPassword(@RequestParam String email) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
+        return ResponseEntity.ok(authorizationService.resetPassword(email));
     }
 
     @PostMapping("/auth/new-password")
