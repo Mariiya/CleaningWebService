@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -91,8 +92,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntityBuilder.build(err);
     }
 
-    @ExceptionHandler({NotFoundException.class,EmptyDataBaseException.class, UsernameNotFoundException.class})
-    protected ResponseEntity<ApiError> handleDaoAccessException(Exception ex, HttpHeaders headers,
+    @ExceptionHandler({NotFoundException.class,EmptyDataBaseException.class})
+    protected ResponseEntity<ApiError> handleDaoAccessException(EmptyDataBaseException ex, HttpHeaders headers,
                                                                 HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
 
@@ -100,11 +101,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 errors,BigInteger.valueOf(401L)), headers, status, request);
     }
 
+    @ExceptionHandler({UsernameNotFoundException.class})
+    protected ResponseEntity<ApiError> handleDaoAccessException(UsernameNotFoundException ex, HttpHeaders headers,
+                                                                HttpStatus status, WebRequest request) {
+        List<String> errors = Collections.singletonList(ex.getMessage());
 
-    protected ResponseEntity<ApiError> handleAuthAccessException(AuthenticationServiceException ex, HttpHeaders headers,
+        return handleExceptionInternal(ex, new ApiError(LocalDateTime.now(), status, "DAO ACCESS EXCEPTION: " + ex.getMessage(),
+                errors,BigInteger.valueOf(401L)), headers, status, request);
+    }
+
+    @ExceptionHandler({BadCredentialsException.class})
+    protected ResponseEntity<ApiError> handleAuthAccessException(BadCredentialsException ex, HttpHeaders headers,
                                                                  HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
-        return handleExceptionInternal(ex, new ApiError(LocalDateTime.now(), status, "PASSWORD IS WRONG", errors,BigInteger.valueOf(401L)), headers, status, request);
+        return handleExceptionInternal(ex, new ApiError(LocalDateTime.now(), status, "Bad Credentials", errors,BigInteger.valueOf(401L)), headers, status, request);
     }
 
 

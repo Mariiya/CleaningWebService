@@ -12,9 +12,9 @@ public interface VendorDao {
     Vendor findVendorByLastName(String lastName) throws NotFoundException;
 
     Vendor getVendorById(BigInteger id) throws NotFoundException;
-
      boolean save(Vendor vendor) throws EmptyDataBaseException;
 
+     boolean update(Vendor vendor) throws EmptyDataBaseException;
 
     String GET_VENDOR_BY_ID = "SELECT individual, firstName, lastName, vendor.userId,\n" +
             "     users.email, users.password, users.phoneNumber, users.role\n" +
@@ -30,24 +30,7 @@ public interface VendorDao {
 
     //Используем merge вместо insert чтобы избежать дубликатов в базе и ошибок при добавленнии еще одного пользвоателя
 // безопасно и надежно
-    String CREATE_VENDOR = "MERGE INTO VENDOR old\n" +
-            "                   USING (select ?            lastName,\n" +
-            "                                 ?            firstName,\n" +
-            "                                 ?            individual,\n" +
-            "                                 ?            userId\n" +
-            "                          FROM DUAL) new\n" +
-            "                   ON (old.userId = new.userId)\n" +
-            "                   WHEN MATCHED THEN\n" +
-            "                       UPDATE\n" +
-            "                       SET old.lastName = new.lastName,\n" +
-            "                           old.firstName= new.firstName,\n" +
-            "                           old.individual     = new.individual\n" +
-            "                       WHERE old.lastName <> new.lastName\n" +
-            "                         OR  old.individual       <> new.individual\n" +
-            "                        OR old.firstName <> new.firstName\n" +
-            "                         OR  old.userId <> new.userId\n" +
-            "                   WHEN NOT MATCHED THEN\n" +
-            "                       INSERT (old.lastName, old.individual, old.firstName, old.userId)\n" +
-            "                       VALUES (new.lastName, new.individual, new.firstName, new.userId)";
+    String CREATE_VENDOR = "INSERT INTO VENDOR  VALUES (?, ?, ?, ?)";
+    String UPDATE_VENDOR = "UPDATE VENDOR SET firstName = ?, lastName = ? where userid = ?";
 
 }

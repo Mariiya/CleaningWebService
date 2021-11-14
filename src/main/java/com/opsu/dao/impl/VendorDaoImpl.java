@@ -26,10 +26,10 @@ public class VendorDaoImpl implements VendorDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Vendor findVendorByLastName(String lastName) throws NotFoundException{
-        try{
-            return jdbcTemplate.queryForObject(GET_VENDOR_BY_LAST_NAME, new VendorMapper(),lastName, lastName);
-        }catch (DataAccessException e) {
+    public Vendor findVendorByLastName(String lastName) throws NotFoundException {
+        try {
+            return jdbcTemplate.queryForObject(GET_VENDOR_BY_LAST_NAME, new VendorMapper(), lastName, lastName);
+        } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Vendor not found");
         }
@@ -46,13 +46,24 @@ public class VendorDaoImpl implements VendorDao {
 
     }
 
-    public boolean save(Vendor vendor) throws EmptyDataBaseException { try {
-        jdbcTemplate.update(CREATE_VENDOR,  vendor.getLastName(), vendor.getFirstName(), vendor.getIndividual(),vendor.getId());
-        jdbcTemplate.update("commit");
-    } catch (DataAccessException e) {
-         throw new EmptyDataBaseException("Error during Vendor saving");
+    public boolean update(Vendor vendor) throws EmptyDataBaseException {
+        try {
+            jdbcTemplate.update(UPDATE_VENDOR, vendor.getFirstName(), vendor.getLastName(), vendor.getId());
+            jdbcTemplate.update("commit");
+        } catch (DataAccessException e) {
+            throw new EmptyDataBaseException("Error during Vendor saving");
+        }
+        return true;
     }
-      return true;
+
+    public boolean save(Vendor vendor) throws EmptyDataBaseException {
+        try {
+            jdbcTemplate.update(CREATE_VENDOR, vendor.getFirstName(), vendor.getLastName(), vendor.getIndividual(), vendor.getId());
+            jdbcTemplate.update("commit");
+        } catch (DataAccessException e) {
+            throw new EmptyDataBaseException("Error during Vendor saving");
+        }
+        return true;
     }
 
 }

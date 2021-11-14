@@ -51,10 +51,10 @@ end;
 --
 CREATE TABLE "USERS" (
                          userId int NOT NULL,
-                         email varchar(255) DEFAULT NULL,
-                         password varchar(255) DEFAULT NULL,
-                         phoneNumber varchar(45) DEFAULT NULL,
-                         role varchar(255) DEFAULT NULL,
+                         email varchar2(255) DEFAULT NULL,
+                         password varchar2(255) DEFAULT NULL,
+                         phoneNumber varchar2(45) DEFAULT NULL,
+                         role varchar2(255) DEFAULT NULL,
                          PRIMARY KEY (userId)
 ) ;
 
@@ -96,8 +96,8 @@ CREATE TABLE orders (
 --
 CREATE TABLE service (
                          serviceId int NOT NULL,
-                         name varchar(255) DEFAULT NULL,
-                         description varchar(255) DEFAULT NULL,
+                         name varchar2(255) DEFAULT NULL,
+                         description varchar2(255) DEFAULT NULL,
                          isCustom INT DEFAULT '1',
                          PRIMARY KEY (serviceId)
 );

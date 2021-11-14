@@ -53,8 +53,8 @@ private final AuthorizationService authorizationService;
         Consumer consumerfromDB = consumerDao.getConsumerById(updater.getId());
         consumerfromDB.setLastName(consumer.getLastName());
         consumerfromDB.setFirstName(consumer.getFirstName());
-        authorizationService.updateUser(updater,consumerfromDB);
-        consumerDao.save(consumerfromDB);
+        authorizationService.updateUser(updater,consumer);
+        consumerDao.update(consumerfromDB);
         return true;
     }
 

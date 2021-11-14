@@ -66,7 +66,7 @@ public class AuthorizationService {
         }
         User userFromDB = userDao.getUserById(updater.getId());
         userFromDB.setPassword(user.getPassword());
-        userDao.save(userFromDB);
+        userDao.update(userFromDB);
         notificationService.changePasswordNotification(user);
         return true;
     }
@@ -83,11 +83,14 @@ public class AuthorizationService {
                 userRequest.getEmail(),
                 userRequest.getPassword(), userRequest.getRole());
         userDao.save(user);
-        user = userDao.findByPhoneNumberOrEmail(user.getEmail());
+        System.out.println(" serDao.findByPhoneNumberOrEmail(user.getEmail()); " + user.getEmail());
+        user = userDao.findByEmail(user.getEmail());
         if (user!=null) {
+            System.out.println("MAKO userid "+ user.getId());
             userRequest.setId(user.getId());
             notificationService.sendRegistrationNotification(userRequest);
         }
+        System.out.println("MAKO user "+ user);
         return user;
     }
 
@@ -98,7 +101,7 @@ public class AuthorizationService {
         User userFromDB = userDao.getUserById(updater.getId());
         userFromDB.setPhoneNumber(user.getPhoneNumber());
         userFromDB.setEmail(user.getEmail());
-        userDao.save(userFromDB);
+        userDao.update(userFromDB);
         return true;
     }
 

@@ -46,9 +46,19 @@ public class ConsumerDaoImpl implements ConsumerDao {
         }
     }
 
+    public boolean update(Consumer consumer) throws EmptyDataBaseException {
+        try {
+            jdbcTemplate.update(UPDATE_CONSUMER,consumer.getFirstName(),consumer.getLastName(), consumer.getId());
+            jdbcTemplate.update("commit");
+        } catch (DataAccessException e) {
+            throw new EmptyDataBaseException("Error during Consumer saving");
+        }
+        return true;
+    }
+
     public boolean save(Consumer consumer) throws EmptyDataBaseException {
         try {
-            jdbcTemplate.update(CREATE_CONSUMER,consumer.getId(),consumer.getLastName(), consumer.getFirstName());
+            jdbcTemplate.update(CREATE_CONSUMER,consumer.getFirstName(),consumer.getLastName(),consumer.getId());
             jdbcTemplate.update("commit");
         } catch (DataAccessException e) {
             throw new EmptyDataBaseException("Error during Consumer saving");

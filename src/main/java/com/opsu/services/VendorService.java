@@ -16,41 +16,39 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 @Service
-public class VendorService {  private final VendorDao vendorDao;
-    private final AuthorizationService authorizationService ;
+public class VendorService {
+    private final VendorDao vendorDao;
+    private final AuthorizationService authorizationService;
     private NotificationService notificationService;
 
     @Autowired
-    public VendorService (VendorDao vendorDao,AuthorizationService authorizationService,NotificationService notificationService) {
+    public VendorService(VendorDao vendorDao, AuthorizationService authorizationService, NotificationService notificationService) {
         this.vendorDao = vendorDao;
         this.authorizationService = authorizationService;
-        this.notificationService=notificationService;
+        this.notificationService = notificationService;
     }
 
     public Vendor getVendorById(BigInteger id) throws NotFoundException {
-        if ((id==null)||(id.equals(BigInteger.ZERO))){
+        if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new NumberFormatException("Wrong id input");
         }
         return vendorDao.getVendorById(id);
-
-
     }
 
+    public boolean create(Vendor vendorRequest) throws IOException, MessagingException, EmptyDataBaseException {
+        Vendor vendor = new Vendor(vendorRequest.getId(),
+                vendorRequest.getPhoneNumber(),
+                vendorRequest.getEmail(),
+                vendorRequest.getPassword(),
+                vendorRequest.getRole(),
+                vendorRequest.getFirstName(),
+                vendorRequest.getLastName(),
+                vendorRequest.getIndividual());
+        return vendorDao.save(vendor);
+    }
 
-        public  boolean create(Vendor vendorRequest) throws IOException, MessagingException, EmptyDataBaseException {
-            Vendor vendor = new Vendor(vendorRequest.getId(),
-                    vendorRequest.getPhoneNumber(),
-                    vendorRequest.getEmail(),
-                    vendorRequest.getPassword(),
-                    vendorRequest.getRole(),
-                    vendorRequest.getFirstName(),
-                    vendorRequest.getLastName(),
-                    vendorRequest.getIndividual());
-           return vendorDao.save(vendor);
-        }
-
-    public Vendor  findVendorByLastName (String lastname) throws Exception {
-        return vendorDao.findVendorByLastName (lastname);
+    public Vendor findVendorByLastName(String lastname) throws Exception {
+        return vendorDao.findVendorByLastName(lastname);
     }
 
 
@@ -61,8 +59,8 @@ public class VendorService {  private final VendorDao vendorDao;
         Vendor vendorfromDB = vendorDao.getVendorById(updater.getId());
         vendorfromDB.setLastName(vendor.getLastName());
         vendorfromDB.setFirstName(vendor.getFirstName());
-        authorizationService.updateUser(updater,vendorfromDB);
-        vendorDao.save(vendorfromDB);
+        authorizationService.updateUser(updater, vendor);
+        vendorDao.update(vendorfromDB);
         return true;
     }
 

@@ -32,12 +32,13 @@ public class UserDaoImpl implements UserDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public User findByPhoneNumberOrEmail(String phoneNumberOrEmail) throws NotFoundException {
+    public User findByEmail(String email) throws NotFoundException {
         try {
-            List<User> list =  jdbcTemplate.query(GET_USER_BY_PHONE_NUMBER_OR_EMAIL, new UserMapper(), phoneNumberOrEmail, phoneNumberOrEmail);
+            List<User> list =  jdbcTemplate.query(GET_USER_BY_EMAIL, new UserMapper(), email);
             if(!list.isEmpty()){
                 return list.get(0);
             }
+            System.out.println(list);
             return null;
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
@@ -47,7 +48,18 @@ public class UserDaoImpl implements UserDao {
 
     public boolean save(User user) throws EmptyDataBaseException {
         try {
-            jdbcTemplate.update(CREATE_USER, user.getPhoneNumber(), user.getEmail(), user.getPassword(), user.getRole().name());
+            System.out.println( user.getPhoneNumber() +" "+ user.getEmail() +" "+ user.getPassword() +" " + user.getRole().name());
+            jdbcTemplate.update(CREATE_USER, user.getEmail(), user.getPassword(),user.getPhoneNumber(), user.getRole().name());
+            jdbcTemplate.update("commit");
+        } catch (DataAccessException e) {
+            throw new EmptyDataBaseException(e.getMessage(),e);
+        }
+        return true;
+    }
+
+    public boolean update(User user) throws EmptyDataBaseException {
+        try {
+            jdbcTemplate.update(UPDATE_USER,  user.getEmail(),user.getPhoneNumber(), user.getPassword(),user.getId());
             jdbcTemplate.update("commit");
         } catch (DataAccessException e) {
             throw new EmptyDataBaseException("Error during User saving");
