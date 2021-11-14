@@ -31,8 +31,6 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> details = new ArrayList<String>();
@@ -40,7 +38,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .getFieldErrors()
                 .stream()
 
-                .map(error ->error.getField() + " : " + error.getDefaultMessage())
+                .map(error -> error.getField() + " : " + error.getDefaultMessage())
                 .collect(Collectors.toList());
 
         ApiError err = new ApiError(LocalDateTime.now(),
@@ -58,19 +56,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError err = new ApiError(LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST,
                 "Validation Errors",
-                Collections.singletonList("Not Readable Format"),BigInteger.valueOf(15L));
+                Collections.singletonList("Not Readable Format"), BigInteger.valueOf(15L));
         return ResponseEntityBuilder.build(err);
     }
 
     @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException exception) {
 
-            List<String> details = exception.getConstraintViolations().stream().map(error -> error.getMessageTemplate()).collect(Collectors.toList());
-            ApiError err = new ApiError(LocalDateTime.now(),
-                    HttpStatus.BAD_REQUEST,
-                    "Validation Errors",
-                    details,BigInteger.valueOf(101L));
-            return ResponseEntityBuilder.build(err);
+        List<String> details = exception.getConstraintViolations().stream().map(error -> error.getMessageTemplate()).collect(Collectors.toList());
+        ApiError err = new ApiError(LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST,
+                "Validation Errors",
+                details, BigInteger.valueOf(101L));
+        return ResponseEntityBuilder.build(err);
 
     }
 
@@ -79,7 +77,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError err = new ApiError(LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST,
                 "Validation Errors",
-                Collections.singletonList("Sorry, You can not access this data"),BigInteger.valueOf(101L));
+                Collections.singletonList("Sorry, You can not access this data"), BigInteger.valueOf(101L));
         return ResponseEntityBuilder.build(err);
     }
 
@@ -88,43 +86,53 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError err = new ApiError(LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST,
                 "Validation Errors",
-                Collections.singletonList(exception.getMessage()),BigInteger.valueOf(101L));
+                Collections.singletonList(exception.getMessage()), BigInteger.valueOf(101L));
         return ResponseEntityBuilder.build(err);
     }
 
-    @ExceptionHandler({NotFoundException.class,EmptyDataBaseException.class})
-    protected ResponseEntity<ApiError> handleDaoAccessException(EmptyDataBaseException ex, HttpHeaders headers,
-                                                                HttpStatus status, WebRequest request) {
+    @ExceptionHandler({BadCredentialsException.class})
+    public ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException exception) {
+        ApiError err = new ApiError(LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST,
+                "Incorrect Password",
+                Collections.singletonList(exception.getMessage()), BigInteger.valueOf(403L));
+        return ResponseEntityBuilder.build(err);
+    }
+
+
+    @ExceptionHandler({NotFoundException.class})
+    public ResponseEntity<Object> handleDaoAccessException(NotFoundException exception){
+        ApiError err = new ApiError(LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST,
+                "Bad Credentials",
+                Collections.singletonList(exception.getMessage()), BigInteger.valueOf(403L));
+        return ResponseEntityBuilder.build(err);
+    }
+
+    @ExceptionHandler({EmptyDataBaseException.class})
+    public ResponseEntity<ApiError> handleDaoAccessException(EmptyDataBaseException ex, HttpHeaders headers,
+                                                             HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
 
         return handleExceptionInternal(ex, new ApiError(LocalDateTime.now(), status, "DAO ACCESS EXCEPTION: " + ex.getMessage(),
-                errors,BigInteger.valueOf(401L)), headers, status, request);
+                errors, BigInteger.valueOf(401L)), headers, status, request);
     }
 
     @ExceptionHandler({UsernameNotFoundException.class})
-    protected ResponseEntity<ApiError> handleDaoAccessException(UsernameNotFoundException ex, HttpHeaders headers,
-                                                                HttpStatus status, WebRequest request) {
+    public ResponseEntity<ApiError> handleDaoAccessException(UsernameNotFoundException ex, HttpHeaders headers,
+                                                             HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
 
         return handleExceptionInternal(ex, new ApiError(LocalDateTime.now(), status, "DAO ACCESS EXCEPTION: " + ex.getMessage(),
-                errors,BigInteger.valueOf(401L)), headers, status, request);
+                errors, BigInteger.valueOf(401L)), headers, status, request);
     }
-
-    @ExceptionHandler({BadCredentialsException.class})
-    protected ResponseEntity<ApiError> handleAuthAccessException(BadCredentialsException ex, HttpHeaders headers,
-                                                                 HttpStatus status, WebRequest request) {
-        List<String> errors = Collections.singletonList(ex.getMessage());
-        return handleExceptionInternal(ex, new ApiError(LocalDateTime.now(), status, "Bad Credentials", errors,BigInteger.valueOf(401L)), headers, status, request);
-    }
-
 
     @ExceptionHandler({NullPointerException.class})
     protected ResponseEntity<ApiError> handleNullPointerException(NullPointerException ex, HttpHeaders headers,
                                                                   HttpStatus status, WebRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
-        return handleExceptionInternal(ex, new ApiError(LocalDateTime.now(), status, "NULL POINTER", errors,BigInteger.valueOf(501L)), headers, status, request);
+        return handleExceptionInternal(ex, new ApiError(LocalDateTime.now(), status, "NULL POINTER", errors, BigInteger.valueOf(501L)), headers, status, request);
     }
-
 
 
     protected ResponseEntity<ApiError> handleExceptionInternal(Exception ex, ApiError body, HttpHeaders headers,
@@ -134,7 +142,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         }
         return new ResponseEntity<>(body, headers, status);
     }
-
 
 
     @ExceptionHandler({JsonProcessingException.class})

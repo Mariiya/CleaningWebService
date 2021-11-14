@@ -38,7 +38,6 @@ public class UserDaoImpl implements UserDao {
             if(!list.isEmpty()){
                 return list.get(0);
             }
-            System.out.println(list);
             return null;
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
@@ -48,7 +47,6 @@ public class UserDaoImpl implements UserDao {
 
     public boolean save(User user) throws EmptyDataBaseException {
         try {
-            System.out.println( user.getPhoneNumber() +" "+ user.getEmail() +" "+ user.getPassword() +" " + user.getRole().name());
             jdbcTemplate.update(CREATE_USER, user.getEmail(), user.getPassword(),user.getPhoneNumber(), user.getRole().name());
             jdbcTemplate.update("commit");
         } catch (DataAccessException e) {

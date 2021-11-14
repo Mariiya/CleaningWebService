@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,8 +37,13 @@ public class AuthorizationService {
         this.notificationService = notificationService;
     }
 
-    public JwtResponse authenticateUser(LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
+    public JwtResponse authenticateUser(LoginRequest loginRequest) throws NotFoundException {
+        if(!userDao.existsByEmail(loginRequest.getEmail())){
+            throw new NotFoundException("User with such email is not registered in the system");
+        }
+        Authentication authentication;
+
+        authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -76,21 +82,18 @@ public class AuthorizationService {
     }
 
     public User registerUser(User userRequest) throws IOException, MessagingException, NotFoundException, EmptyDataBaseException {
-       if(existsByEmail(userRequest.getEmail())) {
-           throw new IllegalArgumentException("User with this email already exists");
-       }
+        if (existsByEmail(userRequest.getEmail())) {
+            throw new IllegalArgumentException("User with this email already exists");
+        }
         User user = new User(BigInteger.ONE, userRequest.getPhoneNumber(),
                 userRequest.getEmail(),
                 userRequest.getPassword(), userRequest.getRole());
         userDao.save(user);
-        System.out.println(" serDao.findByPhoneNumberOrEmail(user.getEmail()); " + user.getEmail());
         user = userDao.findByEmail(user.getEmail());
-        if (user!=null) {
-            System.out.println("MAKO userid "+ user.getId());
+        if (user != null) {
             userRequest.setId(user.getId());
             notificationService.sendRegistrationNotification(userRequest);
         }
-        System.out.println("MAKO user "+ user);
         return user;
     }
 

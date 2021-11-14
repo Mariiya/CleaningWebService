@@ -40,8 +40,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/auth/signin")
-    public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        log.debug("/signin " + loginRequest);
+    public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) throws NotFoundException {
         return ResponseEntity.ok(authorizationService.authenticateUser(loginRequest));
     }
 
