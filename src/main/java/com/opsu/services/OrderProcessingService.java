@@ -1,6 +1,7 @@
 package com.opsu.services;
 
 import com.opsu.dao.*;
+import com.opsu.dao.impl.OrderDaoImpl;
 import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.*;
 import com.opsu.models.enumeration.Status;
@@ -39,8 +40,6 @@ public class OrderProcessingService {
             throw new Exception("Order Title is empty");
         } else if(order.getPrice() <= 0){
             throw new Exception("Order Price cannot be zero or less");
-        } else if(order.getConsumer() == null){
-            throw new Exception("Order without a Consumer");
         } else if(order.getAddress().isEmpty()){
             throw new Exception("Order Address is empty");
         } else if(order.getStatus() == null){
@@ -50,9 +49,17 @@ public class OrderProcessingService {
         } else if(order.getServices().size() == 0){
             throw new Exception("Order hasn't any service");
         }
+
+        Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
+        Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+
+        order.setConsumer(consumer);
+        order.setVendor(vendor);
+
         if(!orderDao.createOrder(order)){
             throw new Exception("Order create exception");
         }
+        order = orderDao.getOrderId(order);
         for(Service service : order.getServices()){
             serviceCollectionDao.createServiceCollection(new ServiceCollection(BigInteger.ZERO, order, service));
         }

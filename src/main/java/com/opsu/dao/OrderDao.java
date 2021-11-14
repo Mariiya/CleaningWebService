@@ -31,6 +31,8 @@ public interface OrderDao {
 
     boolean deleteOrder(BigInteger id);
 
+    Order getOrderId(Order order) throws NotFoundException;
+
     String GET_ORDER_BY_ID = "SELECT\n" +
             "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
             "FROM orders\n" +
@@ -57,7 +59,7 @@ public interface OrderDao {
             "   OR vendorId = ?";
     String GET_ORDERS_BY_SERVICE = " ?";
     String SAVE_NEW_ORDER = "MERGE INTO ORDERS old\n" +
-            "                USING (SELECT  seq_next()  ORDERID,\n" +
+            "                USING (SELECT  seq_next()  orderId,\n" +
             "                              ?            title,\n" +
             "                              ?            description,\n" +
             "                              ?            status,\n" +
@@ -68,7 +70,7 @@ public interface OrderDao {
             "                              ?            price,\n" +
             "                              ?            address\n" +
             "                       FROM DUAL) new\n" +
-            "                ON (old.ORDERID = new.ORDERID)\n" +
+            "                ON (old.orderId = new.orderId)\n" +
             "                WHEN MATCHED THEN\n" +
             "                    UPDATE\n" +
             "                    SET old.title = new.title,\n" +
@@ -90,7 +92,7 @@ public interface OrderDao {
             "                      OR  old.price     <> new.price\n" +
             "                      OR  old.address     <> new.address\n" +
             "                WHEN NOT MATCHED THEN\n" +
-            "                    INSERT (old.ORDERID, old.title, old.description, old.status, old.consumer, old.vendor, old.startDate, old.endDate, old.price, old.address)\n" +
+            "                    INSERT (old.orderId, old.title, old.description, old.status, old.consumerId, old.vendorId, old.startDate, old.endDate, old.price, old.address)\n" +
             "                    VALUES (SEQ_CURR(), new.title, new.description, new.status, new.consumerId, new.vendorId, new.startDate, new.endDate, new.price, new.address)";
     String UPDATE_ORDER = "UPDATE orders SET\n" +
                 "title = ? ,\n" +
@@ -98,10 +100,23 @@ public interface OrderDao {
                 "status = ? ,\n" +
                 "consumerId = ? ,\n" +
                 "vendorId = ? ,\n" +
-                "startDate = ? ,\n" +
-                "endDate = ? ,\n" +
+                "startDate = DATE ? ,\n" +
+                "endDate = DATE ? ,\n" +
                 "price = ? ,\n" +
                 "address = ? \n" +
             "WHERE orderId = ?";
     String DELETE_ORDER = "DELETE FROM orders WHERE orderID = ?";
+    String GET_ID_OF_ORDER = "SELECT" +
+            "orderId, title, status, consumerId, vendorId, startDate, endDate, price, address" +
+            "WHERE" +
+            "title = ?" +
+            "status = ?" +
+            "consumerId = ?" +
+            "vendorId = ?" +
+            "startDate = ?" +
+            "endDate = ?" +
+            "price = ?" +
+            "address = ?" +
+            "ORDER BY orderID desc" +
+            "LIMIT 1";
 }

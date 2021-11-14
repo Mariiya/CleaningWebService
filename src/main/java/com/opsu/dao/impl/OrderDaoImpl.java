@@ -83,7 +83,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Collection<Order> getOrders(Status status) throws NotFoundException {
         try {
-            return jdbcTemplate.query(GET_ORDERS_BY_STATUS, new OrderMapper(), status);
+            return jdbcTemplate.query(GET_ORDERS_BY_STATUS, new OrderMapper(), status.name());
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Orders not found");
@@ -103,7 +103,10 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean createOrder(Order order) {
         try {
-            return jdbcTemplate.update(SAVE_NEW_ORDER, order.getTitle(), order.getDescription(), order.getStatus(), order.getConsumer().getId(), order.getVendor().getId(), order.getStartDate(), order.getEndDate(), order.getPrice(), order.getAddress()) != 0;
+            java.sql.Date startDate = new java.sql.Date(order.getStartDate().getTime());
+            java.sql.Date endDate = new java.sql.Date(order.getEndDate().getTime());
+            BigInteger id = BigInteger.ZERO;
+            return jdbcTemplate.update(SAVE_NEW_ORDER, order.getTitle(), order.getDescription(), order.getStatus().name(), order.getConsumer().getId(), order.getVendor().getId(), startDate, endDate, order.getPrice(), order.getAddress()) != 0;
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             return false;
@@ -113,7 +116,9 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean updateOrder(Order order) {
         try {
-            return jdbcTemplate.update(UPDATE_ORDER, order.getTitle(), order.getDescription(), order.getStatus(), order.getConsumer().getId(), order.getVendor().getId(), order.getStartDate(), order.getEndDate(), order.getPrice(), order.getAddress(), order.getId()) != 0;
+            java.sql.Date startDate = new java.sql.Date(order.getStartDate().getTime());
+            java.sql.Date endDate = new java.sql.Date(order.getEndDate().getTime());
+            return jdbcTemplate.update(UPDATE_ORDER, order.getTitle(), order.getDescription(), order.getStatus().name(), order.getConsumer().getId(), order.getVendor().getId(), startDate, endDate, order.getPrice(), order.getAddress(), order.getId()) != 0;
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             return false;
@@ -127,6 +132,18 @@ public class OrderDaoImpl implements OrderDao {
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             return false;
+        }
+    }
+
+    @Override
+    public Order getOrderId(Order order) throws NotFoundException {
+        try {
+            java.sql.Date startDate = new java.sql.Date(order.getStartDate().getTime());
+            java.sql.Date endDate = new java.sql.Date(order.getEndDate().getTime());
+            return jdbcTemplate.queryForObject(GET_ID_OF_ORDER, new OrderMapper(), order.getTitle(), order.getStatus(), order.getConsumer().getId(), order.getVendor().getId(), startDate, endDate, order.getPrice(), order.getAddress());
+        } catch (DataAccessException e) {
+            LOG.error(e.getMessage(), e);
+            throw new NotFoundException("Orders not found");
         }
     }
 }
