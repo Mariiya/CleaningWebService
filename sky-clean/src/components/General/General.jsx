@@ -29,7 +29,7 @@ function General() {
             <div className="general__data-btn-container">
               What should I do?
               <Link
-                to="/orders"
+                to="/create-order"
                 className="general__data-btn">
                 Search Specialist
               </Link>
