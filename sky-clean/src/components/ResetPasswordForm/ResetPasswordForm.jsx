@@ -4,14 +4,13 @@ import React from 'react';
 import './ResetPasswordForm.scss';
 import FormInput from "../../UI/FormInput/FormInput";
 
-function ResetPasswordForm() {
+function ResetPasswordForm({values, errors, formik, handleChange}) {
   return (
-    <form className="resetPasswordForm">
+    <form className="resetPasswordForm" onSubmit={formik.handleSubmit}>
       <div className="resetPasswordForm__header">
         <h3>Forgot your password?</h3>
         <p>
-          If you continue, SkyClean will send a message to the E-Mail address in your profile.
-          Click the link in the message, and enter a new password on the page that opens.
+          If you continue, SkyClean will send a message to the email address in your profile.
         </p>
       </div>
 
@@ -20,7 +19,7 @@ function ResetPasswordForm() {
           <div className="resetPasswordForm__field">
             <p>E-mail</p>
             <div className="resetPasswordForm__input">
-              <FormInput type="mail"/>
+              <FormInput name="email" value={values.email} onChange={handleChange} errors={errors.email}/>
             </div>
           </div>
         </div>

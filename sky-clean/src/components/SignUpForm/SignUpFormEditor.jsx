@@ -56,8 +56,8 @@ const SignUpFormEditor = () => {
       .required('Required'),
   })
   const form = useFormik({
-    initialValues: initialValues,
-    validationSchema: validationSchema,
+    initialValues,
+    validationSchema,
     validateOnChange: false,
     onSubmit: (values) => {
       const {firstName, lastName, password, email, phoneNumber, repeatPassword} = values

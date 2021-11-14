@@ -32,8 +32,8 @@ const SingInFormEditor = () => {
   })
   
   const form = useFormik({
-    initialValues: initialValues,
-    validationSchema: validationSchema,
+    initialValues,
+    validationSchema,
     validateOnChange: false,
     onSubmit: (values) => {
       const {email, password} = values
