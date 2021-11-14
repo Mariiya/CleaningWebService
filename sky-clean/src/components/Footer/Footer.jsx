@@ -21,16 +21,16 @@ function Footer() {
       <div className="footer__wrapper wrapper">
         <div className="footer__head">
           <div className="footer__main">
-            <div className="footer__logo">
+            <NavLink to="/" className="footer__logo">
               <img
                 className="footer__logo-img"
                 src={logo}
                 alt="logo"
               />
-              <h2 className="footer__title">
+              <h2 className="footer__logo-title">
                 SkyClean
               </h2>
-            </div>
+            </NavLink>
 
             <nav className="footer__navigation">
               <NavLink to="/" className="footer__link">

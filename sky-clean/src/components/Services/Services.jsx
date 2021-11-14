@@ -14,7 +14,6 @@ import washingWindows from '../../assets/icons/washing-windows.svg';
 import territoryCleaning from '../../assets/icons/territory-cleaning.svg';
 import ecoCleaning from '../../assets/icons/eco-cleaning.svg';
 import facadeWashing from '../../assets/icons/facade-washing.svg';
-import {ReactComponent as DownArrow} from "../../assets/icons/services-arrow-down.svg";
 
 function Services() {
   const services = [
@@ -37,9 +36,6 @@ function Services() {
         </h2>
         <div className="services__list">
           {services.map((service) => <Service key={service.title} service={service}/> )}
-        </div>
-        <div className="services__more-container">
-          <DownArrow className="services__more"/>
         </div>
       </div>
     </div>

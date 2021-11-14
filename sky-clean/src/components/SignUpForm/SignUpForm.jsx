@@ -6,9 +6,13 @@ import FormInput from "../../UI/FormInput/FormInput";
 import CheckBox from "./CheckBox.jsx/CheckBox";
 import {NavLink} from "react-router-dom";
 
-function SignUpForm({values, errors, formik, handleChange, setCheckBoxState, checkBoxState}) {
-  const handleCheckBoxChange = () => {
-    setCheckBoxState(!checkBoxState)
+function SignUpForm({values, errors, formik, handleChange, setUserRole, userRole, vendorType, setVendorType}) {
+  const handleUserRoleChange = () => {
+    setUserRole(!userRole)
+  }
+  
+  const handleVendorTypeChange = () => {
+    setVendorType(!vendorType)
   }
 
   return (
@@ -18,50 +22,56 @@ function SignUpForm({values, errors, formik, handleChange, setCheckBoxState, che
           <div className="signUpForm__field">
             <p>First Name</p>
             <div className="signUpForm__input">
-              <FormInput name="firstName" value={values.firstName} onChange={handleChange}/>
+              <FormInput name="firstName" value={values.firstName} onChange={handleChange} errors={errors.firstName}/>
             </div>
           </div>
 
           <div className="signUpForm__field">
             <p>Last Name</p>
             <div className="signUpForm__input">
-              <FormInput name="lastName" value={values.lastName} onChange={handleChange}/>
+              <FormInput name="lastName" value={values.lastName} onChange={handleChange} errors={errors.lastName}/>
             </div>
           </div>
 
           <div className="signUpForm__field">
             <p>Phone number</p>
             <div className="signUpForm__input">
-              <FormInput type="phone" name="phoneNumber" value={values.phoneNumber} onChange={handleChange}/>
+              <FormInput type="phone" name="phoneNumber" value={values.phoneNumber} onChange={handleChange} errors={errors.phoneNumber}/>
             </div>
           </div>
 
           <div className="signUpForm__field">
             <p>E-mail</p>
             <div className="signUpForm__input">
-              <FormInput type="email" name="email" value={values.email} onChange={handleChange}/>
+              <FormInput type="email" name="email" value={values.email} onChange={handleChange} errors={errors.email}/>
             </div>
           </div>
 
           <div className="signUpForm__field">
             <p>Password</p>
             <div className="signUpForm__input">
-              <FormInput type="password" name="password" value={values.password} onChange={handleChange}/>
+              <FormInput type="password" name="password" value={values.password} onChange={handleChange} errors={errors.password}/>
             </div>
           </div>
 
           <div className="signUpForm__field">
             <p>Repeat password</p>
             <div className="signUpForm__input">
-              <FormInput type="password" name="repeatPassword" value={values.repeatPassword} onChange={handleChange}/>
+              <FormInput type="password" name="repeatPassword" value={values.repeatPassword} onChange={handleChange} errors={errors.repeatPassword}/>
             </div>
           </div>
         </div>
 
         <div className="signUpForm__checkBoxes">
-          <CheckBox state={!checkBoxState} title="I Executor" onChange={handleCheckBoxChange}/>
-          <CheckBox state={checkBoxState} title="I Vendor" onChange={handleCheckBoxChange}/>
+          <CheckBox state={!userRole} title="I Consumer" onChange={handleUserRoleChange}/>
+          <CheckBox state={userRole} title="I Vendor" onChange={handleUserRoleChange}/>
         </div>
+        
+        {userRole && (
+          <div className="signUpForm__checkBoxes">
+            <CheckBox state={vendorType} title='I individual' onChange={handleVendorTypeChange}/>
+          </div>
+        )}
       </div>
 
       <div className="signUpForm__footer">

@@ -1,24 +1,32 @@
 //general
 import React from 'react'
-import {useFormik} from "formik";
 import * as Yup from 'yup'
+import {useFormik} from "formik";
+import {useDispatch} from "react-redux";
+import {sha256} from "js-sha256";
 //api
-import {addNewUser} from "../../api/auth.api";
+import {addNewUser, getAccessToken} from "../../api/auth.api";
+//redux
+import {getToken, getUserInfo} from "../../store/user/actions";
+//helpers
+import {notify} from "../../helpers/notify/notify";
 //components
 import SignUpForm from "./SignUpForm";
-import {sha256} from "js-sha256";
+
 
 const SignUpFormEditor = () => {
-  const [checkBoxState, setCheckBoxState] = React.useState(false);
+  const dispatch = useDispatch()
+  
+  const [userRole, setUserRole] = React.useState(false);
+  const [vendorType, setVendorType] = React.useState(false);
   
   const initialValues = {
     firstName: '',
-    lastName:'',
+    lastName: '',
     phoneNumber: '',
     email: '',
     password: '',
     repeatPassword: '',
-    role: 'ROLE_CLIENT',
   }
   
   const phoneRegExp = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/
@@ -35,7 +43,8 @@ const SignUpFormEditor = () => {
     phoneNumber: Yup.string()
       .matches(phoneRegExp, "Must be only digits")
       .min(13, 'Too Short!')
-      .max(15, 'Too Long!'),
+      .max(15, 'Too Long!')
+      .required('Required'),
     email: Yup.string().email('Invalid email').required('Required'),
     password: Yup.string()
       .min(7, 'To short!')
@@ -46,23 +55,52 @@ const SignUpFormEditor = () => {
       .max(250, 'Too long!')
       .required('Required'),
   })
-  
   const form = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     validateOnChange: false,
     onSubmit: (values) => {
-      const {firstName, lastName, password, role, email, phoneNumber, repeatPassword} = values
+      const {firstName, lastName, password, email, phoneNumber, repeatPassword} = values
       if (password === repeatPassword) {
-        const data = {
-          firstName,
-          lastName,
-          phoneNumber,
-          email,
-          password: sha256(password),
-          role,
+        let data = null
+        if (!userRole) {
+          data = {
+            firstName,
+            lastName,
+            phoneNumber,
+            email,
+            password: sha256(password),
+            role: 'ROLE_CLIENT',
+          }
+        } else {
+          data = {
+            firstName,
+            lastName,
+            phoneNumber,
+            email,
+            password: sha256(password),
+            individual: vendorType,
+            role: 'ROLE_SERVICE_PROVIDER',
+          }
         }
-        addNewUser(data, '/api/auth/signup/consumer')
+        addNewUser(data, !userRole ? 'consumer' : 'vendor').then((response) => {
+          if (response === true) {
+            const userData = {
+              email: data.email,
+              password: data.password,
+            }
+            getAccessToken(userData, '/api/auth/signin').then((response) => {
+              dispatch(getToken(response.token))
+              dispatch(getUserInfo(response.user))
+              notify('Success', 'You are successfully registered !')
+            })
+          } else {
+            const errors = response.errors
+                errors.forEach((error) =>
+                  notify.error(response.message, error))
+          }
+          
+        })
       }
       form.resetForm()
     }
@@ -78,8 +116,10 @@ const SignUpFormEditor = () => {
       errors={form.errors}
       formik={form}
       handleChange={handleChange}
-      checkBoxState={checkBoxState}
-      setCheckBoxState={setCheckBoxState}/>
+      userRole={userRole}
+      setUserRole={setUserRole}
+      vendorType={vendorType}
+      setVendorType={setVendorType}/>
   )
 }
 

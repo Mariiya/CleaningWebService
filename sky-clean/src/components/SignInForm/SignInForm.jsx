@@ -16,14 +16,14 @@ function SignInForm({values, errors, formik, handleChange}) {
           <div className="signInForm__field">
             <p>E-mail</p>
             <div className="signInForm__input">
-              <FormInput name="email" type="email" value={values.email} onChange={handleChange}/>
+              <FormInput name="email" value={values.email} onChange={handleChange} errors={errors.email}/>
             </div>
           </div>
 
           <div className="signInForm__field">
             <p>Password</p>
             <div className="signInForm__input">
-              <FormInput name="password" type="password" value={values.password} onChange={handleChange}/>
+              <FormInput name="password" type="password" value={values.password} onChange={handleChange} errors={errors.password}/>
             </div>
           </div>
         </div>

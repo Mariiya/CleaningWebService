@@ -1,25 +1,9 @@
-const baseUrl = 'http://localhost:8888'
+import {post} from "./api";
 
-export const getAccessToken = async (data, url) => {
-  const response = await fetch(`${baseUrl}${url}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  const result = await response.json();
-  return result
+export const getAccessToken = async (data) => {
+  return await post('/api/auth/signin', data)
 }
 
-export const addNewUser = async (data, url) => {
-  const response = await fetch(`${baseUrl}${url}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  const result = await response.json();
-  return result
+export const addNewUser = async (data, scope) => {
+  return await post(`/api/auth/signup/${scope}`, data)
 }

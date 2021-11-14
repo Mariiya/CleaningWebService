@@ -12,7 +12,7 @@ import CreateOrder from "../../assets/icons/general-create-order.svg";
 
 function General() {
   const palettes = [
-    {link: 'orders', linkTitle: 'Create order', src: CreateOrder},
+    {link: 'create-order', linkTitle: 'Create order', src: CreateOrder},
     {link: 'orders', linkTitle: 'Take order', src: TakeOrder}];
 
   return (
