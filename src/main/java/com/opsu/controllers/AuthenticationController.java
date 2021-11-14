@@ -49,6 +49,16 @@ public class AuthenticationController {
         return authorizationService.changeUserPassword(updater, user);
     }
 
+    @PostMapping("/auth/reset-password")
+    public String changeUserPassword(@RequestParam String email) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
+        return authorizationService.resetPassword(email);
+    }
+
+    @PostMapping("/auth/new-password")
+    public boolean getPasswordAfterReset(@RequestParam String email) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
+        return authorizationService.newPasswordAfterReset(email);
+    }
+
     @PostMapping("/auth/signup/vendor")
     public ResponseEntity<?> createVendor(@Valid @RequestBody Vendor vendor) throws IOException, MessagingException, NotFoundException, EmptyDataBaseException {
         if (authorizationService.existsByEmail(vendor.getEmail())) {
