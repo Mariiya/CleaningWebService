@@ -2,7 +2,7 @@
 import React from 'react'
 import {Route, Redirect} from 'react-router-dom'
 
-const PrivateRoute = ({children, isAuth, ...rest}) => {
+const PrivateRoute = ({children, isAuth, to, ...rest}) => {
   return (
     <Route
       {...rest}
@@ -14,7 +14,7 @@ const PrivateRoute = ({children, isAuth, ...rest}) => {
             ) : (
               <Redirect
                 to={{
-                  pathname: '/sign-in',
+                  pathname: `${to}`,
                   state: { from: location }
                 }}
               />

@@ -26,6 +26,7 @@ import CreateOrderPage from "../../pages/CreateOrderPage/CreateOrderPage";
 function Application() {
   const dispatch = useDispatch()
   const isAuth = useSelector((state) => state.user.accessToken)
+  const userRole = useSelector((state) => state.user.userInfo?.role)
   
   React.useEffect(() => {
     const accessToken = localStorage.getItem('access_token')
@@ -42,11 +43,11 @@ function Application() {
         <Main>
           <Switch>
             <Route exact path="/" component={MainPage}/>
-            <ProtectedRoute path="/sign-in" children={<SignInPage/>} isAuth={isAuth}/>
-            <ProtectedRoute path="/sign-up" children={<SignUpPage/>} isAuth={isAuth}/>
-            <ProtectedRoute path="/password-reset" children={<ResetPasswordPage/>} isAuth={isAuth}/>
-            <PrivateRoute path="/orders" children={<OrdersPage/>} isAuth={isAuth}/>
-            <PrivateRoute path="/create-order" children={<CreateOrderPage/>} isAuth={isAuth}/>
+            <PrivateRoute path="/sign-in" children={<SignInPage/>} isAuth={!isAuth} to={'/account'}/>
+            <PrivateRoute path="/sign-up" children={<SignUpPage/>} isAuth={!isAuth} to={'/account'}/>
+            <PrivateRoute path="/password-reset" children={<ResetPasswordPage/>} isAuth={!isAuth} to={'/account'}/>
+            <ProtectedRoute path="/orders" children={<OrdersPage/>} isAuth={isAuth} role={userRole} to={'/'}/>
+            <ProtectedRoute path="/create-order" children={<CreateOrderPage/>} isAuth={isAuth} role={userRole} to={'/'}/>
             <Route path="*" component={NotFound}/>
           </Switch>
         </Main>

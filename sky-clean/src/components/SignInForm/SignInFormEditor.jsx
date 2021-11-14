@@ -43,7 +43,8 @@ const SingInFormEditor = () => {
       }
       getAccessToken(data).then((response) => {
           if (!response.errors) {
-            console.log(response)
+            const userData = response.user
+            delete userData.password
             dispatch(getToken(response.token))
             dispatch(getUserInfo(response.user))
             notify('Success', 'You are successfully authorized !')
