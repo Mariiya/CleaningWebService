@@ -49,7 +49,7 @@ public class ConsumerDaoImpl implements ConsumerDao {
     public boolean save(Consumer consumer) throws EmptyDataBaseException {
         try {
             jdbcTemplate.update(CREATE_CONSUMER,consumer.getId(),consumer.getLastName(), consumer.getFirstName());
-            jdbcTemplate.execute("commit");
+            jdbcTemplate.update("commit");
         } catch (DataAccessException e) {
             throw new EmptyDataBaseException("Error during Consumer saving");
         }

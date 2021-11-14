@@ -71,7 +71,7 @@ public class ServiceCollectionDaoImpl implements ServiceCollectionDao {
     public void updateServiceCollection(ServiceCollection serviceCollection) {
         try {
             jdbcTemplate.update(UPDATE_SERVICECOLLECTION, serviceCollection.getOrder().getId(), serviceCollection.getService().getId(), serviceCollection.getId());
-            jdbcTemplate.execute("commit");
+            jdbcTemplate.update("commit");
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
         }
