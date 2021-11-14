@@ -35,15 +35,13 @@ public class ConsumerController {
     }
 
     @GetMapping("{id}")
-    public Consumer getConsumerById(@PathVariable BigInteger id) {
+    public Consumer getConsumerById(@PathVariable BigInteger id) throws NotFoundException {
         try {
             return consumerService.getConsumerById (id);
         } catch (Exception e){
             log.error(e.getMessage());
-            return null;
-
+            throw new NotFoundException(e.getMessage(),e);
         }
-
     }
 
     @PostMapping("/update")

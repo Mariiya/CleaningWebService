@@ -62,8 +62,8 @@ public class AuthorizationService {
         }
         return new JwtResponse(jwt, new User(
                 userDetails.getId(),
-                userDetails.getUsername(),
                 userDetails.getEmail(),
+                userDetails.getUsername(),
                 userDetails.getPassword(),
                 role));
     }
@@ -80,7 +80,7 @@ public class AuthorizationService {
         userDao.update(user);
        return notificationService.newPasswordNotification(user,newPassword);
     }
-    public boolean changeUserPassword(UserDetailsImpl updater, User user) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
+    public boolean changeUserPassword(UserDetailsImpl updater, User user) throws NotFoundException, EmptyDataBaseException {
         if (!updater.getId().equals(user.getId())) {
             throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
         }
