@@ -1,14 +1,14 @@
 //general
 import React from 'react';
 //components
-import ResetPasswordForm from "../../components/ResetPasswordForm/ResetPasswordForm";
+import ResetPasswordFormEditor from "../../components/ResetPasswordForm/ResetPasswordEditor";
 //styles
 import './ResetPasswordPage.scss';
 
 function ResetPasswordPage() {
   return (
     <div className="resetPasswordPage">
-      <ResetPasswordForm/>
+      <ResetPasswordFormEditor/>
     </div>
   );
 };
