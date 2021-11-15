@@ -19,6 +19,7 @@ const SignUpFormEditor = () => {
   
   const [userRole, setUserRole] = React.useState(false);
   const [vendorType, setVendorType] = React.useState(false);
+  const [loading, setLoading] = React.useState(false)
   
   const initialValues = {
     firstName: '',
@@ -83,6 +84,9 @@ const SignUpFormEditor = () => {
             role: 'ROLE_SERVICE_PROVIDER',
           }
         }
+  
+        setLoading(true)
+        
         addNewUser(data, !userRole ? 'consumer' : 'vendor').then((response) => {
           if (response === true) {
             const userData = {
@@ -100,6 +104,9 @@ const SignUpFormEditor = () => {
                   notify.error(response.message, error))
           }
           
+        })
+        .finally(() => {
+          setLoading(false)
         })
       }
       form.resetForm()
@@ -119,7 +126,8 @@ const SignUpFormEditor = () => {
       userRole={userRole}
       setUserRole={setUserRole}
       vendorType={vendorType}
-      setVendorType={setVendorType}/>
+      setVendorType={setVendorType}
+      loading={loading}/>
   )
 }
 

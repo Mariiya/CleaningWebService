@@ -14,6 +14,8 @@ import CodeForm from "./CodeForm";
 const CodeFormEditor = ({setCodeFormVisible, code, setCode, email, setEmail}) => {
   const history = useHistory();
   
+  const [loading, setLoading] = React.useState(false)
+  
   const initialValues = {
     code: '',
   }
@@ -28,18 +30,22 @@ const CodeFormEditor = ({setCodeFormVisible, code, setCode, email, setEmail}) =>
     validationSchema,
     validateOnChange: false,
     onSubmit: (values => {
-        if (values.code === code) {
-          sendCodeForResetPassword(email).then(() => {
-            setCodeFormVisible(false)
-            history.push('/sign-in')
-            setEmail(null)
-            setCode(null)
-            notify('Success', 'Your password has been successfully updated')
-          })
-        } else {
-          notify.error('Rejected', 'You made mistakes when entering your code')
-        }
-      form.resetForm()
+      if (values.code === code) {
+        setLoading(true)
+        sendCodeForResetPassword(email).then(() => {
+          setCodeFormVisible(false)
+          history.push('/sign-in')
+          setEmail(null)
+          setCode(null)
+          notify('Success', 'Your password has been successfully updated')
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+      } else {
+        notify.error('Rejected', 'You made mistakes when entering your code')
+      }
+    form.resetForm()
     })
   })
   
@@ -52,7 +58,8 @@ const CodeFormEditor = ({setCodeFormVisible, code, setCode, email, setEmail}) =>
       values={form.values}
       errors={form.errors}
       formik={form}
-      handleChange={handleChange}/>
+      handleChange={handleChange}
+      loading={loading}/>
   )
 }
 

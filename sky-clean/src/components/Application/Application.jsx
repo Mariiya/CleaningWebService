@@ -46,7 +46,7 @@ function Application() {
             <PrivateRoute path="/sign-in" children={<SignInPage/>} isAuth={!isAuth} to={'/account'}/>
             <PrivateRoute path="/sign-up" children={<SignUpPage/>} isAuth={!isAuth} to={'/account'}/>
             <PrivateRoute path="/password-reset" children={<ResetPasswordPage/>} isAuth={!isAuth} to={'/account'}/>
-            <ProtectedRoute path="/orders" children={<OrdersPage/>} isAuth={isAuth} role={userRole} to={'/'}/>
+            <PrivateRoute path="/orders" children={<OrdersPage/>} isAuth={isAuth} role={userRole} to={'/'}/>
             <ProtectedRoute path="/create-order" children={<CreateOrderPage/>} isAuth={isAuth} role={userRole} to={'/'}/>
             <Route path="*" component={NotFound}/>
           </Switch>

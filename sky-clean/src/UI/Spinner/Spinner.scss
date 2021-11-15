@@ -1,0 +1,29 @@
+.spinner {
+  &__wrapper {
+    position: relative;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    background-color: #ffffff;
+  }
+
+  &__circle {
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

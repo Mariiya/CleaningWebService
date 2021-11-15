@@ -15,6 +15,7 @@ const ResetPasswordFormEditor = () => {
   const [codeFormVisible, setCodeFormVisible] = React.useState(false)
   const [code, setCode] = React.useState(null)
   const [email, setEmail] = React.useState(null)
+  const [loading, setLoading] = React.useState(false)
   
   const initialValues = {
     email: '',
@@ -31,6 +32,7 @@ const ResetPasswordFormEditor = () => {
     validationSchema,
     validateOnChange: false,
     onSubmit: (values => {
+      setLoading(true)
       sendMailForResetPassword(values.email).then((response) => {
         if (response.code) {
           notify('Success', 'We have sent you an email with a one-time code')
@@ -38,6 +40,9 @@ const ResetPasswordFormEditor = () => {
           setCodeFormVisible(true)
           setEmail(values.email)
         }
+      })
+      .finally(() => {
+        setLoading(false)
       })
       form.resetForm()
     })
@@ -63,7 +68,8 @@ const ResetPasswordFormEditor = () => {
           formik={form}
           handleChange={handleChange}
           codeFormVisible={codeFormVisible}
-          setCodeFormVisible={setCodeFormVisible}/>
+          setCodeFormVisible={setCodeFormVisible}
+          loading={loading}/>
       )}
     </>
   )
