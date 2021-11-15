@@ -90,7 +90,7 @@ public class NotificationService {
        code.code = RandomString.make(10);
         System.out.println(code);
         mailService.sendMessage(user.getEmail(), changePasswordNotification.getTitle(),
-                "Code:" + code + '\n' + changePasswordNotification.getBody());
+                "Code:" + code.code + '\n' + changePasswordNotification.getBody());
         return code;
     }
 
