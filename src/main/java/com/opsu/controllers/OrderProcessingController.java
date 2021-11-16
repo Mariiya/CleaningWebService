@@ -48,9 +48,9 @@ public class OrderProcessingController {
     }
 
     @GetMapping("/orders")
-    public Collection<Order> getOrders() throws Exception {
+    public Collection<Order> getOrders(@RequestParam int page) throws Exception {
         try {
-            return processingService.getOrders();
+            return processingService.getOrders(page);
         } catch (EmptyDataBaseException e) {
             log.error(e.getMessage());
             return null;
@@ -58,9 +58,9 @@ public class OrderProcessingController {
     }
 
     @GetMapping("/get-by-service")
-    public Collection<Order> getOrders(@Valid @RequestBody Service service) {
+    public Collection<Order> getOrders(@Valid @RequestBody Service service, @RequestParam int page) {
         try {
-            return processingService.getOrders(service);
+            return processingService.getOrders(service, page);
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;
@@ -68,9 +68,9 @@ public class OrderProcessingController {
     }
 
     @GetMapping("/get-by-price")
-    public Collection<Order> getOrders(@RequestParam @NotNull Float price) {
+    public Collection<Order> getOrders(@RequestParam Float minPrice, @RequestParam Float maxPrice, @RequestParam int page) {
         try {
-            return processingService.getOrders(price);
+            return processingService.getOrders(minPrice, maxPrice, page);
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;
@@ -78,9 +78,9 @@ public class OrderProcessingController {
     }
 
     @GetMapping("/get-by-status")
-    public Collection<Order> getOrders(@RequestParam("status") Status status) {
+    public Collection<Order> getOrders(@RequestParam("status") Status status, @RequestParam int page) {
         try {
-            return processingService.getOrders(status);
+            return processingService.getOrders(status, page);
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;
@@ -88,9 +88,9 @@ public class OrderProcessingController {
     }
 
     @GetMapping("/get-by-title")
-    public Collection<Order> getOrders(@RequestParam String title) {
+    public Collection<Order> getOrders(@RequestParam String title, @RequestParam int page) {
         try {
-            return processingService.getOrders(title);
+            return processingService.getOrders(title, page);
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;
@@ -104,6 +104,15 @@ public class OrderProcessingController {
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;
+        }
+    }
+
+    @PostMapping("/update")
+    public void updateOrder(@RequestBody Order order){
+        try{
+            processingService.updateOrder(order);
+        } catch (Exception e){
+            log.error(e.getMessage());
         }
     }
 
@@ -180,11 +189,21 @@ public class OrderProcessingController {
     }
 
     @PostMapping("/create-service")
-    public void addSpecialService(@Valid @RequestBody BigInteger orderId,@Valid @RequestBody Service service) {
+    public void addSpecialService(@Valid @RequestBody BigInteger orderId, @Valid @RequestBody Service service) {
         try {
             processingService.addSpecialService(orderId, service);
         } catch (Exception e) {
             log.error(e.getMessage());
+        }
+    }
+
+    @GetMapping("/get-number")
+    public BigInteger getNumberOfRows(){
+        try{
+            return processingService.getNumberOfOrders();
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return null;
         }
     }
 }

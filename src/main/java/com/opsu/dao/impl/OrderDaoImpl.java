@@ -2,6 +2,7 @@ package com.opsu.dao.impl;
 
 import com.opsu.dao.OrderDao;
 import com.opsu.dao.mapper.OrderMapper;
+import com.opsu.dao.mapper.RowNumMapper;
 import com.opsu.models.Order;
 import com.opsu.models.Service;
 import com.opsu.models.enumeration.Status;
@@ -41,9 +42,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Collection<Order> getOrders() throws NotFoundException {
+    public Collection<Order> getOrders(int page) throws NotFoundException {
+        int downLimit = (page - 1) * 15;
+        int upLimit = (downLimit + 15);
         try {
-             return jdbcTemplate.query(GET_ORDERS, new OrderMapper());
+             return jdbcTemplate.query(GET_ORDERS, new OrderMapper(), downLimit, upLimit);
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Orders not found");
@@ -51,7 +54,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Collection<Order> getOrders(Service service) throws NotFoundException {
+    public Collection<Order> getOrders(Service service, int page) throws NotFoundException {
         try {
             return jdbcTemplate.query(GET_ORDERS_BY_SERVICE, new OrderMapper(), service.getId());
         } catch (DataAccessException e) {
@@ -61,9 +64,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Collection<Order> getOrders(float price) throws NotFoundException {
+    public Collection<Order> getOrders(Float minPrice, Float maxPrice, int page) throws NotFoundException {
+        int downLimit = (page - 1) * 15;
+        int upLimit = (downLimit + 15);
         try {
-            return jdbcTemplate.query(GET_ORDERS_BY_PRICE, new OrderMapper(), price);
+            return jdbcTemplate.query(GET_ORDERS_BY_PRICE, new OrderMapper(), minPrice, maxPrice, downLimit, upLimit);
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Orders not found");
@@ -71,9 +76,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Collection<Order> getOrders(String title) throws NotFoundException {
+    public Collection<Order> getOrders(String title, int page) throws NotFoundException {
+        int downLimit = (page - 1) * 15;
+        int upLimit = (downLimit + 15);
         try {
-            return jdbcTemplate.query(GET_ORDERS_BY_TITLE, new OrderMapper(), new String("%" + title + "%"));
+            return jdbcTemplate.query(GET_ORDERS_BY_TITLE, new OrderMapper(), new String("%" + title + "%"), downLimit, upLimit);
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Orders not found");
@@ -81,9 +88,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Collection<Order> getOrders(Status status) throws NotFoundException {
+    public Collection<Order> getOrders(Status status, int page) throws NotFoundException {
+        int downLimit = (page - 1) * 15;
+        int upLimit = (downLimit + 15);
         try {
-            return jdbcTemplate.query(GET_ORDERS_BY_STATUS, new OrderMapper(), status.name());
+            return jdbcTemplate.query(GET_ORDERS_BY_STATUS, new OrderMapper(), status.name(), downLimit, upLimit);
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Orders not found");
@@ -142,10 +151,15 @@ public class OrderDaoImpl implements OrderDao {
         try {
             java.sql.Date startDate = new java.sql.Date(order.getStartDate().getTime());
             java.sql.Date endDate = new java.sql.Date(order.getEndDate().getTime());
-            return jdbcTemplate.queryForObject(GET_ID_OF_ORDER, new OrderMapper(), order.getTitle(), order.getStatus(), order.getConsumer().getId(), order.getVendor().getId(), startDate, endDate, order.getPrice(), order.getAddress());
+            return jdbcTemplate.queryForObject(GET_ID_OF_ORDER, new OrderMapper(), order.getTitle(), order.getDescription(), order.getStatus().name(), order.getConsumer().getId(), order.getVendor().getId(), startDate, endDate, order.getPrice(), order.getAddress());
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Orders not found");
         }
+    }
+
+    @Override
+    public BigInteger getNumberOfOrders() throws NotFoundException {
+        return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS, new RowNumMapper());
     }
 }
