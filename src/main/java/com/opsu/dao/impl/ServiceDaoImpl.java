@@ -29,7 +29,7 @@ public class ServiceDaoImpl implements ServiceDao {
     @Override
     public void addNewService(Service service) {
         try {
-            jdbcTemplate.update(ADD_NEW_SERVICE, service.getName(), service.getDescription(), 0);
+            jdbcTemplate.update(ADD_NEW_SERVICE, service.getName(), service.getDescription());
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -38,7 +38,7 @@ public class ServiceDaoImpl implements ServiceDao {
     @Override
     public void addNewCustomService(Service service) {
         try {
-            jdbcTemplate.update(ADD_NEW_CUSTOM_SERVICE, service.getName(), service.getDescription(), 1);
+            jdbcTemplate.update(ADD_NEW_CUSTOM_SERVICE, service.getName(), service.getDescription());
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
         }

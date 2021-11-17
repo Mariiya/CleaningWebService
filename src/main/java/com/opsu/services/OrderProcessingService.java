@@ -5,6 +5,7 @@ import com.opsu.dao.impl.OrderDaoImpl;
 import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.*;
 import com.opsu.models.enumeration.Status;
+import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigInteger;
@@ -52,6 +53,7 @@ public class OrderProcessingService {
 
         Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
         Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+        Collection<Service> serviceCollection = order.getServices();
 
         order.setConsumer(consumer);
         order.setVendor(vendor);
@@ -59,7 +61,9 @@ public class OrderProcessingService {
         if(!orderDao.createOrder(order)){
             throw new Exception("Order create exception");
         }
+
         order = orderDao.getOrderId(order);
+        order.setServices(serviceCollection);
         for(Service service : order.getServices()){
             serviceCollectionDao.createServiceCollection(new ServiceCollection(BigInteger.ZERO, order, service));
         }
@@ -93,8 +97,8 @@ public class OrderProcessingService {
         return order;
     }
 
-    public Collection<Order> getOrders() throws Exception {
-        Collection<Order> orderCollection = orderDao.getOrders();
+    public Collection<Order> getOrders(int page) throws Exception {
+        Collection<Order> orderCollection = orderDao.getOrders(page);
         if(orderCollection.size() == 0){
             throw new EmptyDataBaseException("Order list is empty");
         }
@@ -117,13 +121,14 @@ public class OrderProcessingService {
             order.setServices(services);
         }
 
-        return orderCollection;    }
+        return orderCollection;
+    }
 
-    public Collection<Order> getOrders(Service service) throws Exception {
+    public Collection<Order> getOrders(Service service, int page) throws Exception {
         if((service == null)||(service.getId() == null)){
             throw new Exception("Service exception");
         }
-        Collection<Order> orderCollection = orderDao.getOrders(service);
+        Collection<Order> orderCollection = orderDao.getOrders(service, page);
         if(orderCollection.size() == 0){
             throw new EmptyDataBaseException("Order list is empty");
         }
@@ -149,11 +154,14 @@ public class OrderProcessingService {
         return orderCollection;
     }
 
-    public Collection<Order> getOrders(float price) throws Exception {
-        if(price < 0){
-            throw new NumberFormatException();
+    public Collection<Order> getOrders(Float minPrice, Float maxPrice, int page) throws Exception {
+        if(minPrice < 0){
+            minPrice = 0f;
         }
-        Collection<Order> orderCollection = orderDao.getOrders(price);
+        if(maxPrice <= 0){
+            maxPrice = Float.MAX_VALUE;
+        }
+        Collection<Order> orderCollection = orderDao.getOrders(minPrice, maxPrice, page);
         if(orderCollection.size() == 0){
             throw new EmptyDataBaseException("Order list is empty");
         }
@@ -179,11 +187,11 @@ public class OrderProcessingService {
         return orderCollection;
     }
 
-    public Collection<Order> getOrders(String title) throws Exception {
+    public Collection<Order> getOrders(String title, int page) throws Exception {
         if(title.isEmpty()){
             throw new Exception("Name is empty");
         }
-        Collection<Order> orderCollection = orderDao.getOrders(title);
+        Collection<Order> orderCollection = orderDao.getOrders(title, page);
         if(orderCollection.size() == 0){
             throw new EmptyDataBaseException("Order list is empty");
         }
@@ -209,11 +217,11 @@ public class OrderProcessingService {
         return orderCollection;
     }
 
-    public Collection<Order> getOrders(Status status) throws Exception {
+    public Collection<Order> getOrders(Status status, int page) throws Exception {
         if(status == null){
             throw new Exception("Status is empty");
         }
-        Collection<Order> orderCollection = orderDao.getOrders(status);
+        Collection<Order> orderCollection = orderDao.getOrders(status, page);
         if(orderCollection.size() == 0){
             throw new EmptyDataBaseException("Order list is empty");
         }
@@ -267,6 +275,15 @@ public class OrderProcessingService {
         }
 
         return orderCollection;
+    }
+
+    public void updateOrder(Order order) throws Exception {
+        if(!order.getStatus().equals(Status.STATUS_OPEN)){
+            throw new Exception("You can't update this Order");
+        }
+        if(!orderDao.updateOrder(order)){
+            throw new Exception("Order update exception");
+        }
     }
 
     public void assignOrder(BigInteger orderId, BigInteger vendorId) throws Exception {
@@ -380,5 +397,14 @@ public class OrderProcessingService {
         Order order = orderDao.getOrder(orderId);
         serviceDao.addNewService(service);
         serviceCollectionDao.createServiceCollection(new ServiceCollection(BigInteger.ZERO, order, service));
+    }
+
+    public BigInteger getNumberOfOrders() throws NotFoundException {
+        try{
+            return orderDao.getNumberOfOrders();
+        }
+        catch (Exception e){
+            throw new NotFoundException("Can't query number of rows");
+        }
     }
 }

@@ -5,11 +5,13 @@ import {NavLink} from "react-router-dom";
 import FormInput from "../../UI/FormInput/FormInput";
 //styles
 import './SignInForm.scss';
+import Spinner from "../../UI/Spinner/Spinner";
 
 
-function SignInForm({values, errors, formik, handleChange}) {
+function SignInForm({values, errors, formik, handleChange, loading}) {
   
   return (
+    !loading ? (
     <form className="signInForm" onSubmit={formik.handleSubmit}>
       <div className="signInForm__body">
         <div className="signInForm__inputs">
@@ -47,6 +49,11 @@ function SignInForm({values, errors, formik, handleChange}) {
         </div>
       </div>
     </form>
+  ) : (
+    <div className="spinnerContainer">
+      <Spinner/>
+    </div>
+  )
   );
 };
 

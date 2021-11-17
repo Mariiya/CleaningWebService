@@ -16,6 +16,8 @@ import SignInForm from "./SignInForm";
 const SingInFormEditor = () => {
   const dispatch = useDispatch()
   
+  const [loading, setLoading] = React.useState(false)
+  
   const initialValues = {
     email: '',
     password: '',
@@ -41,6 +43,7 @@ const SingInFormEditor = () => {
         email,
         password: sha256(password)
       }
+      setLoading(true)
       getAccessToken(data).then((response) => {
           if (!response.errors) {
             const userData = response.user
@@ -53,6 +56,9 @@ const SingInFormEditor = () => {
             errors.forEach((error) =>
               notify.error(response.message, error))
           }
+        })
+        .finally(() => {
+          setLoading(false)
         })
       form.resetForm()
     }
@@ -67,7 +73,8 @@ const SingInFormEditor = () => {
       values={form.values}
       errors={form.errors}
       formik={form}
-      handleChange={handleChange}/>
+      handleChange={handleChange}
+      loading={loading}/>
   )
 }
 
