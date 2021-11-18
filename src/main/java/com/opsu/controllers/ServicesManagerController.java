@@ -12,7 +12,7 @@ import java.math.BigInteger;
 import java.util.Collection;
 
 @RestController
-@Validated
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/service/")
 public class ServicesManagerController {
     private static final Logger log = Logger.getLogger(ServicesManagerController.class.getName());
