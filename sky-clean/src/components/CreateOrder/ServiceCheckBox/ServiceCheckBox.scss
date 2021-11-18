@@ -1,0 +1,28 @@
+.serviceCheckBox {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  height: min-content;
+  cursor: pointer;
+
+  &__checkBox {
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+
+    &_active {
+      background-color: #FFB3AB;
+    }
+  }
+
+  &__title {
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 20px;
+    color: #2F2E41;
+
+    @media screen and (max-width: 768px){
+      font-size: 16px;
+    }
+  }
+}

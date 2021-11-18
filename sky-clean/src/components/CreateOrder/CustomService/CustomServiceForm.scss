@@ -1,0 +1,71 @@
+.customServiceForm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 20px 100px;
+  max-width: 770px;
+  width: 100%;
+  border-radius: 15px;
+  background-color: #F7B1B1;
+
+  @media screen and (max-width: 992px){
+    padding: 20px 50px;
+  }
+
+  @media screen and (max-width: 768px){
+    padding: 20px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  &__title {
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 20px;
+    color: #3A2C51;
+  }
+
+  &__body {
+    padding: 41px 0;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+  }
+
+  &__input {
+    height: 42px;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    @media screen and (max-width: 420px){
+      justify-content: center;
+    }
+  }
+
+  &__btn {
+    padding: 11px 51px;
+    border-radius: 15px;
+    border-style: none;
+    background-color: #ffffff;
+    outline: none;
+    cursor: pointer;
+    transition: 0.5s;
+
+    &:hover {
+      background-color: #fff1f1;
+    }
+  }
+}

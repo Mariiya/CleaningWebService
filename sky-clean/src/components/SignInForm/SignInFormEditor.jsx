@@ -52,13 +52,11 @@ const SingInFormEditor = () => {
             dispatch(getUserInfo(response.user))
             notify('Success', 'You are successfully authorized !')
           } else {
+            setLoading(false)
             const errors = response.errors
             errors.forEach((error) =>
               notify.error(response.message, error))
           }
-        })
-        .finally(() => {
-          setLoading(false)
         })
       form.resetForm()
     }

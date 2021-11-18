@@ -20,8 +20,10 @@ function Header() {
   const dispatch = useDispatch()
   
   const [openMenu, setOpenMenu] = React.useState(false);
-  const isAuth = useSelector((state) => state.user.accessToken)
+  const accessToken = useSelector((state) => state.user.accessToken)
+  const userInfo = useSelector((state) => state.user.userInfo)
   const userRole = useSelector((state) => state.user.userInfo?.role)
+  const isAuth = !!accessToken && !!userInfo
   
   const handleMenuClick = () => {
     setOpenMenu(!openMenu);

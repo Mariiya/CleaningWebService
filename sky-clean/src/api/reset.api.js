@@ -1,3 +1,4 @@
+//methods
 import {post} from "./api";
 
 export const sendMailForResetPassword = async (email) => {

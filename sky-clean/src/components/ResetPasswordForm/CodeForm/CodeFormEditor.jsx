@@ -33,14 +33,10 @@ const CodeFormEditor = ({setCodeFormVisible, code, setCode, email, setEmail}) =>
       if (values.code === code) {
         setLoading(true)
         sendCodeForResetPassword(email).then(() => {
-          setCodeFormVisible(false)
           history.push('/sign-in')
           setEmail(null)
           setCode(null)
           notify('Success', 'Your password has been successfully updated')
-        })
-        .finally(() => {
-          setLoading(false)
         })
       } else {
         notify.error('Rejected', 'You made mistakes when entering your code')

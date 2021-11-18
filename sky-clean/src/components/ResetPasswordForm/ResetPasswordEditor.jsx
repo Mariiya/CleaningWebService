@@ -41,9 +41,6 @@ const ResetPasswordFormEditor = () => {
           setEmail(values.email)
         }
       })
-      .finally(() => {
-        setLoading(false)
-      })
       form.resetForm()
     })
   })

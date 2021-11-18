@@ -1,9 +1,9 @@
 //general
 import React from 'react';
 //styles
-import './FormInput.scss';
+import './FormTextArea.scss';
 
-function FormInput({placeholder = "", type = "text", errors, ...rest}) {
+function FormTextArea({placeholder = "", type = "text", errors, ...rest}) {
   const errorMsg = {
     display: "flex",
     justifyContent: "flex-end",
@@ -18,8 +18,8 @@ function FormInput({placeholder = "", type = "text", errors, ...rest}) {
   
   return (
     <>
-      <input
-        className="formInput"
+      <textarea
+        className="formTextArea"
         style={errors && errorBorder}
         type={type}
         placeholder={placeholder}
@@ -29,4 +29,4 @@ function FormInput({placeholder = "", type = "text", errors, ...rest}) {
   );
 };
 
-export default FormInput
+export default FormTextArea

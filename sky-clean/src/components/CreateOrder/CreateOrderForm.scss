@@ -1,0 +1,154 @@
+.createOrderForm {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 42px;
+  width: 100%;
+  border-radius: 15px;
+  background-color: #90CCF4;
+
+  @media screen and (max-width: 768px){
+    padding: 20px;
+  }
+
+  &__container {
+    position: relative;
+    margin: 40px 0;
+    max-width: 1086px;
+    width: 100%;
+  }
+
+  &__head {
+    display: flex;
+
+    @media screen and (max-width: 420px){
+      text-align: center;
+    }
+  }
+
+  &__title {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 30px;
+    color: #ffffff;
+
+    @media screen and (max-width: 420px){
+      text-align: center;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  &__field,
+  &__servicesField{
+    width: 100%;
+    height: 96px;
+  }
+
+  &__servicesField {
+    height: auto;
+  }
+
+  &__fieldName {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+  }
+
+  &__input,
+  &__textArea {
+    margin-top: 26px;
+    height: 42px;
+  }
+
+  &__textArea {
+    height: 164px;
+  }
+
+  &__services {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 26px;
+    padding: 25px 50px;
+    border-radius: 15px;
+    background-color: #ffffff;
+
+    @media screen and (max-width: 768px){
+      padding: 25px;
+    }
+
+    @media screen and (max-width: 420px){
+      padding: 15px;
+    }
+  }
+
+  &__servicesContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 31px;
+    width: 100%;
+
+    @media screen and (max-width: 992px){
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (max-width: 768px){
+      grid-template-columns: repeat(1, 1fr);
+      max-width: 200px;
+    }
+
+    @media screen and (max-width: 420px){
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+  &__customService {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 11px;
+    border-radius: 15px;
+    background-color: #ffffff;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.5s;
+
+    &:hover {
+      background-color: #dceeff;
+    }
+
+    @media screen and (max-width: 376px){
+      text-align: center;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__submitBtn {
+    padding: 12px 38px;
+    border-radius: 15px;
+    border-style: none;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 20px;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: 0.5s;
+
+    &:hover {
+      background-color: #dceeff;
+    }
+  }
+}

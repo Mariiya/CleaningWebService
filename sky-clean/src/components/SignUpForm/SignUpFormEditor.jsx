@@ -99,14 +99,11 @@ const SignUpFormEditor = () => {
               notify('Success', 'You are successfully registered !')
             })
           } else {
+            setLoading(false)
             const errors = response.errors
                 errors.forEach((error) =>
                   notify.error(response.message, error))
           }
-          
-        })
-        .finally(() => {
-          setLoading(false)
         })
       }
       form.resetForm()

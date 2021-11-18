@@ -25,7 +25,9 @@ import CreateOrderPage from "../../pages/CreateOrderPage/CreateOrderPage";
 
 function Application() {
   const dispatch = useDispatch()
-  const isAuth = useSelector((state) => state.user.accessToken)
+  const accessToken = useSelector((state) => state.user.accessToken)
+  const userInfo = useSelector((state) => state.user.userInfo)
+  const isAuth = !!accessToken && !!userInfo
   const userRole = useSelector((state) => state.user.userInfo?.role)
   
   React.useEffect(() => {
@@ -46,7 +48,7 @@ function Application() {
             <PrivateRoute path="/sign-in" children={<SignInPage/>} isAuth={!isAuth} to={'/account'}/>
             <PrivateRoute path="/sign-up" children={<SignUpPage/>} isAuth={!isAuth} to={'/account'}/>
             <PrivateRoute path="/password-reset" children={<ResetPasswordPage/>} isAuth={!isAuth} to={'/account'}/>
-            <PrivateRoute path="/orders" children={<OrdersPage/>} isAuth={isAuth} role={userRole} to={'/'}/>
+            <PrivateRoute path="/orders" children={<OrdersPage/>} isAuth={isAuth} to={'/sign-in'}/>
             <ProtectedRoute path="/create-order" children={<CreateOrderPage/>} isAuth={isAuth} role={userRole} to={'/'}/>
             <Route path="*" component={NotFound}/>
           </Switch>

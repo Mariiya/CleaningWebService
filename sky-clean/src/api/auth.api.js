@@ -1,3 +1,4 @@
+//methods
 import {post} from "./api";
 
 export const getAccessToken = async (data) => {

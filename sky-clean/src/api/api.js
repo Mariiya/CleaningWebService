@@ -1,10 +1,12 @@
 const baseUrl = 'https://sky-clean-service.herokuapp.com'
 
 export const get = async (url) => {
+  const accessToken = localStorage.getItem('access_token')
   const response = await fetch(`${baseUrl}${url}`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${JSON.parse(accessToken)}`,
     }
   })
   return await response.json();
