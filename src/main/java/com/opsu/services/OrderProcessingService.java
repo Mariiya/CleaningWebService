@@ -52,11 +52,9 @@ public class OrderProcessingService {
         }
 
         Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
-        Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
         Collection<Service> serviceCollection = order.getServices();
 
         order.setConsumer(consumer);
-        order.setVendor(vendor);
 
         if(!orderDao.createOrder(order)){
             throw new Exception("Order create exception");

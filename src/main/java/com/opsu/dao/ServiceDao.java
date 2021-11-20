@@ -20,6 +20,8 @@ public interface ServiceDao {
 
     Collection<Service> getServices() throws NotFoundException;
 
+    Service getCustomService(Service service) throws NotFoundException;
+
     String ADD_NEW_SERVICE = "INSERT INTO SERVICE (SERVICEID, name, description, isCustom)\n" +
             "                 VALUES (SEQ.nextval, ?, ?, 0)";
 
@@ -36,4 +38,9 @@ public interface ServiceDao {
 
     String ADD_NEW_CUSTOM_SERVICE = "INSERT INTO SERVICE (SERVICEID, name, description, isCustom)\n" +
                                     "VALUES (SEQ.nextval, ?, ?, 1)";
+    String GET_CUSTOM_SERVICE_WITH_ID = "SELECT " +
+                                            "serviceId, name, description, isCustom " +
+                                        "FROM service " +
+                                        "WHERE " +
+                                            "name = ? AND description = ? AND isCustom = 1";
 }

@@ -29,11 +29,13 @@ public class OrderProcessingController {
     }
 
     @PostMapping("/create")
-    public void createOrder(@RequestBody Order order) {
+    public Boolean createOrder(@RequestBody Order order) {
         try {
             processingService.createOrder(order);
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
+            return false;
         }
     }
 
@@ -108,92 +110,112 @@ public class OrderProcessingController {
     }
 
     @PostMapping("/update")
-    public void updateOrder(@RequestBody Order order){
+    public Boolean updateOrder(@RequestBody Order order){
         try{
             processingService.updateOrder(order);
+            return true;
         } catch (Exception e){
             log.error(e.getMessage());
+            return false;
         }
     }
 
     @PostMapping("/reject/{id}")
-    public void rejectOrder(@PathVariable BigInteger id) {
+    public Boolean rejectOrder(@PathVariable BigInteger id) {
         try {
             processingService.rejectOrder(id);
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
+            return false;
         }
     }
 
     @PostMapping("/cancel/{id}")
-    public void cancelOrder(@PathVariable BigInteger id) {
+    public Boolean cancelOrder(@PathVariable BigInteger id) {
         try {
             processingService.cancelOrder(id);
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
+            return false;
         }
     }
 
     @PostMapping("/assignOrder")
-    public void assignOrder(@RequestParam BigInteger orderId, @RequestParam BigInteger consumerId) {
+    public Boolean assignOrder(@RequestParam BigInteger orderId, @RequestParam BigInteger vendorId) {
         try {
-            processingService.assignOrder(orderId, consumerId);
+            processingService.assignOrder(orderId, vendorId);
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
+            return false;
         }
     }
 
     @PostMapping("/inProgress/{id}")
-    public void inProgressOrder(@PathVariable BigInteger id) {
+    public Boolean inProgressOrder(@PathVariable BigInteger id) {
         try {
             processingService.inProgressOrder(id);
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
+            return false;
         }
     }
 
     @PostMapping("/suspend/{id}")
-    public void suspendOrder(@PathVariable BigInteger id) {
+    public Boolean suspendOrder(@PathVariable BigInteger id) {
         try {
             processingService.suspendOrder(id);
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
+            return false;
         }
     }
 
     @PostMapping("/complete/{id}")
-    public void completeOrder(@PathVariable BigInteger id) {
+    public Boolean completeOrder(@PathVariable BigInteger id) {
         try {
             processingService.completeOrder(id);
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
+            return false;
         }
     }
 
     @PostMapping("/delete/{id}")
-    public void deleteOrder(@PathVariable BigInteger id) {
+    public Boolean deleteOrder(@PathVariable BigInteger id) {
         try {
             processingService.deleteOrder(id);
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
+            return false;
         }
     }
 
     @PostMapping("/change-price")
-    public void changePrice(@Valid @RequestBody BigInteger id, @Valid @RequestBody Float price) {
+    public Boolean changePrice(@Valid @RequestBody BigInteger id, @Valid @RequestBody Float price) {
         try {
             processingService.changePrice(id, price);
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
+            return false;
         }
     }
 
     @PostMapping("/create-service")
-    public void addSpecialService(@Valid @RequestBody BigInteger orderId, @Valid @RequestBody Service service) {
+    public Boolean addSpecialService(@Valid @RequestBody BigInteger orderId, @Valid @RequestBody Service service) {
         try {
             processingService.addSpecialService(orderId, service);
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
+            return false;
         }
     }
 
