@@ -42,7 +42,7 @@ public class UserDetailsImpl implements UserDetails {
     public String getEmail() {
         return user.getEmail();
     }
-
+public  String getPhoneNumber(){ return user.getPhoneNumber();}
     @Override
     public String getPassword() {
         return user.getPassword();

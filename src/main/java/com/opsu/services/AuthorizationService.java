@@ -60,9 +60,10 @@ public class AuthorizationService {
         } else {
             role = Role.ROLE_CLIENT;
         }
+
         return new JwtResponse(jwt, new User(
                 userDetails.getId(),
-                userDetails.getEmail(),
+                userDetails.getPhoneNumber(),
                 userDetails.getUsername(),
                 userDetails.getPassword(),
                 role));
