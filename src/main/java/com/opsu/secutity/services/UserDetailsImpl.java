@@ -1,5 +1,6 @@
 package com.opsu.secutity.services;
 import com.opsu.models.User;
+import com.opsu.models.enumeration.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,7 +43,7 @@ public class UserDetailsImpl implements UserDetails {
     public String getEmail() {
         return user.getEmail();
     }
-public  String getPhoneNumber(){ return user.getPhoneNumber();}
+    public  String getPhoneNumber(){ return user.getPhoneNumber();}
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -53,6 +54,9 @@ public  String getPhoneNumber(){ return user.getPhoneNumber();}
         return user.getEmail();
     }
 
+    public User getUser (){
+        return this.user;
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;
