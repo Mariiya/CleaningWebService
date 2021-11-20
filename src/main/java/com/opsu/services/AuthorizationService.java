@@ -1,6 +1,8 @@
 package com.opsu.services;
 
+import com.opsu.dao.ConsumerDao;
 import com.opsu.dao.UserDao;
+import com.opsu.dao.VendorDao;
 import com.opsu.exceptions.EmptyDataBaseException;
 import com.opsu.models.*;
 import com.opsu.models.enumeration.Role;
@@ -13,7 +15,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,13 +31,17 @@ public class AuthorizationService {
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
     private NotificationService notificationService;
+    private VendorDao vendorDao;
+    private ConsumerDao consumerDao;
 
     @Autowired
-    public AuthorizationService(UserDao userDao, JwtUtils jwtUtils, AuthenticationManager authenticationManager, NotificationService notificationService) {
+    public AuthorizationService(UserDao userDao, JwtUtils jwtUtils, AuthenticationManager authenticationManager, NotificationService notificationService, VendorDao vendorDao, ConsumerDao consumerDao) {
         this.userDao = userDao;
         this.jwtUtils = jwtUtils;
         this.authenticationManager = authenticationManager;
         this.notificationService = notificationService;
+        this.vendorDao = vendorDao;
+        this.consumerDao = consumerDao;
     }
 
     public JwtResponse authenticateUser(LoginRequest loginRequest) throws NotFoundException {
@@ -54,21 +59,30 @@ public class AuthorizationService {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         Role role;
         String roleStr = String.valueOf(userDetails.getAuthorities());
-
+        User user;
         if ("[ROLE_SERVICE_PROVIDER]".equals(roleStr)) {
-            role = Role.ROLE_SERVICE_PROVIDER;
+            user = vendorDao.getVendorById(userDetails.getId());
+            return new JwtResponse(jwt, new Vendor(
+                    user.getId(),
+                    user.getPhoneNumber(),
+                    user.getEmail(),
+                    user.getPassword(),
+                    user.getRole(),
+                    ((Vendor) user).getFirstName(),
+                    ((Vendor) user).getLastName(),
+                    ((Vendor) user).getIndividual()));
         } else {
-            role = Role.ROLE_CLIENT;
+            user = consumerDao.getConsumerById(userDetails.getId());
+            return new JwtResponse(jwt, new Consumer(
+                    user.getId(),
+                    user.getPhoneNumber(),
+                    user.getEmail(),
+                    user.getPassword(),
+                    user.getRole(),
+                    ((Consumer) user).getFirstName(),
+                    ((Consumer) user).getLastName()));
         }
-
-        return new JwtResponse(jwt, new User(
-                userDetails.getId(),
-                userDetails.getPhoneNumber(),
-                userDetails.getUsername(),
-                userDetails.getPassword(),
-                role));
     }
-
 
     public boolean newPasswordAfterReset(String email) throws NotFoundException, EmptyDataBaseException {
         User user = userDao.findByEmail(email);
@@ -79,8 +93,9 @@ public class AuthorizationService {
         String newPasswordEncoded = DigestUtils.sha256Hex(newPassword);
         user.setPassword(newPasswordEncoded);
         userDao.update(user);
-       return notificationService.newPasswordNotification(user,newPassword);
+        return notificationService.newPasswordNotification(user, newPassword);
     }
+
     public boolean changeUserPassword(UserDetailsImpl updater, User user) throws NotFoundException, EmptyDataBaseException {
         if (!updater.getId().equals(user.getId())) {
             throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
@@ -97,7 +112,7 @@ public class AuthorizationService {
             throw new NotFoundException("User with this email is not registered in the system");
         }
 
-         return notificationService.changePasswordNotification(user);
+        return notificationService.changePasswordNotification(user);
     }
 
     public Boolean existsByEmail(String email) {
