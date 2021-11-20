@@ -75,8 +75,11 @@ public class OrderProcessingService {
         if(order == null){
             throw new EmptyDataBaseException("Order is null");
         }
-        Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
-        order.setVendor(vendor);
+
+        if (order.getVendor() != null) {
+            Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+            order.setVendor(vendor);
+        }
         Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
         order.setConsumer(consumer);
 
@@ -134,9 +137,11 @@ public class OrderProcessingService {
             throw new EmptyDataBaseException("Order list is empty");
         }
         for(Order order : orderCollection){
-            Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+            if (order.getVendor() != null) {
+                Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+                order.setVendor(vendor);
+            }
             Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
-            order.setVendor(vendor);
             order.setConsumer(consumer);
             Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
             if(serviceCollections.size() == 0){
@@ -167,9 +172,11 @@ public class OrderProcessingService {
             throw new EmptyDataBaseException("Order list is empty");
         }
         for(Order order : orderCollection){
-            Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+            if (order.getVendor() != null) {
+                Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+                order.setVendor(vendor);
+            }
             Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
-            order.setVendor(vendor);
             order.setConsumer(consumer);
             Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
             if(serviceCollections.size() == 0){
@@ -197,9 +204,11 @@ public class OrderProcessingService {
             throw new EmptyDataBaseException("Order list is empty");
         }
         for(Order order : orderCollection){
-            Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+            if (order.getVendor() != null) {
+                Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+                order.setVendor(vendor);
+            }
             Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
-            order.setVendor(vendor);
             order.setConsumer(consumer);
             Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
             if(serviceCollections.size() == 0){
@@ -227,9 +236,11 @@ public class OrderProcessingService {
             throw new EmptyDataBaseException("Order list is empty");
         }
         for(Order order : orderCollection){
-            Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+            if (order.getVendor() != null) {
+                Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+                order.setVendor(vendor);
+            }
             Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
-            order.setVendor(vendor);
             order.setConsumer(consumer);
             Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
             if(serviceCollections.size() == 0){
@@ -257,9 +268,11 @@ public class OrderProcessingService {
             throw new EmptyDataBaseException("Order list is empty");
         }
         for(Order order : orderCollection){
-            Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+            if (order.getVendor() != null) {
+                Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+                order.setVendor(vendor);
+            }
             Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
-            order.setVendor(vendor);
             order.setConsumer(consumer);
             Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
             if(serviceCollections.size() == 0){
@@ -298,7 +311,7 @@ public class OrderProcessingService {
         Order order = orderDao.getOrder(orderId);
         Vendor vendor = vendorDao.getVendorById(vendorId);
         if((vendor == null)||(order == null)){
-            throw new Exception("Order or Consumer exception");
+            throw new Exception("Order or Vendor exception");
         }
         order.setVendor(vendor);
         if(!orderDao.updateOrder(order)){
