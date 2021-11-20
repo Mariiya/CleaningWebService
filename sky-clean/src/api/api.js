@@ -23,6 +23,19 @@ export const post = async (url, data) => {
   return await response.json();
 }
 
+export const authPost = async (url, data) => {
+  const accessToken = localStorage.getItem('access_token')
+  const response = await fetch(`${baseUrl}${url}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${JSON.parse(accessToken)}`,
+    },
+    body: JSON.stringify(data)
+  })
+  return await response.json();
+}
+
 export const patch = async (url, data) => {
   const response = await fetch(`${baseUrl}${url}`, {
     method: 'PATCH',

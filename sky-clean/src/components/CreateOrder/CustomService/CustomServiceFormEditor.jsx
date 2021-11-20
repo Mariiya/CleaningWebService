@@ -3,20 +3,32 @@ import React from 'react'
 import * as Yup from "yup";
 import {useFormik} from "formik";
 import {notify} from "../../../helpers/notify/notify";
+import {useDispatch} from "react-redux";
+//api
+import {createCustomService} from "../../../api/createOrder.api";
+//redux
+import {addCustomService} from "../../../store/services/actions";
 //ui
 import Spinner from "../../../UI/Spinner/Spinner";
 //components
 import CustomServiceForm from "./CustomServiceForm";
 
 function CustomServiceFormEditor({handleShowFormCloseClick}) {
+  const dispatch = useDispatch()
+  
   const [loader, setLoader] = React.useState(false)
   
   const initialValues = {
     name: '',
+    description: '',
   }
   
   const validationSchema = Yup.object().shape({
     name: Yup.string()
+      .min(2, 'To short!')
+      .max(20, 'Too long!')
+      .required('Required'),
+    description: Yup.string()
       .min(5, 'To short!')
       .max(250, 'Too long!')
       .required('Required'),
@@ -28,8 +40,16 @@ function CustomServiceFormEditor({handleShowFormCloseClick}) {
     validateOnChange: false,
     onSubmit: (values) => {
       setLoader(true)
-      console.log(values)
-      notify('Success', 'You successfully added custom service!')
+      createCustomService(values).then((response) => {
+        if (response) {
+          dispatch(addCustomService(response))
+          handleShowFormCloseClick()
+          notify('Success', 'You successfully added custom service!')
+        } else {
+          setLoader(false)
+          notify.error('Error', 'Something went wrong, please try later')
+        }
+      })
     }
   })
   

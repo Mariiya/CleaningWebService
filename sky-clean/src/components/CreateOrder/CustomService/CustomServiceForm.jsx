@@ -18,6 +18,10 @@ function CustomServiceForm({values, errors, form, handleChange, handleShowFormCl
         <div className="customServiceForm__input">
           <FormInput placeholder="Enter your service name" name="name" value={values.name} onChange={handleChange} errors={errors.name}/>
         </div>
+  
+        <div className="customServiceForm__input">
+          <FormInput placeholder="Enter service description" name="description" value={values.description} onChange={handleChange} errors={errors.description}/>
+        </div>
       </div>
   
       <div className="customServiceForm__footer">

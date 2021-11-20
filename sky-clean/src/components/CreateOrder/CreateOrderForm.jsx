@@ -1,5 +1,6 @@
 //general
 import React from 'react'
+import {useSelector} from "react-redux";
 //ui
 import FormInput from "../../UI/FormInput/FormInput";
 import FormTextArea from "../../UI/FormTextArea/FormTextArea";
@@ -11,8 +12,9 @@ import CustomServiceFormEditor from "./CustomService/CustomServiceFormEditor";
 //styles
 import './CreateOrderForm.scss'
 
-function CreateOrderForm({values, errors, form, handleChange, services}) {
+function CreateOrderForm({values, errors, form, handleChange}) {
   const [showForm, setShowForm] = React.useState(false)
+  const services = useSelector((state) => state.services.services)
   
   const handleShowFormOpenClick = () => {
     setShowForm(true)
@@ -48,10 +50,10 @@ function CreateOrderForm({values, errors, form, handleChange, services}) {
             </p>
         
             <div className="createOrderForm__services">
-              {services.length ? (
+              {services?.length ? (
                 <div className="createOrderForm__servicesContainer">
                   {services.map((service) => (
-                    <ServiceCheckBox key={service.name} title={service.name}/>
+                    <ServiceCheckBox key={service.name} service={service}/>
                   ))}
                 </div>
               ) : (

@@ -7,18 +7,22 @@ const ProtectedRoute = ({children, isAuth, role, to, ...rest}) => {
     <Route
       {...rest}
       render={
-        ({ location }) => (
-          isAuth || role === 'ROLE_CLIENT'
-            ? (
+        ({ location }) => {
+          if (isAuth && role === 'ROLE_CLIENT') {
+            return (
               children
-            ) : (
+            )
+          } else {
+            return (
               <Redirect
                 to={{
                   pathname: `${to}`,
                   state: { from: location }
                 }}
               />
-            ))
+            )
+          }
+        }
       }
     />
   )

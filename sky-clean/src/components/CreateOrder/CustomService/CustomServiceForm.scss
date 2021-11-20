@@ -35,6 +35,9 @@
   }
 
   &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
     padding: 41px 0;
     border-top: 1px solid #ffffff;
     border-bottom: 1px solid #ffffff;
