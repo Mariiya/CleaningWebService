@@ -101,9 +101,12 @@ public class OrderProcessingService {
             throw new EmptyDataBaseException("Order list is empty");
         }
         for(Order order : orderCollection){
-            Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+            if(Status.STATUS_IN_PROGRES.equals(order.getStatus())) {
+                Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+                order.setVendor(vendor);
+            }
             Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
-            order.setVendor(vendor);
+
             order.setConsumer(consumer);
             Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
             if(serviceCollections.size() == 0){

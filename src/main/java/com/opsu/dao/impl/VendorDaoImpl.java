@@ -9,6 +9,7 @@ import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -41,7 +42,7 @@ public class VendorDaoImpl implements VendorDao {
             return jdbcTemplate.queryForObject(GET_VENDOR_BY_ID, new VendorMapper(), id);
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
-            throw new NotFoundException("Vendor not found");
+            throw new NotFoundException("Vendor not found  " + id);
         }
 
     }
