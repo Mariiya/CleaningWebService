@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 import java.math.BigInteger;
 
 public class Service {
-    @Min(value=0,message ="Service id is not be correct")
+    @Min(value=0,message ="Service id is not correct")
     private BigInteger id;
 
     @NotEmpty(message ="Service can not be empty")
