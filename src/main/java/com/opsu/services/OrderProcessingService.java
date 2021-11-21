@@ -76,7 +76,7 @@ public class OrderProcessingService {
             throw new EmptyDataBaseException("Order is null");
         }
 
-        if (order.getVendor() != null) {
+        if (order.getVendor() != null && order.getVendor().getEmail()!=null) {
             Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
             order.setVendor(vendor);
         }
