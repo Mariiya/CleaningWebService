@@ -42,6 +42,6 @@ public interface ServiceDao {
             "                                            serviceId, name, description, isCustom \n" +
             "                                        FROM service \n" +
             "                                        WHERE \n" +
-            "                                            name = 'qwerty'   AND description = 'qwertyqwertyqwerty' AND isCustom = 1\n" +
+            "                                            name = ?   AND description = ? AND isCustom = 1\n" +
             "       and rownum=1 order by serviceId DESC ";
 }
