@@ -38,9 +38,10 @@ public interface ServiceDao {
 
     String ADD_NEW_CUSTOM_SERVICE = "INSERT INTO SERVICE (SERVICEID, name, description, isCustom)\n" +
                                     "VALUES (SEQ.nextval, ?, ?, 1)";
-    String GET_CUSTOM_SERVICE_WITH_ID = "SELECT " +
-                                            "serviceId, name, description, isCustom " +
-                                        "FROM service " +
-                                        "WHERE " +
-                                            "name = ? AND description = ? AND isCustom = 1";
+    String GET_CUSTOM_SERVICE_WITH_ID = "SELECT \n" +
+            "                                            serviceId, name, description, isCustom \n" +
+            "                                        FROM service \n" +
+            "                                        WHERE \n" +
+            "                                            name = 'qwerty'   AND description = 'qwertyqwertyqwerty' AND isCustom = 1\n" +
+            "       and rownum=1 order by serviceId DESC ";
 }
