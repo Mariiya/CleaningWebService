@@ -14,6 +14,9 @@ import SignInPage from "../../pages/SignInPage/SignInPage";
 import SignUpPage from "../../pages/SignUpPage/SignUpPage";
 import ResetPasswordPage from "../../pages/ResetPasswordPage/ResetPasswordPage"
 import OrdersPage from "../../pages/OrdersPage/OrdersPage";
+import CreateOrderPage from "../../pages/CreateOrderPage/CreateOrderPage";
+import AccountPage from "../../pages/AccountPage/AccountPage";
+import OrderPage from "../../pages/OrderPage/OrderPage";
 import NotFound from "../NotFound/NotFound";
 //components
 import Header from '../Header/Header';
@@ -21,7 +24,6 @@ import Main from '../Main/Main';
 import Footer from "../Footer/Footer";
 //styles
 import './Application.scss';
-import CreateOrderPage from "../../pages/CreateOrderPage/CreateOrderPage";
 
 function Application() {
   const dispatch = useDispatch()
@@ -45,12 +47,46 @@ function Application() {
         <Main>
           <Switch>
             <Route exact path="/" component={MainPage}/>
-            <PrivateRoute path="/sign-in" children={<SignInPage/>} isAuth={!isAuth} to={'/account'}/>
-            <PrivateRoute path="/sign-up" children={<SignUpPage/>} isAuth={!isAuth} to={'/account'}/>
-            <PrivateRoute path="/password-reset" children={<ResetPasswordPage/>} isAuth={!isAuth} to={'/account'}/>
-            <PrivateRoute path="/orders" children={<OrdersPage/>} isAuth={isAuth} to={'/sign-in'}/>
-            <ProtectedRoute path="/create-order" children={<CreateOrderPage/>} isAuth={isAuth} role={userRole} to={'/'}/>
-            <Route path="*" component={NotFound}/>
+            <PrivateRoute
+              path="/sign-in"
+              children={<SignInPage/>}
+              isAuth={!isAuth}
+              to={'/account'}/>
+            <PrivateRoute
+              path="/sign-up"
+              children={<SignUpPage/>}
+              isAuth={!isAuth}
+              to={'/account'}/>
+            <PrivateRoute
+              path="/password-reset"
+              children={<ResetPasswordPage/>}
+              isAuth={!isAuth}
+              to={'/account'}/>
+            <PrivateRoute
+              path="/orders"
+              children={<OrdersPage/>}
+              isAuth={isAuth}
+              to={'/sign-in'}/>
+            <PrivateRoute
+              path="/order/:id"
+              children={<OrderPage/>}
+              isAuth={isAuth}
+              to={'/sign-in'}/>
+            />
+            <PrivateRoute
+              path="/account"
+              children={<AccountPage/>}
+              isAuth={isAuth}
+              to={'/sign-in'}/>
+            <ProtectedRoute
+              path="/create-order"
+              children={<CreateOrderPage/>}
+              isAuth={isAuth}
+              role={userRole}
+              to={'/'}/>
+            <Route
+              path="*"
+              component={NotFound}/>
           </Switch>
         </Main>
         <Footer/>

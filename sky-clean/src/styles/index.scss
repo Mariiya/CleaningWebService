@@ -51,6 +51,14 @@ ul, ol {
     position: relative;
 }
 
+.spinnerForOrders {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
 .spinnerContainerAbsolute {;
     position: absolute;
     top: 50%;
