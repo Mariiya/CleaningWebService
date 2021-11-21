@@ -1,0 +1,25 @@
+.filterService {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  max-width: 250px;
+  width: 100%;
+  cursor: pointer;
+
+  &__imgContainer {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+
+    &_active {
+      background-color: #FFB3AB;
+    }
+  }
+
+  &__title {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18px;
+    color: #2F2E41;
+  }
+}

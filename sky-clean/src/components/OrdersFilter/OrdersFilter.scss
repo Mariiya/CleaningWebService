@@ -68,6 +68,7 @@
   }
 
   &__filter {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -82,6 +83,20 @@
       width: 15px;
       height: 21px;
     }
+  }
+
+  &__filterServices {
+    position: absolute;
+    top: 37px;
+    left: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    width: 100%;
+    padding: 14px 18px;
+    border-bottom-left-radius: 27px;
+    border-bottom-right-radius: 27px;
+    background-color: #ffffff;
   }
 }
 
