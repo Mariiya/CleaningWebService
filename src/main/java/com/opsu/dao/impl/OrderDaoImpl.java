@@ -182,4 +182,19 @@ public class OrderDaoImpl implements OrderDao {
     public BigInteger getNumberOfOrders() throws NotFoundException {
         return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS, new RowNumMapper());
     }
+
+    @Override
+    public BigInteger getNumberOfOrders(Float price) throws NotFoundException {
+        return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS_BY_PRICE, new RowNumMapper(), price);
+    }
+
+    @Override
+    public BigInteger getNumberOfOrders(Status status) throws NotFoundException {
+        return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS_BY_STATUS, new RowNumMapper(), status.name());
+    }
+
+    @Override
+    public BigInteger getNumberOfOrders(String title) throws NotFoundException {
+        return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS_BY_TITLE, new RowNumMapper(), title);
+    }
 }

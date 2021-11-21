@@ -421,4 +421,31 @@ public class OrderProcessingService {
             throw new NotFoundException("Can't query number of rows");
         }
     }
+
+    public BigInteger getNumberOfOrders(Float price) throws NotFoundException {
+        try{
+            return orderDao.getNumberOfOrders(price);
+        }
+        catch (Exception e){
+            throw new NotFoundException("Can't query number of rows");
+        }
+    }
+
+    public BigInteger getNumberOfOrders(Status status) throws NotFoundException {
+        try{
+            return orderDao.getNumberOfOrders(status);
+        }
+        catch (Exception e){
+            throw new NotFoundException("Can't query number of rows");
+        }
+    }
+
+    public BigInteger getNumberOfOrders(String title) throws NotFoundException {
+        try{
+            return orderDao.getNumberOfOrders(title);
+        }
+        catch (Exception e){
+            throw new NotFoundException("Can't query number of rows");
+        }
+    }
 }

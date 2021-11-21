@@ -35,6 +35,12 @@ public interface OrderDao {
 
     BigInteger getNumberOfOrders() throws NotFoundException;
 
+    BigInteger getNumberOfOrders(Float price) throws NotFoundException;
+
+    BigInteger getNumberOfOrders(Status status) throws NotFoundException;
+
+    BigInteger getNumberOfOrders(String title) throws NotFoundException;
+
     String GET_ORDER_BY_ID = "SELECT\n" +
             "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
             "FROM orders\n" +
@@ -72,4 +78,7 @@ public interface OrderDao {
             "AND ROWNUM <= 1 " +
             "ORDER BY orderID desc";
     String GET_NUMBER_OF_ORDERS = "SELECT COUNT(orderID) as \"number\" FROM ORDERS";
+    String GET_NUMBER_OF_ORDERS_BY_PRICE = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE price >= ? AND price <= ?";
+    String GET_NUMBER_OF_ORDERS_BY_TITLE = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE title like ?";
+    String GET_NUMBER_OF_ORDERS_BY_STATUS = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE status = ?";
 }
