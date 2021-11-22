@@ -2,7 +2,7 @@
 import React from 'react'
 import {useDispatch, useSelector} from "react-redux";
 //redux
-import {setServices} from "../../store/services/actions";
+import {setServices, uncheckAllServices} from "../../store/services/actions";
 //api
 import {getServices} from "../../api/createOrder.api";
 //components
@@ -11,7 +11,8 @@ import Service from "./Service/Service";
 import './OrdersFilter.scss'
 //assets
 import {ReactComponent as SearchIcon} from "../../assets/icons/search.svg";
-import {ReactComponent as ArrowIcon} from "../../assets/icons/services-arrow-down.svg";
+import {ReactComponent as ArrowDownIcon} from "../../assets/icons/services-arrow-down.svg";
+import {ReactComponent as ArrowUpIcon} from "../../assets/icons/services-arrow-down.svg";
 
 const OrdersFilter = () => {
     const dispatch = useDispatch()
@@ -25,8 +26,13 @@ const OrdersFilter = () => {
     
     const [servicesFilterOpen, setServicesFilterOpen] = React.useState(false)
     
-    const handleServicesFilterChange = () => {
-        setServicesFilterOpen(!servicesFilterOpen)
+    const handleServicesFilterClose = () => {
+        setServicesFilterOpen(false)
+        dispatch(uncheckAllServices())
+    }
+    
+    const handleServicesFilterOpen = () => {
+        setServicesFilterOpen(true)
     }
     
     return (
@@ -43,7 +49,13 @@ const OrdersFilter = () => {
                 </div>
                 <div className="ordersFilter__filter">
                     <h3 className="ordersFilter__filter-title">Types of work:</h3>
-                    <ArrowIcon onClick={handleServicesFilterChange}/>
+                    {
+                        !servicesFilterOpen ?
+                          <ArrowDownIcon
+                            onClick={handleServicesFilterOpen}/> :
+                          <ArrowUpIcon
+                            className="ordersFilter__close"
+                            onClick={handleServicesFilterClose}/>}
                     {servicesFilterOpen && (
                       <div className="ordersFilter__filterServices">
                           {services?.map((service) => (

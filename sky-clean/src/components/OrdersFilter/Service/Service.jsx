@@ -2,7 +2,7 @@
 import React from 'react'
 import {useDispatch} from "react-redux";
 //redux
-import {setServiceCheck} from "../../../store/services/actions";
+import {setOneServiceCheck} from "../../../store/services/actions";
 //styles
 import './Service.scss'
 //assets
@@ -15,7 +15,7 @@ function Service({service}) {
   
   const handleCheckBoxChange = (id) => {
     setCheckBoxState(!checkBoxState)
-    dispatch(setServiceCheck(id))
+    dispatch(setOneServiceCheck(id))
   }
   
   return (

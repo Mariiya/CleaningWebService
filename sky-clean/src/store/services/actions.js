@@ -27,3 +27,16 @@ export const clearCustomServices = () => {
     type: SERVICES.CLEAR_CUSTOM_SERVICES,
   }
 }
+
+export const setOneServiceCheck = (id) => {
+  return {
+    type: SERVICES.SET_ONE_SERVICE_CHECK,
+    payload: id
+  }
+}
+
+export const uncheckAllServices = () => {
+  return {
+    type: SERVICES.UNCHECK_ALL_SERVICES
+  }
+}

@@ -1,7 +1,7 @@
 //general
 import React from 'react'
 //api
-import {getOrder} from "../../api/orders.api";
+import {assignOrder, getOrder, setOrderInProgress} from "../../api/orders.api";
 //components
 import Detail from "./Detail/Detail";
 //styles
@@ -9,6 +9,9 @@ import './Order.scss'
 import Status from "./Status/Status";
 import Service from "./Service/Service";
 import Spinner from "../../UI/Spinner/Spinner";
+import {useSelector} from "react-redux";
+import {notify} from "../../helpers/notify/notify";
+import {useHistory} from "react-router";
 
 function Order({id}) {
   const [loading, setLoading] = React.useState(false)
@@ -24,6 +27,24 @@ function Order({id}) {
       setOrder(null)
     }
   }, [id])
+  
+  const history = useHistory()
+  
+  const userInfo = useSelector((state) => state.user.userInfo)
+  
+  
+  const assignOrderByVendor = (userId, orderId) => {
+    assignOrder(userId, orderId).then((response) => {
+      if (response === true) {
+        setOrderInProgress(orderId).then((response) => {
+          if (response === true) {
+            notify('Success', 'You successfully assigned this order!')
+            history.push('/account')
+          }
+        })
+      }
+    })
+  }
   
   return (
     <div className="orderDetail">
@@ -69,9 +90,9 @@ function Order({id}) {
                 {order?.price}
               </h3>
       
-              <button className="orderDetail__acceptBtn">
+              {userInfo.role !== 'ROLE_CLIENT' && <button className="orderDetail__acceptBtn" onClick={() => assignOrderByVendor(userInfo.id, order.id)}>
                 Accept
-              </button>
+              </button>}
             </div>
           </div>
         )}
