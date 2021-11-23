@@ -1,11 +1,11 @@
-/**
- * Class ServiceCollection
- * @autor group 183
- * @version 2.1
- */
+
 package com.opsu.models;
 import java.math.BigInteger;
-
+/**
+ * Class ServiceCollection
+ * @author group 183
+ * @version 2.1
+ */
 public class ServiceCollection {
     /** field id */
     private BigInteger id;
@@ -15,7 +15,7 @@ public class ServiceCollection {
     private Service service;
 
     /**
-     * constructor- create vendor
+     * constructor- create service collection
      * @param id service collection id
      * @param order oder
      * @param service  service

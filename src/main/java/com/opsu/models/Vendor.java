@@ -1,13 +1,13 @@
-/**
- * Class vendor
- * @autor group 183
- * @version 2.1
- */
+
 package com.opsu.models;
 import com.opsu.models.enumeration.Role;
 import javax.validation.constraints.*;
 import java.math.BigInteger;
-
+/**
+ * Class vendor
+ * @author group 183
+ * @version 2.1
+ */
 
 public class Vendor extends User{
     /** field firstName */

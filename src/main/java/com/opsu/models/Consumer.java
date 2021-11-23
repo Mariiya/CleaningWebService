@@ -1,21 +1,19 @@
-/**
- * Class consumer
- * @autor group 183
- * @version 2.1
- */
+
 package com.opsu.models;
-
 import com.opsu.models.enumeration.Role;
-
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
-
+/**
+ * Class consumer
+ * @author group 183
+ * @version 2.1
+ */
 public class Consumer extends User {
 
     /** field firstName */
+
     @Pattern(regexp = "^[A-Z][a-z]*(\\s(([a-z]{1,3})|(([a-z]')?[A-Z][a-z]*)))*$", message = "Vendor first name format is not correct")
     @Size(min = 2, max = 20, message = "Consumer first name should contain from 2 to 20 digits")
     @NotEmpty(message = "Consumer first name  can not be empty")
