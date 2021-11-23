@@ -15,8 +15,6 @@ public interface OrderDao {
 
     Collection<Order> getOrders(int page) throws NotFoundException;
 
-    Collection<Order> getOrders(Service service, int page) throws NotFoundException;
-
     Collection<Order> getOrders(Float minPrice, Float maxPrice, int page) throws NotFoundException;
 
     Collection<Order> getOrders(String title, int page) throws NotFoundException;
@@ -24,6 +22,10 @@ public interface OrderDao {
     Collection<Order> getOrders(Status status, int page) throws NotFoundException;
 
     Collection<Order> getOrders(BigInteger userId) throws NotFoundException;
+
+    Collection<Order> getOrders(BigInteger serviceId, int page) throws NotFoundException;
+
+    Collection<Order> getOrders(Float minPrice, Float maxPrice, String title, Status status, int page) throws NotFoundException;
 
     boolean createOrder(Order order);
 
@@ -41,23 +43,26 @@ public interface OrderDao {
 
     BigInteger getNumberOfOrders(String title) throws NotFoundException;
 
+    BigInteger getNumberOfOrders(BigInteger serviceId) throws NotFoundException;
+
     String GET_ORDER_BY_ID = "SELECT\n" +
-            "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
-            "FROM orders\n" +
+            " orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address " +
+            "FROM orders " +
             "WHERE orderId = ?";
     String GET_ORDERS = "SELECT * FROM (SELECT o.*, ROWNUM r FROM ORDERS o) WHERE r > ? AND r <= ?";
     String GET_ORDERS_BY_PRICE = "SELECT * FROM (SELECT o.*, ROWNUM r FROM ORDERS o) WHERE price >= ? AND price <= ? AND (r > ? AND r <= ?)";
-    String GET_ORDERS_BY_TITLE = "SELECT* FROM (SELECT o.*, ROWNUM r FROM ORDERS o) WHERE title like ? AND (r > ? AND r <= ?)";
-    String GET_ORDERS_BY_STATUS = "SELECT* FROM (SELECT o.*, ROWNUM r FROM ORDERS o) WHERE status = ? AND (r > ? AND r <= ?)";
-    String GET_ORDERS_BY_USER = "SELECT\n" +
-            "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
-            "FROM orders\n" +
-            "WHERE consumerId = ?" +
-            "   OR vendorId = ?";
-    String GET_ORDERS_BY_SERVICE = " ?";
+    String GET_ORDERS_BY_TITLE = "SELECT * FROM (SELECT o.*, ROWNUM r FROM ORDERS o) WHERE title like ? AND (r > ? AND r <= ?)";
+    String GET_ORDERS_BY_STATUS = "SELECT * FROM (SELECT o.*, ROWNUM r FROM ORDERS o) WHERE status = ? AND (r > ? AND r <= ?)";
+    String GET_ORDERS_BY_SERVICE = "SELECT orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address " +
+            "FROM (SELECT o.*, ROWNUM r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE sc.SERVICEID = ?) WHERE r > ? AND r < ?";
+    String GET_ORDERS_BY_USER = "SELECT " +
+            "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address " +
+            "FROM orders " +
+            "WHERE consumerId = ? " +
+            "OR vendorId = ?";
     String SAVE_NEW_ORDER = "INSERT INTO ORDERS (orderId, title, description, status, consumerId, startDate, endDate, price, address) " +
             "                    VALUES (SEQ.nextval, ?, ?, ?, ?, ?, ?, ?, ?)";
-    String UPDATE_ORDER = "UPDATE orders SET\n" +
+    String UPDATE_ORDER = "UPDATE orders SET " +
                 "title = ? ,\n" +
                 "description = ?,\n" +
                 "status = ? ,\n" +
@@ -81,4 +86,5 @@ public interface OrderDao {
     String GET_NUMBER_OF_ORDERS_BY_PRICE = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE price >= ? AND price <= ?";
     String GET_NUMBER_OF_ORDERS_BY_TITLE = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE title like ?";
     String GET_NUMBER_OF_ORDERS_BY_STATUS = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE status = ?";
+    String GET_NUMBER_OF_ORDERS_BY_SERVICE = "SELECT Count(o.ORDERID) as \"number\" FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE sc.SERVICEID = ?";
 }

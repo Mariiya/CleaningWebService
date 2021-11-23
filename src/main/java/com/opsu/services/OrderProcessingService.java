@@ -10,9 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigInteger;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 @org.springframework.stereotype.Service
 public class OrderProcessingService {
@@ -128,34 +126,11 @@ public class OrderProcessingService {
         return orderCollection;
     }
 
-    public Collection<Order> getOrders(Service service, int page) throws Exception {
-        if((service == null)||(service.getId() == null)){
-            throw new Exception("Service exception");
+    public Collection<Order> getOrders(BigInteger serviceId, int page) throws Exception {
+        if(serviceId == null || serviceId.equals(BigInteger.ZERO)){
+            throw new NumberFormatException("Wrond id input");
         }
-        Collection<Order> orderCollection = orderDao.getOrders(service, page);
-        if(orderCollection.size() == 0){
-            throw new EmptyDataBaseException("Order list is empty");
-        }
-        for(Order order : orderCollection){
-            if (order.getVendor() != null && order.getVendor().getEmail()!=null) {
-                Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
-                order.setVendor(vendor);
-            }
-            Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
-            order.setConsumer(consumer);
-            Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
-            if(serviceCollections.size() == 0){
-                throw new EmptyDataBaseException("ServiceCollection is null");
-            }
-            ArrayList<Service> services = new ArrayList<>();
-            for(ServiceCollection collection : serviceCollections){
-                services.add(serviceDao.getService(collection.getService().getId()));
-            }
-            if(services.size() == 0){
-                throw new EmptyDataBaseException("Services is null");
-            }
-            order.setServices(services);
-        }
+        Collection<Order> orderCollection = orderDao.getOrders(serviceId, page);
 
         return orderCollection;
     }
@@ -289,6 +264,15 @@ public class OrderProcessingService {
         }
 
         return orderCollection;
+    }
+
+    public Collection<Order> getOrders(Float minPrice, Float maxPrice, String title, Status status, Service service, int page) throws Exception {
+        try{
+            return orderDao.getOrders(minPrice, maxPrice, title, status, page);
+        } catch (NotFoundException e){
+            logger.error(e.getMessage());
+            throw new EmptyDataBaseException("Orders not found");
+        }
     }
 
     public void updateOrder(Order order) throws Exception {
@@ -443,6 +427,15 @@ public class OrderProcessingService {
     public BigInteger getNumberOfOrders(String title) throws NotFoundException {
         try{
             return orderDao.getNumberOfOrders(title);
+        }
+        catch (Exception e){
+            throw new NotFoundException("Can't query number of rows");
+        }
+    }
+
+    public BigInteger getNumberOfOrders(BigInteger serviceId) throws NotFoundException {
+        try{
+            return orderDao.getNumberOfOrders(serviceId);
         }
         catch (Exception e){
             throw new NotFoundException("Can't query number of rows");
