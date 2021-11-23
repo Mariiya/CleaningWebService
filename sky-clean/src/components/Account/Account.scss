@@ -1,0 +1,70 @@
+.account {
+  display: flex;
+  margin: 80px 0;
+  width: 100%;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 1170px;
+    width: 100%;
+  }
+
+  &__switch {
+    display: flex;
+    gap: 25px;
+
+    @media screen and (max-width: 512px){
+      gap: 10px;
+    }
+  }
+
+  &__switchBtn {
+    width: 100%;
+    max-width: 240px;
+    padding: 10px 0;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-style: none;
+    background-color: #ffffff;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 20px;
+    color: #2F2E41;
+    cursor: pointer;
+    outline: none;
+    transition: 0.3s;
+
+    &:hover {
+      color: #ffffff;
+      background-color: #90CCF4;
+    }
+
+    &_active {
+      color: #ffffff;
+      background-color: #90CCF4;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    display: flex;
+    padding: 50px 100px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: #90CCF4;
+
+    @media screen and (max-width: 768px){
+      padding: 50px;
+    }
+
+    @media screen and (max-width: 512px){
+      padding: 20px;
+    }
+
+    @media screen and (max-width: 520px){
+      border-top-right-radius: 0;
+    }
+  }
+}
