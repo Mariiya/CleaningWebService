@@ -1,0 +1,19 @@
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__title {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 20px;
+    color: #ffffff;
+  }
+
+  &__description {
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 20px;
+    color: #ffffff;
+  }
+}

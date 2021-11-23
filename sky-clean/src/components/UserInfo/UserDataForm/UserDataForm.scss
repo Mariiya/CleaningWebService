@@ -1,0 +1,52 @@
+.userDataForm {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  width: 100%;
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  &__fieldName {
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 20px;
+    color: #2F2E41;
+  }
+
+  &__input {
+    height: 42px;
+  }
+
+  &__footer {
+    display: flex;
+
+    @media screen and (max-width: 698px){
+      justify-content: center;
+    }
+  }
+
+  &__submitBtn {
+    padding: 10px 50px;
+    border-radius: 15px;
+    border-style: none;
+    outline: none;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: 0.5s;
+
+    &:hover {
+      background-color: #dceeff;
+    }
+  }
+}
