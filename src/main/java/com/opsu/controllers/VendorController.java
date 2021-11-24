@@ -58,8 +58,8 @@ public class VendorController {
     /** @param vendor vendor
     * @param updater method update */
     @PostMapping("/update")
-    public void updateVendor(@AuthenticationPrincipal UserDetailsImpl updater, @Valid
+    public Vendor updateVendor(@AuthenticationPrincipal UserDetailsImpl updater, @Valid
     @RequestBody Vendor vendor) throws NotFoundException, EmptyDataBaseException {
-        vendorService.update(updater,vendor);
+      return   vendorService.update(updater,vendor);
     }
 }

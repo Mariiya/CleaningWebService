@@ -52,7 +52,7 @@ public class VendorService {
     }
 
 
-    public boolean update(UserDetailsImpl updater, Vendor vendor) throws NotFoundException, EmptyDataBaseException {
+    public Vendor update(UserDetailsImpl updater, Vendor vendor) throws NotFoundException, EmptyDataBaseException {
         if (!updater.getId().equals(vendor.getId())) {
             throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
         }
@@ -61,7 +61,7 @@ public class VendorService {
         vendorfromDB.setFirstName(vendor.getFirstName());
         authorizationService.updateUser(updater, vendor);
         vendorDao.update(vendorfromDB);
-        return true;
+        return vendorfromDB;
     }
 
 }
