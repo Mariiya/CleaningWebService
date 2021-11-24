@@ -18,7 +18,6 @@ import java.math.BigInteger;
 public class ConsumerDaoImpl implements ConsumerDao {
 
     private static final Logger LOG = Logger.getLogger(ConsumerDaoImpl.class);
-    //Утилита от Спринга для работы с БД
     private final JdbcTemplate jdbcTemplate;
 
 

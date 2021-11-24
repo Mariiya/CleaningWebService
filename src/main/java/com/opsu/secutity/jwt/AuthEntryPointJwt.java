@@ -1,8 +1,6 @@
 package com.opsu.secutity.jwt;
 
-import com.opsu.services.AuthorizationService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

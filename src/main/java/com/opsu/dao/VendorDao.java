@@ -28,8 +28,6 @@ public interface VendorDao {
             "            LEFT JOIN users ON vendor.userId = users.userId\n" +
             "            WHERE lastName = ?\n ";
 
-    //Используем merge вместо insert чтобы избежать дубликатов в базе и ошибок при добавленнии еще одного пользвоателя
-// безопасно и надежно
     String CREATE_VENDOR = "INSERT INTO VENDOR  VALUES (?, ?, ?, ?)";
     String UPDATE_VENDOR = "UPDATE VENDOR SET firstName = ?, lastName = ? where userid = ?";
 
