@@ -1,5 +1,6 @@
 //general
 import React from 'react'
+import {Link} from "react-router-dom";
 //styles
 import './Order.scss'
 //assets
@@ -10,8 +11,8 @@ const Order = ({order}) => {
     return (
         <div className="order">
             <div className="order__header">
-                <h3 className="order__title">{order.title}</h3>
-                <h3 className="order__consumer">{order.consumer}</h3>
+                <h3 className="order__title">{order.name}</h3>
+                <h3 className="order__consumer">{order.consumer.firstName} {order.consumer.lastName}</h3>
             </div>
 
             <div className="order__body">
@@ -21,7 +22,7 @@ const Order = ({order}) => {
                             <div className="order__checkBox-icon">
                                 <CheckBoxIcon/>
                             </div>
-                            <p>{service.title}</p>
+                            <p>{service.name}</p>
                         </div>
                     ))}
                 </div>
@@ -30,7 +31,7 @@ const Order = ({order}) => {
             </div>
 
             <div className="order__footer">
-                <a className="order__moreLink" href="/#">View more <ArrowIcon/></a>
+                <Link className="order__moreLink" to={`/order/${order.id}`}>View more <ArrowIcon/></Link>
             </div>
         </div>
     )

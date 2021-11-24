@@ -58,16 +58,6 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Collection<Order> getOrders(Service service, int page) throws NotFoundException {
-        try {
-            return jdbcTemplate.query(GET_ORDERS_BY_SERVICE, new OrderMapper(), service.getId());
-        } catch (DataAccessException e) {
-            LOG.error(e.getMessage(), e);
-            throw new NotFoundException("Orders not found");
-        }
-    }
-
-    @Override
     public Collection<Order> getOrders(Float minPrice, Float maxPrice, int page) throws NotFoundException {
         int downLimit = (page - 1) * 15;
         int upLimit = (downLimit + 15);
@@ -108,6 +98,66 @@ public class OrderDaoImpl implements OrderDao {
         try {
             return jdbcTemplate.query(GET_ORDERS_BY_USER, new OrderMapper(), userId, userId);
         } catch (DataAccessException e) {
+            LOG.error(e.getMessage(), e);
+            throw new NotFoundException("Orders not found");
+        }
+    }
+
+    @Override
+    public Collection<Order> getOrders(BigInteger serviceId, int page) throws NotFoundException {
+        int downLimit = (page - 1) * 15;
+        int upLimit = (downLimit + 15);
+        try {
+            return jdbcTemplate.query(GET_ORDERS_BY_SERVICE, new OrderMapper(), serviceId, downLimit, upLimit);
+        } catch(DataAccessException e) {
+            LOG.error(e.getMessage(), e);
+            throw new NotFoundException("Orders not found");
+        }
+    }
+
+    @Override
+    public Collection<Order> getOrders(Float minPrice, Float maxPrice, String title, Status status, int page) throws NotFoundException {
+        String query = "SELECT * FROM (SELECT o.*, ROWNUM r FROM ORDERS o) WHERE (r > ? AND r <= ?)";
+        Collection<Order> orderCollection = null;
+        try{
+            int downLimit = (page - 1) * 15;
+            int upLimit = (downLimit + 15);
+            if(minPrice != null && maxPrice != null){
+               if(minPrice < 0){
+                   minPrice = 0f;
+               }
+               if(maxPrice <= 0){
+                   maxPrice = Float.MAX_VALUE;
+               }
+               query.concat(" AND (price => ? AND price <= ?)");
+            }
+            if(title != null && !title.isEmpty()){
+                query.concat(" AND (title like ?)");
+            }
+            if(status != null){
+                query.concat(" AND (status = ?)");
+            }
+
+            if((minPrice != null && maxPrice != null) && (title != null && !title.isEmpty()) && (status != null)){
+                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, minPrice, maxPrice, title, status.name());
+            } else if((minPrice != null && maxPrice != null) && (title != null && !title.isEmpty())){
+                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, minPrice, maxPrice, title);
+            } else if((minPrice != null && maxPrice != null) && (status != null)){
+                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, minPrice, maxPrice, status.name());
+            } else if((title != null && !title.isEmpty()) && (status != null)){
+                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, title, status.name());
+            } else if(minPrice != null && maxPrice != null) {
+                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, minPrice, maxPrice);
+            } else if(title != null && !title.isEmpty()){
+                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, title);
+            } else if(status != null){
+                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, status.name());
+            } else {
+                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit);
+            }
+            return orderCollection;
+
+        } catch (DataAccessException e){
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Orders not found");
         }
@@ -181,5 +231,25 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public BigInteger getNumberOfOrders() throws NotFoundException {
         return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS, new RowNumMapper());
+    }
+
+    @Override
+    public BigInteger getNumberOfOrders(Float price) throws NotFoundException {
+        return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS_BY_PRICE, new RowNumMapper(), price);
+    }
+
+    @Override
+    public BigInteger getNumberOfOrders(Status status) throws NotFoundException {
+        return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS_BY_STATUS, new RowNumMapper(), status.name());
+    }
+
+    @Override
+    public BigInteger getNumberOfOrders(String title) throws NotFoundException {
+        return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS_BY_TITLE, new RowNumMapper(), title);
+    }
+
+    @Override
+    public BigInteger getNumberOfOrders(BigInteger serviceId) throws NotFoundException {
+        return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS_BY_SERVICE, new RowNumMapper(), serviceId);
     }
 }

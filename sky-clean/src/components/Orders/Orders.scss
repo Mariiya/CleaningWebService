@@ -1,10 +1,10 @@
 .orders {
   flex: 1;
   background-color: #90CCF4;
+
   &__wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     margin: 0 auto;
     max-width: 1170px;
     width: auto;
@@ -22,13 +22,17 @@
 
   &__list {
     margin: 110px 0 35px 0;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
     gap: 20px;
-    flex-wrap: wrap;
 
     @media screen and (max-width: 1190px) {
-      justify-content: space-evenly;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (max-width: 698px) {
+      grid-template-columns: 1fr;
     }
   }
 
@@ -41,6 +45,12 @@
   }
 
   &__page {
+    padding: 10px 20px;
     cursor: pointer;
+
+    &_active {
+      border-radius: 15px;
+      background-color: #ffffff;
+    }
   }
 }

@@ -60,9 +60,9 @@ public class OrderProcessingController {
     }
 
     @GetMapping("/get-by-service")
-    public Collection<Order> getOrders(@Valid @RequestBody Service service, @RequestParam int page) {
+    public Collection<Order> getOrders(@Valid @RequestParam BigInteger serviceId, @RequestParam int page) {
         try {
-            return processingService.getOrders(service, page);
+            return processingService.getOrders(serviceId, page);
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;
@@ -110,11 +110,11 @@ public class OrderProcessingController {
     }
 
     @PostMapping("/update")
-    public Boolean updateOrder(@RequestBody Order order){
-        try{
+    public Boolean updateOrder(@RequestBody Order order) {
+        try {
             processingService.updateOrder(order);
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
             return false;
         }
@@ -220,10 +220,50 @@ public class OrderProcessingController {
     }
 
     @GetMapping("/get-number")
-    public BigInteger getNumberOfRows(){
-        try{
+    public BigInteger getNumberOfRows() {
+        try {
             return processingService.getNumberOfOrders();
-        } catch (Exception e){
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    @GetMapping("/get-number-price")
+    public BigInteger getNumberOfRows(@RequestParam Float price) {
+        try {
+            return processingService.getNumberOfOrders(price);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    @GetMapping("/get-number-status")
+    public BigInteger getNumberOfRows(@RequestParam("status") Status status) {
+        try {
+            return processingService.getNumberOfOrders(status);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    @GetMapping("/get-number-title")
+    public BigInteger getNumberOfRows(@RequestParam String title) {
+        try {
+            return processingService.getNumberOfOrders(title);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    @GetMapping("/get-number-service")
+    public BigInteger getNumberOfRows(@RequestParam BigInteger serviceId){
+        try {
+            return processingService.getNumberOfOrders(serviceId);
+        } catch (Exception e) {
             log.error(e.getMessage());
             return null;
         }

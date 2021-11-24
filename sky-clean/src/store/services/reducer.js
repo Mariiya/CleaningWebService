@@ -27,6 +27,26 @@ function servicesReducer(state = initialState, action) {
           }
         })
       }
+  
+    case SERVICES.SET_ONE_SERVICE_CHECK:
+      return {
+        ...state,
+        services: state.services?.map((service) => {
+          if (service.id === action.payload) {
+            return {...service, state: !service.state}
+          } else {
+            return {...service, state: false}
+          }
+        })
+      }
+      
+    case SERVICES.UNCHECK_ALL_SERVICES:
+      return {
+        ...state,
+        services: state.services?.map((service) => {
+          return {...service, state: false}
+        })
+      }
       
     case SERVICES.ADD_CUSTOM_SERVICE:
       const customService = action.payload
