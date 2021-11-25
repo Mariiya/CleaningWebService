@@ -105,8 +105,10 @@ const SignUpFormEditor = () => {
                   notify.error(response.message, error))
           }
         })
+        form.resetForm()
+      } else {
+        notify.error('Error', 'Passwords are not match')
       }
-      form.resetForm()
     }
   })
   

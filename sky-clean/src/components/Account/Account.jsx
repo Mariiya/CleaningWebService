@@ -7,7 +7,7 @@ import './Account.scss'
 import UserOrders from "../UserOrders/UserOrders";
 
 function Account() {
-  const [activeTab, setActiveTab] = React.useState('Orders')
+  const [activeTab, setActiveTab] = React.useState('Main')
   
   const handleSwitchActiveTab = (event) => {
     const tabName = event.target.outerText
