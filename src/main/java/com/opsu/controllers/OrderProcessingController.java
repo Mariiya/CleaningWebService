@@ -60,9 +60,9 @@ public class OrderProcessingController {
     }
 
     @GetMapping("/get-by-service")
-    public Collection<Order> getOrders(@Valid @RequestBody Service service, @RequestParam int page) {
+    public Collection<Order> getOrders(@Valid @RequestParam BigInteger serviceId, @RequestParam int page) {
         try {
-            return processingService.getOrders(service, page);
+            return processingService.getOrders(serviceId, page);
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;
@@ -253,6 +253,16 @@ public class OrderProcessingController {
     public BigInteger getNumberOfRows(@RequestParam String title) {
         try {
             return processingService.getNumberOfOrders(title);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    @GetMapping("/get-number-service")
+    public BigInteger getNumberOfRows(@RequestParam BigInteger serviceId){
+        try {
+            return processingService.getNumberOfOrders(serviceId);
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;

@@ -46,7 +46,7 @@ private final AuthorizationService authorizationService;
        return consumerDao.save(consumer);
     }
 
-    public boolean update(UserDetailsImpl updater, Consumer consumer) throws NotFoundException, EmptyDataBaseException {
+    public Consumer update(UserDetailsImpl updater, Consumer consumer) throws NotFoundException, EmptyDataBaseException {
         if (!updater.getId().equals(consumer.getId())) {
             throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
         }
@@ -55,7 +55,7 @@ private final AuthorizationService authorizationService;
         consumerfromDB.setFirstName(consumer.getFirstName());
         authorizationService.updateUser(updater,consumer);
         consumerDao.update(consumerfromDB);
-        return true;
+        return consumerfromDB;
     }
 
     public Consumer findConsumerByLastName(String lastname) throws Exception {

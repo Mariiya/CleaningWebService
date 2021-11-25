@@ -12,8 +12,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.opsu.secutity.services.UserDetailsImpl;
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.math.BigInteger;
+/**
+ * Class role
+ * shows under which role user has chosen to sign in
+ * @author group 183
+ * @version 2.1
+ */
 @RestController
 @Validated
 @RequestMapping(value = "/vendor/")
@@ -49,9 +54,12 @@ public class VendorController {
     }
 
 
+
+    /** @param vendor vendor
+    * @param updater method update */
     @PostMapping("/update")
-    public void updateVendor(@AuthenticationPrincipal UserDetailsImpl updater, @Valid
+    public Vendor updateVendor(@AuthenticationPrincipal UserDetailsImpl updater, @Valid
     @RequestBody Vendor vendor) throws NotFoundException, EmptyDataBaseException {
-        vendorService.update(updater,vendor);
+      return   vendorService.update(updater,vendor);
     }
 }

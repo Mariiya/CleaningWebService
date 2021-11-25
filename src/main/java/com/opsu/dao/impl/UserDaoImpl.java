@@ -17,16 +17,11 @@ import java.util.Map;
 
 @Repository
 public class UserDaoImpl implements UserDao {
-    //логер для записи ошибок
+
     private static final Logger LOG = Logger.getLogger(UserDaoImpl.class);
-    //Утилита от Спринга для работы с БД
+
     private final JdbcTemplate jdbcTemplate;
 
-    //@Autowired значит что спринг сам создает JdbcTemplate jdbcTemplate и передает его сюда.
-    // Т.е где-то в системе лежит экземпляр класса JdbcTemplate - так называемый бин (Bean)
-    //Дальше все классы над которыми мы ставим @Service, @Component, @Controller, @Repository
-    // спринг будет создавать 1 их экзампляр - Bean и использовать в системе.
-    //все что нам нужно это указать над полем @Autowired и спринг сам все найдет что ему нужно.
     @Autowired
     public UserDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

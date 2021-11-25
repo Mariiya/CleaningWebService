@@ -45,7 +45,7 @@ public class ConsumerController {
     }
 
     @PostMapping("/update")
-    public void update(@AuthenticationPrincipal UserDetailsImpl updater, @Valid @RequestBody Consumer consumer) throws NotFoundException, EmptyDataBaseException {
-        consumerService.update(updater,consumer);
+    public Consumer update(@AuthenticationPrincipal UserDetailsImpl updater, @Valid @RequestBody Consumer consumer) throws NotFoundException, EmptyDataBaseException {
+      return   consumerService.update(updater,consumer);
     }
 }
