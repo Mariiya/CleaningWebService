@@ -116,7 +116,8 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Collection<Order> getOrders(Float minPrice, Float maxPrice, String title, Status status, int page) throws NotFoundException {
+    public Collection<Order> getOrders(Float minPrice, Float maxPrice, String title, Status status, Service service, int page) throws NotFoundException {
+
         String query = "SELECT * FROM (SELECT o.*, ROWNUM r FROM ORDERS o) WHERE (r > ? AND r <= ?)";
         Collection<Order> orderCollection = null;
         try{

@@ -25,7 +25,7 @@ public interface OrderDao {
 
     Collection<Order> getOrders(BigInteger serviceId, int page) throws NotFoundException;
 
-    Collection<Order> getOrders(Float minPrice, Float maxPrice, String title, Status status, int page) throws NotFoundException;
+    Collection<Order> getOrders(Float minPrice, Float maxPrice, String title, Status status, Service service, int page) throws NotFoundException;
 
     boolean createOrder(Order order);
 

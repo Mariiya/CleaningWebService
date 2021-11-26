@@ -59,6 +59,16 @@ public class OrderProcessingController {
         }
     }
 
+    @GetMapping("/get-by-multiparams")
+    public Collection<Order> getOrders(@RequestParam Float minPrice, @RequestParam Float maxPrice, @RequestParam String title, @RequestParam("status") Status status, @RequestParam BigInteger serviceId, int page) throws Exception {
+        try {
+            return processingService.getOrders(minPrice, maxPrice, title, status, serviceId, page);
+        } catch (EmptyDataBaseException e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
     @GetMapping("/get-by-service")
     public Collection<Order> getOrders(@Valid @RequestParam BigInteger serviceId, @RequestParam int page) {
         try {
