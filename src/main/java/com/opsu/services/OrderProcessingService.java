@@ -268,11 +268,24 @@ public class OrderProcessingService {
 
     public Collection<Order> getOrders(Float minPrice, Float maxPrice, String title, Status status, BigInteger serviceId, int page) throws Exception {
         Service service = null;
+        Collection<Order> orderCollection = null;
         if(serviceId != null && !serviceId.equals(BigInteger.ZERO)){
              service = serviceDao.getService(serviceId);
         }
         try{
-            return orderDao.getOrders(minPrice, maxPrice, title, status, service, page);
+            orderCollection = orderDao.getOrders(minPrice, maxPrice, title, status, service, page);
+            for(Order order : orderCollection){
+                Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
+                if(serviceCollections.size() == 0){
+                    throw new EmptyDataBaseException("ServiceCollection is null");
+                }
+                ArrayList<Service> services = new ArrayList<>();
+                for(ServiceCollection collection : serviceCollections){
+                    services.add(serviceDao.getService(collection.getService().getId()));
+                }
+                order.setServices(services);
+            }
+            return orderCollection;
         } catch (NotFoundException e){
             logger.error(e.getMessage());
             throw new EmptyDataBaseException("Orders not found");
