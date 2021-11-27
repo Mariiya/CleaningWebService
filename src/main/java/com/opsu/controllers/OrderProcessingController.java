@@ -278,4 +278,14 @@ public class OrderProcessingController {
             return null;
         }
     }
+
+    @GetMapping("/get-number-multiparam")
+    public BigInteger getNumberOfRows(@RequestParam Float minPrice, @RequestParam Float maxPrice, @RequestParam String title, @RequestParam("status") Status status, @RequestParam BigInteger serviceId){
+        try {
+            return processingService.getNumberOfOrders(minPrice, maxPrice, title, status, serviceId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
 }

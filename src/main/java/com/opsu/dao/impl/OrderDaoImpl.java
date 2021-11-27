@@ -117,48 +117,43 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Collection<Order> getOrders(Float minPrice, Float maxPrice, String title, Status status, Service service, int page) throws NotFoundException {
-
-        String query = "SELECT * FROM (SELECT o.*, ROWNUM r FROM ORDERS o) WHERE (r > ? AND r <= ?)";
+        int downLimit = (page - 1) * 15;
+        int upLimit = (downLimit + 15);
         Collection<Order> orderCollection = null;
+        BigInteger serviceId;
         try{
-            int downLimit = (page - 1) * 15;
-            int upLimit = (downLimit + 15);
-            if(minPrice != null && maxPrice != null){
-               if(minPrice < 0){
-                   minPrice = 0f;
-               }
-               if(maxPrice <= 0){
-                   maxPrice = Float.MAX_VALUE;
-               }
-               query.concat(" AND (price => ? AND price <= ?)");
+            String query = "SELECT * FROM (SELECT o.*, ROWNUM r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE ";
+            if(minPrice < 0){
+                minPrice = 0f;
             }
-            if(title != null && !title.isEmpty()){
-                query.concat(" AND (title like ?)");
+            if(maxPrice <= 0){
+                maxPrice = Float.MAX_VALUE;
             }
-            if(status != null){
-                query.concat(" AND (status = ?)");
+            query = query.concat("(o.price >= ? AND o.price <= ?) ");
+            if (title != null && !title.trim().equals("")){
+                title = "%" + title + "%";
             }
-
-            if((minPrice != null && maxPrice != null) && (title != null && !title.isEmpty()) && (status != null)){
-                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, minPrice, maxPrice, title, status.name());
-            } else if((minPrice != null && maxPrice != null) && (title != null && !title.isEmpty())){
-                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, minPrice, maxPrice, title);
-            } else if((minPrice != null && maxPrice != null) && (status != null)){
-                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, minPrice, maxPrice, status.name());
-            } else if((title != null && !title.isEmpty()) && (status != null)){
-                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, title, status.name());
-            } else if(minPrice != null && maxPrice != null) {
-                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, minPrice, maxPrice);
-            } else if(title != null && !title.isEmpty()){
-                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, title);
-            } else if(status != null){
-                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit, status.name());
+            else{
+                title = "%%";
+            }
+            query = query.concat("AND (o.title like ?) ");
+            if(status == null || status == Status.EMPTY){
+                status = Status.EMPTY;
+                query = query.concat("AND (o.status != ?) ");
             } else {
-                orderCollection = jdbcTemplate.query(query, new OrderMapper(), downLimit, upLimit);
+                query = query.concat("AND (o.status = ?) ");
             }
+            if(service == null){
+                serviceId = BigInteger.ZERO;
+                query = query.concat("AND (sc.serviceId != ?)");
+            } else {
+                serviceId = service.getId();
+                query = query.concat("AND (sc.serviceId = ?)");
+            }
+            query = query.concat(") WHERE r > ? AND r < ?");
+            orderCollection = jdbcTemplate.query(query, new OrderMapper(), minPrice, maxPrice, title, status.name(), serviceId, downLimit, upLimit);
             return orderCollection;
-
-        } catch (DataAccessException e){
+        } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
             throw new NotFoundException("Orders not found");
         }
@@ -252,5 +247,40 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public BigInteger getNumberOfOrders(BigInteger serviceId) throws NotFoundException {
         return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS_BY_SERVICE, new RowNumMapper(), serviceId);
+    }
+
+    @Override
+    public BigInteger getNumberOfOrders(Float minPrice, Float maxPrice, String title, Status status, Service service) throws NotFoundException {
+        BigInteger serviceId;
+        String query = "SELECT COUNT(ORDERID) AS \"number\" FROM (SELECT o.*, ROWNUM r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE ";
+        if(minPrice < 0){
+            minPrice = 0f;
+        }
+        if(maxPrice <= 0){
+            maxPrice = Float.MAX_VALUE;
+        }
+        query = query.concat("(o.price >= ? AND o.price <= ?) ");
+        if (title != null && !title.trim().equals("")){
+            title = "%" + title + "%";
+        }
+        else{
+            title = "%%";
+        }
+        query = query.concat("AND (o.title like ?) ");
+        if(status == null || status == Status.EMPTY){
+            status = Status.EMPTY;
+            query = query.concat("AND (o.status != ?) ");
+        } else {
+            query = query.concat("AND (o.status = ?) ");
+        }
+        if(service == null){
+            serviceId = BigInteger.ZERO;
+            query = query.concat("AND (sc.serviceId != ?)");
+        } else {
+            serviceId = service.getId();
+            query = query.concat("AND (sc.serviceId = ?)");
+        }
+        query = query.concat(")");
+        return jdbcTemplate.queryForObject(query, new RowNumMapper(), minPrice, maxPrice, title, status.name(), serviceId);
     }
 }

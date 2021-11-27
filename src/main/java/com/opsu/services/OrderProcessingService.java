@@ -445,4 +445,17 @@ public class OrderProcessingService {
             throw new NotFoundException("Can't query number of rows");
         }
     }
+
+    public BigInteger getNumberOfOrders(Float minPrice, Float maxPrice, String title, Status status, BigInteger serviceId) throws NotFoundException {
+        try {
+            Service service = null;
+            if(serviceId != null && !serviceId.equals(BigInteger.ZERO)){
+                service = serviceDao.getService(serviceId);
+            }
+            return orderDao.getNumberOfOrders(minPrice, maxPrice, title, status, service);
+        }
+        catch (Exception e){
+            throw new NotFoundException("Can't query number of rows");
+        }
+    }
 }

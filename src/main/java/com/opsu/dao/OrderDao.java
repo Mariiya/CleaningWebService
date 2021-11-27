@@ -45,6 +45,8 @@ public interface OrderDao {
 
     BigInteger getNumberOfOrders(BigInteger serviceId) throws NotFoundException;
 
+    BigInteger getNumberOfOrders(Float minPrice, Float maxPrice, String title, Status status, Service service) throws NotFoundException;
+
     String GET_ORDER_BY_ID = "SELECT\n" +
             " orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address " +
             "FROM orders " +
