@@ -10,7 +10,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -110,12 +109,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({EmptyDataBaseException.class})
-    public ResponseEntity<ApiError> handleDaoAccessException(EmptyDataBaseException ex, HttpHeaders headers,
-                                                             HttpStatus status, WebRequest request) {
+    public ResponseEntity<Object> handleDaoAccessException(EmptyDataBaseException ex) {
         List<String> errors = Collections.singletonList(ex.getMessage());
-
-        return handleExceptionInternal(ex, new ApiError(LocalDateTime.now(), status, "DAO ACCESS EXCEPTION: " + ex.getMessage(),
-                errors, BigInteger.valueOf(401L)), headers, status, request);
+        ApiError err = new ApiError(LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage(),
+                errors,
+                BigInteger.valueOf(501));
+        return ResponseEntityBuilder.build(err);
     }
 
     @ExceptionHandler({UsernameNotFoundException.class})

@@ -60,8 +60,9 @@ public class VendorDaoImpl implements VendorDao {
     public boolean save(Vendor vendor) throws EmptyDataBaseException {
         try {
             jdbcTemplate.update(CREATE_VENDOR, vendor.getFirstName(), vendor.getLastName(), vendor.getIndividual(), vendor.getId());
-            jdbcTemplate.update("commit");
         } catch (DataAccessException e) {
+            System.out.println(e);
+            LOG.error(e.getMessage(),e);
             throw new EmptyDataBaseException("Error during Vendor saving");
         }
         return true;

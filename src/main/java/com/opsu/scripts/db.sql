@@ -1,93 +1,50 @@
-begin
-execute immediate 'DROP function seq_next';
-execute immediate 'DROP function seq_curr';
-execute immediate 'DROP SEQUENCE SEQ';
-exception
-    when others then null;
-end;
-
-begin
-execute immediate 'drop table consumer CASCADE CONSTRAINTS';
-exception
-    when others then null;
-end;
-/
-
-begin
-execute immediate 'drop table orders CASCADE CONSTRAINTS';
-exception
-    when others then null;
-end;
-/
-
-begin
-execute immediate 'drop table service CASCADE CONSTRAINTS';
-exception
-    when others then null;
-end;
-/
-
-begin
-execute immediate 'drop table servicecollection CASCADE CONSTRAINTS';
-exception
-    when others then null;
-end;
-/
-
-begin
-execute immediate 'drop table users CASCADE CONSTRAINTS';
-exception
-    when others then null;
-end;
-/
-
-begin
-execute immediate 'drop table vendor CASCADE CONSTRAINTS';
-exception
-    when others then null;
-end;
-/
+drop table consumer;
+drop table orders;
+drop table service;
+drop table servicecollection;
+drop table users;
+drop table vendor;
 
 --
-CREATE TABLE "USERS" (
-                         userId int NOT NULL,
-                         email varchar2(255) DEFAULT NULL,
-                         password varchar2(255) DEFAULT NULL,
-                         phoneNumber varchar2(45) DEFAULT NULL,
-                         role varchar2(255) DEFAULT NULL,
-                         PRIMARY KEY (userId)
+CREATE TABLE USERS (
+                       userId SERIAL NOT NULL,
+                       email varchar(255) DEFAULT NULL,
+                       password varchar(255) DEFAULT NULL,
+                       phoneNumber varchar(45) DEFAULT NULL,
+                       role varchar(255) DEFAULT NULL,
+                       PRIMARY KEY (userId)
 ) ;
 
 --
 CREATE TABLE  consumer  (
-                            firstName  varchar2(255) DEFAULT NULL,
-                            lastName  varchar2(255) DEFAULT NULL,
+                            firstName  varchar(255) DEFAULT NULL,
+                            lastName  varchar(255) DEFAULT NULL,
                             userId  int DEFAULT NULL,
                             PRIMARY KEY ( userId ),
-                            CONSTRAINT  consumer_ibfk_1  FOREIGN KEY ( userId ) REFERENCES  "USERS"  ( userId )
+                            CONSTRAINT  consumer_ibfk_1  FOREIGN KEY ( userId ) REFERENCES  USERS  ( userId )
 );
 
 --
 CREATE TABLE vendor (
-                        firstName varchar2(255) DEFAULT NULL,
-                        lastName varchar2(255) DEFAULT NULL,
+                        firstName varchar(255) DEFAULT NULL,
+                        lastName varchar(255) DEFAULT NULL,
                         individual INT DEFAULT '1',
                         userId int NOT NULL  PRIMARY KEY,
-                        CONSTRAINT vendor_ibfk_1 FOREIGN KEY (userId) REFERENCES "USERS" (userId)
+                        CONSTRAINT vendor_ibfk_1 FOREIGN KEY (userId) REFERENCES USERS (userId)
 );
 
 --
 CREATE TABLE orders (
-                        orderId int NOT NULL,
-                        title varchar2(255) DEFAULT NULL,
-                        description varchar2(255) DEFAULT NULL,
-                        status varchar2(255) DEFAULT NULL,
+                        orderId SERIAL NOT NULL,
+                        title varchar(255) DEFAULT NULL,
+                        description varchar(255) DEFAULT NULL,
+                        status varchar(255) DEFAULT NULL,
                         consumerId int DEFAULT NULL,
                         vendorId int DEFAULT NULL,
                         startDate date DEFAULT NULL,
                         endDate date DEFAULT NULL,
                         price float DEFAULT NULL,
-                        address varchar2(255) DEFAULT NULL,
+                        address varchar(255) DEFAULT NULL,
                         PRIMARY KEY (orderId),
                         CONSTRAINT orders_ibfk_1 FOREIGN KEY (consumerId) REFERENCES consumer (userId),
                         CONSTRAINT orders_ibfk_2 FOREIGN KEY (vendorId) REFERENCES vendor (userId)
@@ -95,16 +52,16 @@ CREATE TABLE orders (
 
 --
 CREATE TABLE service (
-                         serviceId int NOT NULL,
-                         name varchar2(255) DEFAULT NULL,
-                         description varchar2(255) DEFAULT NULL,
-                         isCustom INT DEFAULT '1',
+                         serviceId SERIAL NOT NULL,
+                         name varchar(255) DEFAULT NULL,
+                         description varchar(255) DEFAULT NULL,
+                         isCustom BOOLEAN DEFAULT '1',
                          PRIMARY KEY (serviceId)
 );
 
 --
 CREATE TABLE servicecollection (
-                                   serviceCollectionId int NOT NULL,
+                                   serviceCollectionId SERIAL NOT NULL,
                                    orderId int DEFAULT NULL,
                                    serviceId int DEFAULT NULL,
                                    PRIMARY KEY (serviceCollectionId),
@@ -112,13 +69,3 @@ CREATE TABLE servicecollection (
                                    CONSTRAINT servicecollection_ibfk_2 FOREIGN KEY (serviceId) REFERENCES service (serviceId)
 );
 
-CREATE SEQUENCE SEQ START WITH 1 MAXVALUE 999999 INCREMENT BY 1 NOCACHE CYCLE;
-CREATE FUNCTION seq_next RETURN NUMBER RESULT_CACHE IS
-BEGIN
-RETURN SEQ.nextval;
-END seq_next;
-/
-CREATE FUNCTION seq_curr RETURN NUMBER RESULT_CACHE IS
-BEGIN
-RETURN SEQ.currval;
-END seq_curr;
