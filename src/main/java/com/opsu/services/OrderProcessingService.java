@@ -243,12 +243,14 @@ public class OrderProcessingService {
             throw new EmptyDataBaseException("Order list is empty");
         }
         for(Order order : orderCollection){
-            if (order.getVendor() != null && order.getVendor().getEmail()!=null) {
+            if (order.getVendor() != null && order.getVendor().getId()!=null) {
                 Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
                 order.setVendor(vendor);
             }
+
             Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
             order.setConsumer(consumer);
+
             Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
             if(serviceCollections.size() == 0){
                 throw new EmptyDataBaseException("ServiceCollection is null");
@@ -310,6 +312,7 @@ public class OrderProcessingService {
         }
 
         Order order = orderDao.getOrder(orderId);
+        order.setStatus(Status.STATUS_IN_PROGRES);
         if(order.getConsumer().getId()!=null){
             order.setConsumer(consumerDao.getConsumerById(order.getConsumer().getId()));
         }
