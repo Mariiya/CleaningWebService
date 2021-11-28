@@ -47,10 +47,6 @@ public class VendorService {
         return vendorDao.save(vendor);
     }
 
-    public Vendor findVendorByLastName(String lastname) throws Exception {
-        return vendorDao.findVendorByLastName(lastname);
-    }
-
 
     public Vendor update(UserDetailsImpl updater, Vendor vendor) throws NotFoundException, EmptyDataBaseException {
         if (!updater.getId().equals(vendor.getId())) {

@@ -243,11 +243,14 @@ public class OrderProcessingService {
             throw new EmptyDataBaseException("Order list is empty");
         }
         for(Order order : orderCollection){
-            if (order.getVendor() != null && order.getVendor().getId()!=null) {
-                Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
-                order.setVendor(vendor);
-            }
+            try {
+                if (order.getVendor() != null && order.getVendor().getId() != null) {
+                    Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+                    order.setVendor(vendor);
+                }
+            }catch (NotFoundException e ){
 
+            }
             Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
             order.setConsumer(consumer);
 
