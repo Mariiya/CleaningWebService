@@ -243,6 +243,7 @@ public class OrderProcessingService {
             throw new EmptyDataBaseException("Order list is empty");
         }
         for(Order order : orderCollection){
+
             try {
                 if (order.getVendor() != null && order.getVendor().getId() != null) {
                     Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
@@ -251,6 +252,7 @@ public class OrderProcessingService {
             }catch (NotFoundException e ){
 
             }
+
             Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
             order.setConsumer(consumer);
 
@@ -407,6 +409,10 @@ public class OrderProcessingService {
         if((id == null)||(id.equals(BigInteger.ZERO))){
             throw new Exception("Wrong id");
         }
+        Order order = orderDao.getOrder(id);
+        Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
+        for(ServiceCollection idS: serviceCollections){
+        serviceCollectionDao.deleteServiceCollection(idS);}
         if(!orderDao.deleteOrder(id)){
             throw new Exception("Order delete exception");
         }
