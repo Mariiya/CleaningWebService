@@ -50,19 +50,19 @@ public interface OrderDao {
             " orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address " +
             "FROM orders " +
             "WHERE orderId = ?";
-    String GET_ORDERS = "SELECT * FROM (SELECT o.*, ROWNUM r FROM ORDERS o) WHERE r > ? AND r <= ?";
-    String GET_ORDERS_BY_PRICE = "SELECT * FROM (SELECT o.*, ROWNUM r FROM ORDERS o) WHERE price >= ? AND price <= ? AND (r > ? AND r <= ?)";
-    String GET_ORDERS_BY_TITLE = "SELECT * FROM (SELECT o.*, ROWNUM r FROM ORDERS o) WHERE title like ? AND (r > ? AND r <= ?)";
-    String GET_ORDERS_BY_STATUS = "SELECT * FROM (SELECT o.*, ROWNUM r FROM ORDERS o) WHERE status = ? AND (r > ? AND r <= ?)";
-    String GET_ORDERS_BY_SERVICE = "SELECT orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address " +
-            "FROM (SELECT o.*, ROWNUM r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE sc.SERVICEID = ?) WHERE r > ? AND r < ?";
+    String GET_ORDERS = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid) r FROM ORDERS o) t WHERE t.r > ? AND t.r <= ?";
+    String GET_ORDERS_BY_PRICE = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid) r FROM ORDERS o) t WHERE price >= ? AND price <= ? AND (t.r > ? AND t.r <= ?)";
+    String GET_ORDERS_BY_TITLE = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid) r FROM ORDERS o) t WHERE title like ? AND (t.r > ? AND t.r <= ?)\n";
+    String GET_ORDERS_BY_STATUS = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid) r FROM ORDERS o) t WHERE status = ? AND (t.r > ? AND t.r <= ?)";
+    String GET_ORDERS_BY_SERVICE = "SELECT orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
+            "            FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY servicecollectionid) r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE sc.SERVICEID = ?) t WHERE t.r > ? AND t.r < ?";
     String GET_ORDERS_BY_USER = "SELECT " +
             "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address " +
             "FROM orders " +
             "WHERE consumerId = ? " +
             "OR vendorId = ?";
-    String SAVE_NEW_ORDER = "INSERT INTO ORDERS (orderId, title, description, status, consumerId, startDate, endDate, price, address) " +
-            "                    VALUES (SEQ.nextval, ?, ?, ?, ?, ?, ?, ?, ?)";
+    String SAVE_NEW_ORDER = "INSERT INTO ORDERS (orderId, title, description, status, consumerId, startDate, endDate, price, address)\n" +
+            "                                VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)";
     String UPDATE_ORDER = "UPDATE orders SET " +
                 "title = ? ,\n" +
                 "description = ?,\n" +
@@ -75,14 +75,13 @@ public interface OrderDao {
                 "address = ? \n" +
             "WHERE orderId = ?";
     String DELETE_ORDER = "DELETE FROM orders WHERE orderID = ?";
-    String GET_ID_OF_ORDER = "SELECT " +
-            "orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address " +
-            "FROM ORDERS " +
-            "WHERE " +
-            "(title = ? AND description = ? AND status = ? AND consumerId = ? AND " +
-            "startDate = ? AND endDate = ? AND price = ? AND address = ? ) " +
-            "AND ROWNUM <= 1 " +
-            "ORDER BY orderID desc";
+    String GET_ID_OF_ORDER = "SELECT\n" +
+            "            orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
+            "            FROM (select * , ROW_NUMBER() OVER (ORDER BY orderid) r from ORDERS\n" +
+            "            WHERE  title = ? AND description = ? AND status = ? AND consumerId = ? AND\n" +
+            "           startDate = ? AND endDate = ? AND price = ? AND address = ?)  t\n" +
+            "            where t.r <=1\n" +
+            "            ORDER BY orderID desc";
     String GET_NUMBER_OF_ORDERS = "SELECT COUNT(orderID) as \"number\" FROM ORDERS";
     String GET_NUMBER_OF_ORDERS_BY_PRICE = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE price >= ? AND price <= ?";
     String GET_NUMBER_OF_ORDERS_BY_TITLE = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE title like ?";

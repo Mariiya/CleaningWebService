@@ -28,7 +28,7 @@ public interface ServiceCollectionDao {
     String GET_SERVICECOLLECTIONS_BY_ORDER = "SELECT serviceCollectionId, orderId, serviceId FROM SERVICECOLLECTION WHERE orderId = ?";
 
     String CREATE_SERVICECOLLECTION = "INSERT INTO SERVICECOLLECTION (serviceCollectionId, orderId, serviceId) \n" +
-            "                          VALUES (SEQ.nextval, ?, ?)";
+            "                          VALUES (DEFAULT, ?, ?)";
 
     String UPDATE_SERVICECOLLECTION = "UPDATE SERVICECOLLECTION SET\n" +
             "                orderId = ?, \n" +

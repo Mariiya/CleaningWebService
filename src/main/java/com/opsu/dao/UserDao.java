@@ -35,7 +35,7 @@ public interface UserDao {
             "    where email = ?";
 
     String CREATE_USER = "INSERT INTO USERS (userId,email,password,phoneNumber,role)" +
-            " VALUES (SEQ.nextval, ?, ?, ?, ?)";
+            " VALUES (DEFAULT, ?, ?, ?, ?)";
 
     String UPDATE_USER = "UPDATE USERS SET email = ?, phoneNumber = ?, password =?  WHERE USERID = ?";
 }
