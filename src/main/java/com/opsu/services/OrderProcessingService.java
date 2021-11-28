@@ -301,7 +301,7 @@ public class OrderProcessingService {
         }
     }
 
-    public void assignOrder(BigInteger orderId, BigInteger vendorId) throws Exception {
+    public Order assignOrder(BigInteger orderId, BigInteger vendorId) throws Exception {
         if((orderId == null)||(orderId.equals(BigInteger.ZERO))){
             throw new Exception("Order exception");
         }
@@ -318,6 +318,7 @@ public class OrderProcessingService {
         if(!orderDao.updateOrder(order)){
             throw new Exception("Order assign exception");
         }
+        return order;
     }
 
     public void changePrice(BigInteger id, Float price) throws Exception {

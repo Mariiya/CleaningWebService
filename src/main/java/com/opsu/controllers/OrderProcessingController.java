@@ -153,13 +153,12 @@ public class OrderProcessingController {
     }
 
     @PostMapping("/assignOrder")
-    public Boolean assignOrder(@RequestParam BigInteger orderId, @RequestParam BigInteger vendorId) {
+    public Order assignOrder(@RequestParam BigInteger orderId, @RequestParam BigInteger vendorId) throws Exception {
         try {
-            processingService.assignOrder(orderId, vendorId);
-            return true;
+            return  processingService.assignOrder(orderId, vendorId);
         } catch (Exception e) {
             log.error(e.getMessage());
-            return false;
+            throw e;
         }
     }
 
