@@ -23,7 +23,7 @@ public interface ServiceDao {
     Service getCustomService(Service service) throws NotFoundException;
 
     String ADD_NEW_SERVICE = "INSERT INTO SERVICE (SERVICEID, name, description, isCustom)\n" +
-            "                 VALUES (DEFAULT, ?, ?, 0)";
+            "                 VALUES (DEFAULT, ?, ?, false)";
 
     String UPDATE_SERVICE = "UPDATE service SET\n" +
             "                name = ?, \n" +
@@ -37,7 +37,7 @@ public interface ServiceDao {
     String GET_SERVICES = "SELECT serviceId, name, description, isCustom FROM service WHERE isCustom = 0";
 
     String ADD_NEW_CUSTOM_SERVICE = "INSERT INTO SERVICE (SERVICEID, name, description, isCustom)\n" +
-                                    "VALUES (DEFAULT, ?, ?, 1)";
+                                    "VALUES (DEFAULT, ?, ?, true)";
     String GET_CUSTOM_SERVICE_WITH_ID = "SELECT serviceId, name, description, isCustom\n" +
             "      FROM (Select *, ROW_NUMBER() OVER (ORDER BY serviceid) r  from service \n" +
             "          WHERE name = ?   AND description = ? AND isCustom = 1) t\n" +

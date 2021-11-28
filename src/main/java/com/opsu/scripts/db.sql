@@ -1,9 +1,9 @@
-drop table consumer;
-drop table orders;
-drop table service;
 drop table servicecollection;
-drop table users;
+drop table service;
+drop table orders;
+drop table consumer;
 drop table vendor;
+drop table users;
 
 --
 CREATE TABLE USERS (
@@ -28,7 +28,7 @@ CREATE TABLE  consumer  (
 CREATE TABLE vendor (
                         firstName varchar(255) DEFAULT NULL,
                         lastName varchar(255) DEFAULT NULL,
-                        individual INT DEFAULT '1',
+                        individual BOOLEAN DEFAULT '1',
                         userId int NOT NULL  PRIMARY KEY,
                         CONSTRAINT vendor_ibfk_1 FOREIGN KEY (userId) REFERENCES USERS (userId)
 );
