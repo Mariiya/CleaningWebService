@@ -23,9 +23,10 @@ public class DataSourceConfig {
     public DataSource dataSource() throws SQLException {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
-        dataSource.setUsername(environment.getProperty("spring.datasource.oracleucp.user"));
-        dataSource.setPassword(environment.getProperty("spring.datasource.oracleucp.password"));
+        dataSource.setUsername(environment.getProperty("spring.datasource.username"));
+        dataSource.setPassword(environment.getProperty("spring.datasource.password"));
         dataSource.setUrl(environment.getProperty("spring.datasource.url"));
+
         return dataSource;
     }
 
