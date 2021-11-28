@@ -5,10 +5,8 @@ import com.opsu.dao.mapper.OrderMapper;
 import com.opsu.dao.mapper.RowNumMapper;
 import com.opsu.models.Order;
 import com.opsu.models.Service;
-import com.opsu.models.Vendor;
 import com.opsu.models.enumeration.Status;
 import javassist.NotFoundException;
-import oracle.sql.SQLUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -171,7 +169,6 @@ public class OrderDaoImpl implements OrderDao {
             }
             BigInteger id = BigInteger.ZERO;
             boolean result =  jdbcTemplate.update(SAVE_NEW_ORDER, order.getTitle(), order.getDescription(), order.getStatus().name(), order.getConsumer().getId(), startDate, endDate, order.getPrice(), order.getAddress()) != 0;
-            jdbcTemplate.update("commit");
             return result;
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);

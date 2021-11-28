@@ -32,6 +32,7 @@ public class ServiceCollectionDaoImpl implements ServiceCollectionDao {
         }
         catch (DataAccessException e){
             LOG.error(e.getMessage(), e);
+
             throw new NotFoundException("Service Collection not found");
         }
     }
@@ -64,6 +65,9 @@ public class ServiceCollectionDaoImpl implements ServiceCollectionDao {
             jdbcTemplate.update(CREATE_SERVICECOLLECTION, serviceCollection.getOrder().getId(), serviceCollection.getService().getId());
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
+            jdbcTemplate.execute("rollback;");
+        }finally {
+            jdbcTemplate.execute("commit;");
         }
     }
 
