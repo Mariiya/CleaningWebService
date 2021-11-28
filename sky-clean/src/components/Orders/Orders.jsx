@@ -35,7 +35,7 @@ const Orders = () => {
             setCountPages(countPages)
         })
 
-        Promise.all([orders, ordersCount]).then(() => {
+        Promise.all([orders, ordersCount]).finally(() => {
             setLoading(false)
         })
     }, [dispatch, currentPage])
@@ -55,13 +55,15 @@ const Orders = () => {
                   <div className="spinnerForOrders">
                     <Spinner/>
                   </div>
-                ) : (
-                  <div className="orders__list">
-                      {orders?.map((order) => (
-                        <Order key={order.id} order={order}/>
-                      ))}
-                  </div>
-                )}
+                ) :
+                    orders?.length ? (
+                        <div className="orders__list">
+                            {orders.map((order) => (
+                                <Order key={order.id} order={order}/>
+                            ))}
+                        </div>
+                    ) : (<p className="orders__noResult">No results</p>)
+                }
     
                 <div className="orders__pagination">
                     {pages?.map((page) => (

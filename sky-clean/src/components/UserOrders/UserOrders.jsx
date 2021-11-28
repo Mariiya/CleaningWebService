@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 //api
 import {getOrdersByUser} from "../../api/account.api";
 //redux
-import {setOrders} from "../../store/orders/actions";
+import {clearOrders, setOrders} from "../../store/orders/actions";
 //ui
 import Spinner from "../../UI/Spinner/Spinner";
 //components
@@ -22,9 +22,15 @@ function UserOrders() {
   React.useEffect(() => {
     setLoading(true)
     getOrdersByUser(userInfo.id).then((response) => {
-      setLoading(false)
       dispatch(setOrders(response))
     })
+    .finally(() => {
+      setLoading(false)
+    })
+
+    return () => {
+      dispatch(clearOrders())
+    }
   }, [dispatch, userInfo.id])
   
   return (
@@ -33,9 +39,9 @@ function UserOrders() {
         <div className="userOrders__spinnerContainer">
           <Spinner/>
         </div>
-      ) : orders?.map((order) => (
-        <Order key={order.id} order={order}/>
-      ))}
+      ) : orders?.length ? orders?.map((order) => (
+          <Order key={order.id} order={order}/>
+      )) : (<p className="userOrders__noResult">No results</p>)}
     </div>
   )
 }

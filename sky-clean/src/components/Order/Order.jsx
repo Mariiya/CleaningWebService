@@ -35,7 +35,7 @@ function Order({id}) {
   
   const assignOrderByVendor = (userId, orderId) => {
     assignOrder(userId, orderId).then((response) => {
-      if (response === true) {
+      if (response) {
         setOrderInProgress(orderId).then((response) => {
           if (response === true) {
             notify('Success', 'You successfully assigned this order!')

@@ -74,6 +74,19 @@ function Status({status}) {
           </h3>
         </div>
       )
+
+      case 'STATUS_COMPLETED':
+          return (
+              <div className="status" style={{backgroundColor: '#91DFA2'}}>
+                  <div className="status__imgContainer">
+                      <IsOpenIcon/>
+                  </div>
+
+                  <h3 className="status__title">
+                      Completed
+                  </h3>
+              </div>
+          )
     
     
     default:
