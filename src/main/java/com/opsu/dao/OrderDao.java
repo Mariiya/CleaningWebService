@@ -4,7 +4,6 @@ import com.opsu.models.Order;
 import com.opsu.models.Service;
 import com.opsu.models.enumeration.Status;
 import javassist.NotFoundException;
-import org.hibernate.type.BigIntegerType;
 
 import java.math.BigInteger;
 import java.util.Collection;
