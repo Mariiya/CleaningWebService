@@ -13,7 +13,7 @@ import java.sql.SQLException;
         public Vendor mapRow(ResultSet resultSet, int i) throws SQLException {
             String firstName = resultSet.getString("firstName");
             String lastName = resultSet.getString("lastName");
-            Boolean individual = resultSet.getInt("individual") == 1; //поправил
+            Boolean individual = resultSet.getBoolean("individual"); //поправил
             //select user
             BigInteger userId =BigInteger.valueOf(resultSet.getLong("userId"));
             String email = resultSet.getString("email");

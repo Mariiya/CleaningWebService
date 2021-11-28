@@ -83,3 +83,32 @@ INSERT INTO servicecollection (serviceCollectionId, orderId, serviceId)
 VALUES (DEFAULT, (SELECT orderID FROM ORDERS WHERE title = 'test7'), (SELECT serviceID FROM SERVICE WHERE name = 'Washing dishes'));
 INSERT INTO servicecollection (serviceCollectionId, orderId, serviceId)
 VALUES (DEFAULT, (SELECT orderID FROM ORDERS WHERE title = 'test8'), (SELECT serviceID FROM SERVICE WHERE name = 'Washing dishes'));
+
+
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
+VALUES (DEFAULT, 'Washing dishes', 'Cleaning all dirty dishes', false);
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
+VALUES (DEFAULT, 'Sweep the floor', 'Dry cleaning with a broom of the floor surface', false);
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
+VALUES (DEFAULT, 'Wash the floor', 'Wet cleaning of the floor surface', false);
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
+VALUES (DEFAULT, 'Wipe off the dust', 'Dry cleaning bookshelves', false);
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
+
+VALUES (DEFAULT, 'Cleaning of apartments', 'Spring-cleaning', false);
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
+VALUES (DEFAULT, 'Cleaning after renovation', 'Cleaning after renovation', false);
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
+VALUES (DEFAULT, 'Dry cleaning', 'Dry cleaning', false);
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
+VALUES (DEFAULT, 'Cleaning of cottages', 'Cleaning of cottages', false);
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
+VALUES (DEFAULT, 'Washing windows', 'Washing windows', false);
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
+VALUES (DEFAULT, 'Territory cleaning', 'Territory cleaning', false);
+
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
+VALUES (DEFAULT, 'Facade washing', 'Facade washing', false);
+INSERT INTO SERVICE (serviceId, name, description, isCustom)
+VALUES (DEFAULT, 'Eco cleaning', 'Eco cleaning', false);
+commit
