@@ -9,8 +9,6 @@ import java.math.BigInteger;
 
 public interface VendorDao {
 
-    Vendor findVendorByLastName(String lastName) throws NotFoundException;
-
     Vendor getVendorById(BigInteger id) throws NotFoundException;
      boolean save(Vendor vendor) throws EmptyDataBaseException;
 
@@ -21,12 +19,6 @@ public interface VendorDao {
             "            FROM VENDOR\n" +
             "            LEFT JOIN users ON vendor.userId = users.userId\n" +
             "            WHERE vendor.userId = ?\n";
-
-    String GET_VENDOR_BY_LAST_NAME = "SELECT individual, firstName, lastName, vendor.userId,\n" +
-            "     users.email, users.password, users.phoneNumber, users.role\n" +
-            "            FROM VENDOR\n" +
-            "            LEFT JOIN users ON vendor.userId = users.userId\n" +
-            "            WHERE lastName = ?\n ";
 
     String CREATE_VENDOR = "INSERT INTO VENDOR  VALUES (?, ?, ?, ?)";
     String UPDATE_VENDOR = "UPDATE VENDOR SET firstName = ?, lastName = ? where userid = ?";

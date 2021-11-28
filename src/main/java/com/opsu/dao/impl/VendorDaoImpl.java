@@ -27,15 +27,6 @@ public class VendorDaoImpl implements VendorDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Vendor findVendorByLastName(String lastName) throws NotFoundException {
-        try {
-            return jdbcTemplate.queryForObject(GET_VENDOR_BY_LAST_NAME, new VendorMapper(), lastName, lastName);
-        } catch (DataAccessException e) {
-            LOG.error(e.getMessage(), e);
-            throw new NotFoundException("Vendor not found");
-        }
-    }
-
     @Override
     public Vendor getVendorById(BigInteger id) throws NotFoundException {
         try {

@@ -43,17 +43,6 @@ public class VendorController {
             }
     }
 
-    @GetMapping("/lastname")
-    public Vendor findVendorByLastName( @RequestParam String lastname) {
-        try {
-            return vendorService.findVendorByLastName(lastname);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return null;
-        }
-    }
-
-
 
     /** @param vendor vendor
     * @param updater method update */

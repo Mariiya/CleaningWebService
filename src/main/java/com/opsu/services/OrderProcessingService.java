@@ -243,12 +243,19 @@ public class OrderProcessingService {
             throw new EmptyDataBaseException("Order list is empty");
         }
         for(Order order : orderCollection){
-            if (order.getVendor() != null && order.getVendor().getEmail()!=null) {
-                Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
-                order.setVendor(vendor);
+
+            try {
+                if (order.getVendor() != null && order.getVendor().getId() != null) {
+                    Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
+                    order.setVendor(vendor);
+                }
+            }catch (NotFoundException e ){
+
             }
+
             Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
             order.setConsumer(consumer);
+
             Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
             if(serviceCollections.size() == 0){
                 throw new EmptyDataBaseException("ServiceCollection is null");
@@ -310,6 +317,10 @@ public class OrderProcessingService {
         }
 
         Order order = orderDao.getOrder(orderId);
+        order.setStatus(Status.STATUS_IN_PROGRES);
+        if(order.getConsumer().getId()!=null){
+            order.setConsumer(consumerDao.getConsumerById(order.getConsumer().getId()));
+        }
         Vendor vendor = vendorDao.getVendorById(vendorId);
         if((vendor == null)||(order == null)){
             throw new Exception("Order or Vendor exception");
@@ -398,6 +409,10 @@ public class OrderProcessingService {
         if((id == null)||(id.equals(BigInteger.ZERO))){
             throw new Exception("Wrong id");
         }
+        Order order = orderDao.getOrder(id);
+        Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
+        for(ServiceCollection idS: serviceCollections){
+        serviceCollectionDao.deleteServiceCollection(idS);}
         if(!orderDao.deleteOrder(id)){
             throw new Exception("Order delete exception");
         }
