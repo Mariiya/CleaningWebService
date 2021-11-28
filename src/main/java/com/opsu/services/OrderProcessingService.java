@@ -310,6 +310,9 @@ public class OrderProcessingService {
         }
 
         Order order = orderDao.getOrder(orderId);
+        if(order.getConsumer().getId()!=null){
+            order.setConsumer(consumerDao.getConsumerById(order.getConsumer().getId()));
+        }
         Vendor vendor = vendorDao.getVendorById(vendorId);
         if((vendor == null)||(order == null)){
             throw new Exception("Order or Vendor exception");
