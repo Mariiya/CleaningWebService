@@ -34,12 +34,12 @@ public interface ServiceDao {
 
     String DELETE_SERVICE = "DELETE FROM SERVICE WHERE serviceID = ?";
 
-    String GET_SERVICES = "SELECT serviceId, name, description, isCustom FROM service WHERE isCustom = 0";
+    String GET_SERVICES = "SELECT serviceId, name, description, isCustom FROM service WHERE isCustom = false";
 
     String ADD_NEW_CUSTOM_SERVICE = "INSERT INTO SERVICE (SERVICEID, name, description, isCustom)\n" +
                                     "VALUES (DEFAULT, ?, ?, true)";
     String GET_CUSTOM_SERVICE_WITH_ID = "SELECT serviceId, name, description, isCustom\n" +
             "      FROM (Select *, ROW_NUMBER() OVER (ORDER BY serviceid) r  from service \n" +
-            "          WHERE name = ?   AND description = ? AND isCustom = 1) t\n" +
+            "          WHERE name = ?   AND description = ? AND isCustom = true) t\n" +
             "      where t.r<=1 order by serviceId DESC ";
 }
