@@ -291,10 +291,10 @@ public class OrderProcessingService {
                 for (ServiceCollection collection : serviceCollections) {
                     services.add(serviceDao.getService(collection.getService().getId()));
                 }
-                if(order.getVendor().getId()!=null && order.getVendor().getEmail()==null){
+                if(order.getVendor().getId()!=null && order.getVendor().getId().intValue()!=0 && order.getVendor().getEmail()==null){
                     order.setVendor(vendorDao.getVendorById(order.getVendor().getId()));
                 }
-                if(order.getConsumer().getId()!=null && order.getConsumer().getEmail()==null){
+                if(order.getConsumer().getId()!=null && order.getConsumer().getId().intValue()!=0 && order.getConsumer().getEmail()==null){
                     order.setConsumer(consumerDao.getConsumerById(order.getConsumer().getId()));
                 }
                 order.setServices(services);
