@@ -244,7 +244,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public BigInteger getNumberOfOrders(Float minPrice, Float maxPrice, String title, Status status, Service service) throws NotFoundException {
         BigInteger serviceId;
-        String query = "SELECT COUNT(ORDERID) AS \"number\" FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY servicecollectionid)  r FROM  Orders o WHERE " +
+        String query = "SELECT COUNT(ORDERID) AS \"number\" FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid)  r FROM  Orders o WHERE " +
                 " orderid in (select orderid from SERVICECOLLECTION where ";
 
         if(service == null){
