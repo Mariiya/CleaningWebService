@@ -249,10 +249,10 @@ public class OrderDaoImpl implements OrderDao {
 
         if(service == null){
             serviceId = BigInteger.ZERO;
-            query = query.concat(" serviceId != ?) t ");
+            query = query.concat(" serviceId != ?) ");
         } else {
             serviceId = service.getId();
-            query = query.concat(" sc.serviceId = ?) t");
+            query = query.concat(" sc.serviceId = ?) ");
         }
 
         if(minPrice < 0){
@@ -276,7 +276,7 @@ public class OrderDaoImpl implements OrderDao {
             query = query.concat("AND (o.status = ?) ");
         }
 
-        query = query.concat(")");
+        query = query.concat(") t");
         System.out.println("query " + query);
         return jdbcTemplate.queryForObject(query, new RowNumMapper(), minPrice, maxPrice, title, status.name());
     }
