@@ -295,7 +295,9 @@ public class OrderProcessingService {
             }
             Collection<Order> result = new ArrayList<>();
             for (Order order : orderCollection) {
+                System.out.println("for order  with number of services"+ order.getServices().size());
               for(Service s: order.getServices()){
+                  System.out.println("for service "+ s.getId());
                   if(s.getId().equals(serviceId)){
                       result.add(order);
                       System.out.println("adding order "+ order.getTitle());
