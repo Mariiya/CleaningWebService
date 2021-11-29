@@ -278,6 +278,7 @@ public class OrderDaoImpl implements OrderDao {
             query = query.concat("AND (sc.serviceId = ?)");
         }
         query = query.concat(") t");
+        System.out.println("query " + query);
         return jdbcTemplate.queryForObject(query, new RowNumMapper(), minPrice, maxPrice, title, status.name(), serviceId);
     }
 }
