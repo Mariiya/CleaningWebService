@@ -279,6 +279,6 @@ public class OrderDaoImpl implements OrderDao {
         query = query.concat(") t");
         System.out.println("query " + query);
         System.out.println("params " + minPrice+" - " + maxPrice+" - " + title+" - " + status.name());
-        return jdbcTemplate.queryForObject(query, new RowNumMapper(), service.getId(),minPrice, maxPrice, title, status.name());
+        return jdbcTemplate.queryForObject(query, new RowNumMapper(), serviceId,minPrice, maxPrice, title, status.name());
     }
 }
