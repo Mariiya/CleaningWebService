@@ -295,9 +295,12 @@ public class OrderProcessingService {
             }
             Collection<Order> result = new ArrayList<>();
             for (Order order : orderCollection) {
-                if (order.getServices().contains(service)) {
-                    result.add(order);
-                }
+              for(Service s: order.getServices()){
+                  if(s.getId().equals(serviceId)){
+                      result.add(order);
+                      System.out.println("adding order "+ order.getTitle());
+                  }
+              }
             }
             return result;
         } catch (NotFoundException e) {
