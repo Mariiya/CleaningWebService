@@ -4,6 +4,7 @@ import com.opsu.dao.VendorDao;
 
 
 import com.opsu.exceptions.EmptyDataBaseException;
+import com.opsu.models.User;
 import com.opsu.models.Vendor;
 import com.opsu.secutity.services.UserDetailsImpl;
 import javassist.NotFoundException;
@@ -55,7 +56,9 @@ public class VendorService {
         Vendor vendorfromDB = vendorDao.getVendorById(updater.getId());
         vendorfromDB.setLastName(vendor.getLastName());
         vendorfromDB.setFirstName(vendor.getFirstName());
-        authorizationService.updateUser(updater, vendor);
+        User user = authorizationService.updateUser(updater, vendor);
+        vendorfromDB.setEmail(user.getEmail());
+        vendorfromDB.setPhoneNumber(user.getPhoneNumber());
         vendorDao.update(vendorfromDB);
         return vendorfromDB;
     }

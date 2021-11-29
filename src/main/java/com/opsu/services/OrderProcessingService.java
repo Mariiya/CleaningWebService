@@ -306,6 +306,7 @@ public class OrderProcessingService {
                     }
                 }
             }
+            System.out.println("result size "+  result.size());
             return result;
         } catch (NotFoundException e) {
             logger.error(e.getMessage());
@@ -491,7 +492,9 @@ public class OrderProcessingService {
             if (serviceId != null && !serviceId.equals(BigInteger.ZERO)) {
                 service = serviceDao.getService(serviceId);
             }
-            return orderDao.getNumberOfOrders(minPrice, maxPrice, title, status, service);
+            BigInteger result =  orderDao.getNumberOfOrders(minPrice, maxPrice, title, status, service);
+            System.out.println("getNumberOfOrders results " + result);
+            return result;
         } catch (Exception e) {
             throw new NotFoundException("Can't query number of rows");
         }
