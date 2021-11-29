@@ -120,7 +120,7 @@ public class OrderDaoImpl implements OrderDao {
         Collection<Order> orderCollection = null;
         BigInteger serviceId;
         try{
-            String query = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY servicecollectionid)  r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE ";
+            String query = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY ORDERID)  r FROM  Orders o  WHERE ";
             if(minPrice < 0){
                 minPrice = 0f;
             }
@@ -141,16 +141,9 @@ public class OrderDaoImpl implements OrderDao {
             } else {
                 query = query.concat("AND (o.status = ?) ");
             }
-            if(service == null){
-                serviceId = BigInteger.ZERO;
-                query = query.concat("AND (sc.serviceId != ?)");
-            } else {
-                serviceId = service.getId();
-                query = query.concat("AND (sc.serviceId = ?)");
-            }
             query = query.concat(") t WHERE t.r > ? AND t.r < ?");
             System.out.println("query for orders " + query);
-            orderCollection = jdbcTemplate.query(query, new OrderMapper(), minPrice, maxPrice, title, status.name(), serviceId, downLimit, upLimit);
+            orderCollection = jdbcTemplate.query(query, new OrderMapper(), minPrice, maxPrice, title, status.name(), downLimit, upLimit);
 
             return orderCollection;
         } catch (DataAccessException e) {
