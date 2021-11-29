@@ -149,7 +149,9 @@ public class OrderDaoImpl implements OrderDao {
                 query = query.concat("AND (sc.serviceId = ?)");
             }
             query = query.concat(") t WHERE t.r > ? AND t.r < ?");
+            System.out.println("query for orders " + query);
             orderCollection = jdbcTemplate.query(query, new OrderMapper(), minPrice, maxPrice, title, status.name(), serviceId, downLimit, upLimit);
+
             return orderCollection;
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
