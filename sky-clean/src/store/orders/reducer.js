@@ -2,7 +2,7 @@
 import {ORDERS} from "./consts";
 
 const initialState = {
-  orders: null
+  orders: []
 }
 
 function ordersReducer(state = initialState, action) {
@@ -13,6 +13,30 @@ function ordersReducer(state = initialState, action) {
         orders: action.payload.sort((a, b) => {
           return b.id - a.id
         })
+      }
+
+    case ORDERS.SET_ORDER_STATUS:
+      return {
+        ...state,
+        orders: state.orders.map((order) => {
+          if (order.id === action.payload.id) {
+            return {...order, status: action.payload.status}
+          } else {
+            return order
+          }
+        })
+      }
+
+    case ORDERS.DELETE_ORDER:
+      return {
+        ...state,
+        orders: state.orders.filter((order) => order.id !== action.payload)
+      }
+
+    case ORDERS.CLEAR_ORDERS:
+      return {
+        ...state,
+        orders: []
       }
     
     default:

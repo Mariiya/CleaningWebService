@@ -59,10 +59,12 @@ export const put = async (url, data) => {
 }
 
 export const del = async (url, data) => {
+  const accessToken = localStorage.getItem('access_token')
   const response = await fetch(`${baseUrl}${url}`, {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${JSON.parse(accessToken)}`,
     },
     body: JSON.stringify(data)
   })

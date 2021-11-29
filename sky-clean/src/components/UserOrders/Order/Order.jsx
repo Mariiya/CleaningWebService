@@ -1,6 +1,12 @@
 //general
 import React from 'react'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+//api
+import {setOrderCanceled, setOrderComplete, setOrderDelete, setOrderReject} from "../../../api/orders.api";
+//redux
+import {deleteOrder, setOrderStatus} from "../../../store/orders/actions";
+//helpers
+import {notify} from "../../../helpers/notify/notify";
 //components
 import Status from "../../Order/Status/Status";
 import Detail from "../../Order/Detail/Detail";
@@ -11,12 +17,49 @@ import './Order.scss'
 import {ReactComponent as ViewMoreDetailSvg} from "../../../assets/icons/services-arrow-down.svg";
 
 function Order({order}) {
+  const dispatch = useDispatch()
   const userInfo = useSelector((state) => state.user.userInfo)
   
   const [showDetails, setShowDetails] = React.useState(false)
   
   const handleSetShowDetails = () => {
     setShowDetails(!showDetails)
+  }
+
+  const handleCompleteClick = (id) => {
+    setOrderComplete(id).then((response) => {
+      if (response === true) {
+        dispatch(setOrderStatus(id, 'STATUS_COMPLETED'))
+        notify('Success', 'You successfully changed state this order on completed!')
+      }
+    })
+  }
+
+  const handleRejectClick = (id) => {
+    setOrderReject(id).then((response) => {
+      if (response === true) {
+        dispatch(setOrderStatus(id, 'STATUS_REJECTED'))
+        notify('Success', 'You successfully changed state this order on rejected!')
+      }
+    })
+  }
+
+  const handleCancelClick = (id) => {
+    setOrderCanceled(id).then((response) => {
+      if (response === true) {
+        dispatch(setOrderStatus(id, 'STATUS_CANCELED'))
+        notify('Success', 'You successfully changed state this order on canceled!')
+      }
+    })
+  }
+
+  const handleDeleteClick = (id) => {
+    setOrderDelete(id).then((response) => {
+      if (response === true) {
+        dispatch(deleteOrder(id))
+        notify('Success', 'You successfully deleted this order!')
+      }
+    })
   }
   
   return (
@@ -90,23 +133,51 @@ function Order({order}) {
           )}
         </div>
           {userInfo.role === 'ROLE_CLIENT' && (
-            <div className="userOrder__footer">
-              <button className="userOrder__complete">
-                Complete
-              </button>
-  
-              <button className="userOrder__reject">
-                Reject
-              </button>
-            </div>
+              order.status === 'STATUS_IN_PROGRES' ? (
+                  order.vendor.id !== 0 ? (
+                      <div className="userOrder__footer">
+                        <button
+                            className="userOrder__complete"
+                            onClick={() => handleCompleteClick(order.id)}>
+                          Complete
+                        </button>
+
+                        <button
+                          className="userOrder__reject"
+                          onClick={() => handleRejectClick(order.id)}>
+                          Reject
+                        </button>
+                      </div>
+                  ) : (
+                      <div className="userOrder__footer">
+                        <button
+                          className="userOrder__reject"
+                          onClick={() => handleDeleteClick(order.id)}>
+                          Delete
+                        </button>
+                      </div>
+                  )
+              ) : (
+                order.status === 'STATUS_OPEN' && (
+                    <div className="userOrder__footer">
+                      <button className="userOrder__cancel">
+                        Edit
+                      </button>
+                    </div>
+                )
+              )
           )}
   
           {userInfo.role === 'ROLE_SERVICE_PROVIDER' && (
-            <div className="userOrder__footer">
-              <button className="userOrder__cancel">
-                Cancel
-              </button>
-            </div>
+              order.status === 'STATUS_IN_PROGRES' && (
+                  <div className="userOrder__footer">
+                    <button
+                      className="userOrder__cancel"
+                      onClick={() => handleCancelClick(order.id)}>
+                      Cancel
+                    </button>
+                  </div>
+              )
           )}
       </div>
     </div>
