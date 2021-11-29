@@ -298,7 +298,7 @@ public class OrderProcessingService {
                 System.out.println("for order  with number of services"+ order.getServices().size());
               for(Service s: order.getServices()){
                   System.out.println("for service "+ s.getId());
-                  if(s.getId().equals(serviceId)){
+                  if(s.getId().equals(serviceId) || Objects.requireNonNull(serviceId).intValue() == 0){
                       result.add(order);
                       System.out.println("adding order "+ order.getTitle());
                   }
