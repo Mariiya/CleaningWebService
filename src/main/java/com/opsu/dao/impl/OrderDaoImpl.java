@@ -252,7 +252,7 @@ public class OrderDaoImpl implements OrderDao {
             query = query.concat(" serviceId != ?) ");
         } else {
             serviceId = service.getId();
-            query = query.concat(" sc.serviceId = ?) ");
+            query = query.concat(" serviceId = ?) ");
         }
 
         if(minPrice < 0){
@@ -278,6 +278,7 @@ public class OrderDaoImpl implements OrderDao {
 
         query = query.concat(") t");
         System.out.println("query " + query);
+        System.out.println("params " + minPrice+" - " + maxPrice+" - " + title+" - " + status.name());
         return jdbcTemplate.queryForObject(query, new RowNumMapper(), minPrice, maxPrice, title, status.name());
     }
 }
