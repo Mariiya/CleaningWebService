@@ -244,14 +244,24 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public BigInteger getNumberOfOrders(Float minPrice, Float maxPrice, String title, Status status, Service service) throws NotFoundException {
         BigInteger serviceId;
-        String query = "SELECT COUNT(ORDERID) AS \"number\" FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY servicecollectionid)  r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE ";
+        String query = "SELECT COUNT(ORDERID) AS \"number\" FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY servicecollectionid)  r FROM  Orders o WHERE " +
+                " orderid in (select orderid from SERVICECOLLECTION where ";
+
+        if(service == null){
+            serviceId = BigInteger.ZERO;
+            query = query.concat(" serviceId != ? ");
+        } else {
+            serviceId = service.getId();
+            query = query.concat(" sc.serviceId = ?)");
+        }
+
         if(minPrice < 0){
             minPrice = 0f;
         }
         if(maxPrice <= 0){
             maxPrice = Float.MAX_VALUE;
         }
-        query = query.concat("(o.price >= ? AND o.price <= ?) ");
+        query = query.concat("AND (o.price >= ? AND o.price <= ?) ");
         if (title != null && !title.trim().equals("")){
             title = "%" + title + "%";
         }
@@ -265,15 +275,9 @@ public class OrderDaoImpl implements OrderDao {
         } else {
             query = query.concat("AND (o.status = ?) ");
         }
-        if(service == null){
-            serviceId = BigInteger.ZERO;
-            query = query.concat("AND (sc.serviceId != ?)");
-        } else {
-            serviceId = service.getId();
-            query = query.concat("AND (sc.serviceId = ?)");
-        }
+
         query = query.concat(") t");
         System.out.println("query " + query);
-        return jdbcTemplate.queryForObject(query, new RowNumMapper(), minPrice, maxPrice, title, status.name(), serviceId);
+        return jdbcTemplate.queryForObject(query, new RowNumMapper(), minPrice, maxPrice, title, status.name());
     }
 }
