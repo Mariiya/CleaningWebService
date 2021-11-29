@@ -249,7 +249,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public BigInteger getNumberOfOrders(Float minPrice, Float maxPrice, String title, Status status, Service service) throws NotFoundException {
         BigInteger serviceId;
-        String query = "SELECT COUNT(ORDERID) AS \"number\" FROM (SELECT o.*, ROWNUM r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE ";
+        String query = "SELECT COUNT(ORDERID) AS \"number\" FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY servicecollectionid)  r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE ";
         if(minPrice < 0){
             minPrice = 0f;
         }
@@ -277,7 +277,7 @@ public class OrderDaoImpl implements OrderDao {
             serviceId = service.getId();
             query = query.concat("AND (sc.serviceId = ?)");
         }
-        query = query.concat(")");
+        query = query.concat(") t");
         return jdbcTemplate.queryForObject(query, new RowNumMapper(), minPrice, maxPrice, title, status.name(), serviceId);
     }
 }
