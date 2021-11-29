@@ -282,6 +282,7 @@ public class OrderProcessingService {
         }
         try {
             orderCollection = orderDao.getOrders(minPrice, maxPrice, title, status, service, page);
+            Set<Order> result = new HashSet<>();
             for (Order order : orderCollection) {
                 Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
                 if (serviceCollections.size() == 0) {
@@ -298,18 +299,17 @@ public class OrderProcessingService {
                     order.setConsumer(consumerDao.getConsumerById(order.getConsumer().getId()));
                 }
                 order.setServices(services);
+
+                for(Service s: order.getServices()){
+                    System.out.println("for service "+ s.getId());
+                    if(s.getId().equals(serviceId) || Objects.requireNonNull(serviceId).intValue() == 0){
+                        result.add(order);
+                        System.out.println("adding order "+ order.getTitle());
+                    }
+                }
             }
-            Collection<Order> result = new ArrayList<>();
-            for (Order order : orderCollection) {
-                System.out.println("for order  with number of services"+ order.getServices().size());
-              for(Service s: order.getServices()){
-                  System.out.println("for service "+ s.getId());
-                  if(s.getId().equals(serviceId) || Objects.requireNonNull(serviceId).intValue() == 0){
-                      result.add(order);
-                      System.out.println("adding order "+ order.getTitle());
-                  }
-              }
-            }
+            System.out.println("result  "+ result.size());
+            System.out.println("result  "+ result);
             return result;
         } catch (NotFoundException e) {
             logger.error(e.getMessage());
