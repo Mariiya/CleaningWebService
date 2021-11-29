@@ -120,7 +120,7 @@ public class OrderDaoImpl implements OrderDao {
         Collection<Order> orderCollection = null;
         BigInteger serviceId;
         try{
-            String query = "SELECT * FROM (SELECT o.*, ROWNUM r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE ";
+            String query = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY servicecollectionid)  r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE ";
             if(minPrice < 0){
                 minPrice = 0f;
             }
