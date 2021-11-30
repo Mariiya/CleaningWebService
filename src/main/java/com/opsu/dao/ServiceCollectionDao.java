@@ -6,7 +6,12 @@ import javassist.NotFoundException;
 
 import java.math.BigInteger;
 import java.util.Collection;
-
+/**
+ * This is abstract interface  for our data base mainly table Consumer
+ * Here using SQL language we describe what operations/commands  can be applied for table Consumer
+ * @author group 183
+ * @version 2.1
+ */
 public interface ServiceCollectionDao {
 
     ServiceCollection getServiceCollectionById(BigInteger id) throws NotFoundException;

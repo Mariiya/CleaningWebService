@@ -1,6 +1,6 @@
 package com.opsu.models;
 /**
- * Class PasswordCode
+ * In this class we store information about PasswordCode
  * @author group 183
  * @version 2.1
  */

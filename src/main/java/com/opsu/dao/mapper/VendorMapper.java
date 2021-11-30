@@ -1,5 +1,4 @@
 package com.opsu.dao.mapper;
-import com.opsu.models.User;
 import com.opsu.models.Vendor;
 import com.opsu.models.enumeration.Role;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,7 +7,12 @@ import org.springframework.jdbc.core.RowMapper;
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * In this class we create pattern for storing information about Vendor
+ * This class maps each row ResultSet from SQl request to new object from Vendor class
+ * @author group 183
+ * @version 2.1
+ */
     public class VendorMapper implements RowMapper<Vendor> {
         public Vendor mapRow(ResultSet resultSet, int i) throws SQLException {
             String firstName = resultSet.getString("firstName");
