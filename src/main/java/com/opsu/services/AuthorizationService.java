@@ -101,8 +101,6 @@ public class AuthorizationService {
             throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
         }
         User userFromDB = userDao.getUserById(updater.getId());
-        System.out.println("changeUserPassword for user " + user.getId() + " old: " + userFromDB.getPassword());
-        System.out.println("changeUserPassword for user " + user.getId() + " new: " + user.getPassword());
         userFromDB.setPassword(user.getPassword());
         userDao.update(userFromDB);
         return true;
