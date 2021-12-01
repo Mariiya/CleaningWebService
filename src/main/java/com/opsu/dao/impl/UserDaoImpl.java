@@ -51,6 +51,7 @@ public class UserDaoImpl implements UserDao {
 
     public boolean update(User user) throws EmptyDataBaseException {
         try {
+            System.out.println("update user password "+ user.getPassword());
             jdbcTemplate.update(UPDATE_USER,  user.getEmail(),user.getPhoneNumber(), user.getPassword(),user.getId());
             jdbcTemplate.update("commit");
         } catch (DataAccessException e) {
