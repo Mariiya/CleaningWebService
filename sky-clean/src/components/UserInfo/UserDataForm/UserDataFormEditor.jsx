@@ -2,12 +2,16 @@
 import React from 'react'
 import * as Yup from "yup";
 import {useFormik} from "formik";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 //components
 import UserDataForm from "./UserDataForm";
+import {notify} from "../../../helpers/notify/notify";
+import {changeUserData} from "../../../api/account.api";
+import {clearToken, updateUserInfo} from "../../../store/user/actions";
 
 
 function UserDataFormEditor() {
+  const dispatch = useDispatch()
   const userInfo = useSelector((state) => state.user.userInfo)
   
   const initialValues = {
@@ -41,7 +45,40 @@ function UserDataFormEditor() {
     validationSchema,
     validateOnChange: false,
     onSubmit: (values) => {
-      console.log(values)
+      if (values.name === userInfo.firstName && values.surName === userInfo.lastName && values.email === userInfo.email && values.phoneNumber === userInfo.phoneNumber) {
+        notify.error('Error', 'Nothing for changes')
+      } else {
+        const data = {
+          ...userInfo,
+          firstName: values.name,
+          lastName: values.surName,
+          email: values.email,
+          phoneNumber: values.phoneNumber,
+          password: 'password'
+        }
+
+        if (userInfo.role === 'ROLE_SERVICE_PROVIDER') {
+          changeUserData('vendor', data).then((response) => {
+            if (response) {
+              dispatch(updateUserInfo(response))
+              if (values.email !== userInfo.email) {
+                dispatch(clearToken())
+              }
+              notify('Success', 'You successfully changed your data')
+            }
+          })
+        } else {
+          changeUserData('consumer', data).then((response) => {
+            if (response) {
+              dispatch(updateUserInfo(response))
+              if (values.email !== userInfo.email) {
+                dispatch(clearToken())
+              }
+              notify('Success', 'You successfully changed your data')
+            }
+          })
+        }
+      }
     }
   })
   

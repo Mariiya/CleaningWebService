@@ -11,7 +11,7 @@ const Order = ({order}) => {
     return (
         <div className="order">
             <div className="order__header">
-                <h3 className="order__title">{order.name}</h3>
+                <h3 className="order__title">{order.title}</h3>
                 <h3 className="order__consumer">{order.consumer.firstName} {order.consumer.lastName}</h3>
             </div>
 

@@ -33,6 +33,15 @@ function userReducer(state = initialState, action ) {
         userInfo: action.payload
       }
     }
+
+    case USER.UPDATE_USER_INFO: {
+      const userInfo = JSON.stringify(action.payload)
+      localStorage.setItem('user_info', userInfo)
+      return {
+        ...state,
+        userInfo: action.payload
+      }
+    }
     
     case USER.CLEAR_USER_INFO: {
       localStorage.clear()
