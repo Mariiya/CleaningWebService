@@ -52,7 +52,6 @@ public class VendorDaoImpl implements VendorDao {
         try {
             jdbcTemplate.update(CREATE_VENDOR, vendor.getFirstName(), vendor.getLastName(), vendor.getIndividual(), vendor.getId());
         } catch (DataAccessException e) {
-            System.out.println(e);
             LOG.error(e.getMessage(),e);
             throw new EmptyDataBaseException("Error during Vendor saving");
         }

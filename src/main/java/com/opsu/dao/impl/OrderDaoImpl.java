@@ -120,7 +120,7 @@ public class OrderDaoImpl implements OrderDao {
         Collection<Order> orderCollection = null;
         BigInteger serviceId;
         try{
-            String query = "SELECT * FROM (SELECT o.*, ROWNUM r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE ";
+            String query = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY ORDERID)  r FROM  Orders o  WHERE ";
             if(minPrice < 0){
                 minPrice = 0f;
             }
@@ -141,15 +141,9 @@ public class OrderDaoImpl implements OrderDao {
             } else {
                 query = query.concat("AND (o.status = ?) ");
             }
-            if(service == null){
-                serviceId = BigInteger.ZERO;
-                query = query.concat("AND (sc.serviceId != ?)");
-            } else {
-                serviceId = service.getId();
-                query = query.concat("AND (sc.serviceId = ?)");
-            }
-            query = query.concat(") WHERE r > ? AND r < ?");
-            orderCollection = jdbcTemplate.query(query, new OrderMapper(), minPrice, maxPrice, title, status.name(), serviceId, downLimit, upLimit);
+            query = query.concat(") t WHERE t.r > ? AND t.r < ?");
+            orderCollection = jdbcTemplate.query(query, new OrderMapper(), minPrice, maxPrice, title, status.name(), downLimit, upLimit);
+
             return orderCollection;
         } catch (DataAccessException e) {
             LOG.error(e.getMessage(), e);
@@ -249,14 +243,24 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public BigInteger getNumberOfOrders(Float minPrice, Float maxPrice, String title, Status status, Service service) throws NotFoundException {
         BigInteger serviceId;
-        String query = "SELECT COUNT(ORDERID) AS \"number\" FROM (SELECT o.*, ROWNUM r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE ";
+        String query = "SELECT COUNT(ORDERID) AS \"number\" FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid)  r FROM  Orders o WHERE " +
+                " orderid in (select orderid from SERVICECOLLECTION where ";
+
+        if(service == null){
+            serviceId = BigInteger.ZERO;
+            query = query.concat(" serviceId != ?) ");
+        } else {
+            serviceId = service.getId();
+            query = query.concat(" serviceId = ?) ");
+        }
+
         if(minPrice < 0){
             minPrice = 0f;
         }
         if(maxPrice <= 0){
             maxPrice = Float.MAX_VALUE;
         }
-        query = query.concat("(o.price >= ? AND o.price <= ?) ");
+        query = query.concat("AND (o.price >= ? AND o.price <= ?) ");
         if (title != null && !title.trim().equals("")){
             title = "%" + title + "%";
         }
@@ -270,14 +274,8 @@ public class OrderDaoImpl implements OrderDao {
         } else {
             query = query.concat("AND (o.status = ?) ");
         }
-        if(service == null){
-            serviceId = BigInteger.ZERO;
-            query = query.concat("AND (sc.serviceId != ?)");
-        } else {
-            serviceId = service.getId();
-            query = query.concat("AND (sc.serviceId = ?)");
-        }
-        query = query.concat(")");
-        return jdbcTemplate.queryForObject(query, new RowNumMapper(), minPrice, maxPrice, title, status.name(), serviceId);
+
+        query = query.concat(") t");
+        return jdbcTemplate.queryForObject(query, new RowNumMapper(), serviceId.longValue(),minPrice, maxPrice, title, status.name());
     }
 }

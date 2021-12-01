@@ -135,7 +135,7 @@ public class AuthorizationService {
         return user;
     }
 
-    public boolean updateUser(UserDetailsImpl updater, User user) throws NotFoundException, EmptyDataBaseException {
+    public User updateUser(UserDetailsImpl updater, User user) throws NotFoundException, EmptyDataBaseException {
         if (!updater.getId().equals(user.getId())) {
             throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
         }
@@ -143,7 +143,7 @@ public class AuthorizationService {
         userFromDB.setPhoneNumber(user.getPhoneNumber());
         userFromDB.setEmail(user.getEmail());
         userDao.update(userFromDB);
-        return true;
+        return userFromDB;
     }
 
     public User getUserById(BigInteger userId) throws NotFoundException {

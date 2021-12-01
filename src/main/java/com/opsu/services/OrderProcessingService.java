@@ -8,6 +8,7 @@ import com.opsu.models.enumeration.Status;
 import javassist.NotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.math.BigInteger;
 import java.time.Instant;
 import java.util.*;
@@ -31,21 +32,21 @@ public class OrderProcessingService {
     }
 
     public void createOrder(Order order) throws Exception {
-        if((order == null)){
+        if ((order == null)) {
             throw new Exception("Order is null");
-        } else if(order.getId() == null || order.getId().equals(BigInteger.ZERO)){
+        } else if (order.getId() == null || order.getId().equals(BigInteger.ZERO)) {
             throw new Exception("Order ID exception");
-        } else if(order.getTitle().isEmpty()){
+        } else if (order.getTitle().isEmpty()) {
             throw new Exception("Order Title is empty");
-        } else if(order.getPrice() <= 0){
+        } else if (order.getPrice() <= 0) {
             throw new Exception("Order Price cannot be zero or less");
-        } else if(order.getAddress().isEmpty()){
+        } else if (order.getAddress().isEmpty()) {
             throw new Exception("Order Address is empty");
-        } else if(order.getStatus() == null){
+        } else if (order.getStatus() == null) {
             throw new Exception("Order Status is null");
-        } else if(order.getStartDate() == null){
+        } else if (order.getStartDate() == null) {
             throw new Exception("Order Start Date is null");
-        } else if(order.getServices().size() == 0){
+        } else if (order.getServices().size() == 0) {
             throw new Exception("Order hasn't any service");
         }
 
@@ -54,27 +55,27 @@ public class OrderProcessingService {
 
         order.setConsumer(consumer);
 
-        if(!orderDao.createOrder(order)){
+        if (!orderDao.createOrder(order)) {
             throw new Exception("Order create exception");
         }
 
         order = orderDao.getOrderId(order);
         order.setServices(serviceCollection);
-        for(Service service : order.getServices()){
+        for (Service service : order.getServices()) {
             serviceCollectionDao.createServiceCollection(new ServiceCollection(BigInteger.ZERO, order, service));
         }
     }
 
     public Order getOrder(BigInteger id) throws Exception {
-        if((id == null)||(id.equals(BigInteger.ZERO))){
+        if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new NumberFormatException("Wrong id input");
         }
         Order order = orderDao.getOrder(id);
-        if(order == null){
+        if (order == null) {
             throw new EmptyDataBaseException("Order is null");
         }
 
-        if (order.getVendor() != null && order.getVendor().getEmail()!=null) {
+        if (order.getVendor() != null && order.getVendor().getEmail() != null) {
             Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
             order.setVendor(vendor);
         }
@@ -82,14 +83,14 @@ public class OrderProcessingService {
         order.setConsumer(consumer);
 
         Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
-        if(serviceCollections.size() == 0){
+        if (serviceCollections.size() == 0) {
             throw new EmptyDataBaseException("ServiceCollection is null");
         }
         ArrayList<Service> services = new ArrayList<>();
-        for(ServiceCollection collection : serviceCollections){
+        for (ServiceCollection collection : serviceCollections) {
             services.add(serviceDao.getService(collection.getService().getId()));
         }
-        if(services.size() == 0){
+        if (services.size() == 0) {
             throw new EmptyDataBaseException("Services is null");
         }
         order.setServices(services);
@@ -98,11 +99,11 @@ public class OrderProcessingService {
 
     public Collection<Order> getOrders(int page) throws Exception {
         Collection<Order> orderCollection = orderDao.getOrders(page);
-        if(orderCollection.size() == 0){
+        if (orderCollection.size() == 0) {
             throw new EmptyDataBaseException("Order list is empty");
         }
-        for(Order order : orderCollection){
-            if(Status.STATUS_IN_PROGRES.equals(order.getStatus())) {
+        for (Order order : orderCollection) {
+            if (Status.STATUS_IN_PROGRES.equals(order.getStatus())) {
                 Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
                 order.setVendor(vendor);
             }
@@ -110,14 +111,14 @@ public class OrderProcessingService {
 
             order.setConsumer(consumer);
             Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
-            if(serviceCollections.size() == 0){
+            if (serviceCollections.size() == 0) {
                 throw new EmptyDataBaseException("ServiceCollection is null");
             }
             ArrayList<Service> services = new ArrayList<>();
-            for(ServiceCollection collection : serviceCollections){
+            for (ServiceCollection collection : serviceCollections) {
                 services.add(serviceDao.getService(collection.getService().getId()));
             }
-            if(services.size() == 0){
+            if (services.size() == 0) {
                 throw new EmptyDataBaseException("Services is null");
             }
             order.setServices(services);
@@ -127,7 +128,7 @@ public class OrderProcessingService {
     }
 
     public Collection<Order> getOrders(BigInteger serviceId, int page) throws Exception {
-        if(serviceId == null || serviceId.equals(BigInteger.ZERO)){
+        if (serviceId == null || serviceId.equals(BigInteger.ZERO)) {
             throw new NumberFormatException("Wrond id input");
         }
         Collection<Order> orderCollection = orderDao.getOrders(serviceId, page);
@@ -136,32 +137,32 @@ public class OrderProcessingService {
     }
 
     public Collection<Order> getOrders(Float minPrice, Float maxPrice, int page) throws Exception {
-        if(minPrice < 0){
+        if (minPrice < 0) {
             minPrice = 0f;
         }
-        if(maxPrice <= 0){
+        if (maxPrice <= 0) {
             maxPrice = Float.MAX_VALUE;
         }
         Collection<Order> orderCollection = orderDao.getOrders(minPrice, maxPrice, page);
-        if(orderCollection.size() == 0){
+        if (orderCollection.size() == 0) {
             throw new EmptyDataBaseException("Order list is empty");
         }
-        for(Order order : orderCollection){
-            if (order.getVendor() != null && order.getVendor().getEmail()!=null) {
+        for (Order order : orderCollection) {
+            if (order.getVendor() != null && order.getVendor().getEmail() != null) {
                 Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
                 order.setVendor(vendor);
             }
             Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
             order.setConsumer(consumer);
             Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
-            if(serviceCollections.size() == 0){
+            if (serviceCollections.size() == 0) {
                 throw new EmptyDataBaseException("ServiceCollection is null");
             }
             ArrayList<Service> services = new ArrayList<>();
-            for(ServiceCollection collection : serviceCollections){
+            for (ServiceCollection collection : serviceCollections) {
                 services.add(serviceDao.getService(collection.getService().getId()));
             }
-            if(services.size() == 0){
+            if (services.size() == 0) {
                 throw new EmptyDataBaseException("Services is null");
             }
             order.setServices(services);
@@ -171,29 +172,29 @@ public class OrderProcessingService {
     }
 
     public Collection<Order> getOrders(String title, int page) throws Exception {
-        if(title.isEmpty()){
+        if (title.isEmpty()) {
             throw new Exception("Name is empty");
         }
         Collection<Order> orderCollection = orderDao.getOrders(title, page);
-        if(orderCollection.size() == 0){
+        if (orderCollection.size() == 0) {
             throw new EmptyDataBaseException("Order list is empty");
         }
-        for(Order order : orderCollection){
-            if (order.getVendor() != null && order.getVendor().getEmail()!=null) {
+        for (Order order : orderCollection) {
+            if (order.getVendor() != null && order.getVendor().getEmail() != null) {
                 Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
                 order.setVendor(vendor);
             }
             Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
             order.setConsumer(consumer);
             Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
-            if(serviceCollections.size() == 0){
+            if (serviceCollections.size() == 0) {
                 throw new EmptyDataBaseException("ServiceCollection is null");
             }
             ArrayList<Service> services = new ArrayList<>();
-            for(ServiceCollection collection : serviceCollections){
+            for (ServiceCollection collection : serviceCollections) {
                 services.add(serviceDao.getService(collection.getService().getId()));
             }
-            if(services.size() == 0){
+            if (services.size() == 0) {
                 throw new EmptyDataBaseException("Services is null");
             }
             order.setServices(services);
@@ -203,29 +204,29 @@ public class OrderProcessingService {
     }
 
     public Collection<Order> getOrders(Status status, int page) throws Exception {
-        if(status == null){
+        if (status == null) {
             throw new Exception("Status is empty");
         }
         Collection<Order> orderCollection = orderDao.getOrders(status, page);
-        if(orderCollection.size() == 0){
+        if (orderCollection.size() == 0) {
             throw new EmptyDataBaseException("Order list is empty");
         }
-        for(Order order : orderCollection){
-            if (order.getVendor() != null && order.getVendor().getEmail()!=null) {
+        for (Order order : orderCollection) {
+            if (order.getVendor() != null && order.getVendor().getEmail() != null) {
                 Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
                 order.setVendor(vendor);
             }
             Consumer consumer = consumerDao.getConsumerById(order.getConsumer().getId());
             order.setConsumer(consumer);
             Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
-            if(serviceCollections.size() == 0){
+            if (serviceCollections.size() == 0) {
                 throw new EmptyDataBaseException("ServiceCollection is null");
             }
             ArrayList<Service> services = new ArrayList<>();
-            for(ServiceCollection collection : serviceCollections){
+            for (ServiceCollection collection : serviceCollections) {
                 services.add(serviceDao.getService(collection.getService().getId()));
             }
-            if(services.size() == 0){
+            if (services.size() == 0) {
                 throw new EmptyDataBaseException("Services is null");
             }
             order.setServices(services);
@@ -235,21 +236,21 @@ public class OrderProcessingService {
     }
 
     public Collection<Order> getOrders(BigInteger id) throws Exception {
-        if((id == null)||(id.equals(BigInteger.ZERO))){
+        if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
         }
         Collection<Order> orderCollection = orderDao.getOrders(id);
-        if(orderCollection.size() == 0){
+        if (orderCollection.size() == 0) {
             throw new EmptyDataBaseException("Order list is empty");
         }
-        for(Order order : orderCollection){
+        for (Order order : orderCollection) {
 
             try {
                 if (order.getVendor() != null && order.getVendor().getId() != null) {
                     Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
                     order.setVendor(vendor);
                 }
-            }catch (NotFoundException e ){
+            } catch (NotFoundException e) {
 
             }
 
@@ -257,14 +258,14 @@ public class OrderProcessingService {
             order.setConsumer(consumer);
 
             Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
-            if(serviceCollections.size() == 0){
+            if (serviceCollections.size() == 0) {
                 throw new EmptyDataBaseException("ServiceCollection is null");
             }
             ArrayList<Service> services = new ArrayList<>();
-            for(ServiceCollection collection : serviceCollections){
+            for (ServiceCollection collection : serviceCollections) {
                 services.add(serviceDao.getService(collection.getService().getId()));
             }
-            if(services.size() == 0){
+            if (services.size() == 0) {
                 throw new EmptyDataBaseException("Services is null");
             }
             order.setServices(services);
@@ -276,153 +277,167 @@ public class OrderProcessingService {
     public Collection<Order> getOrders(Float minPrice, Float maxPrice, String title, Status status, BigInteger serviceId, int page) throws Exception {
         Service service = null;
         Collection<Order> orderCollection = null;
-        if(serviceId != null && !serviceId.equals(BigInteger.ZERO)){
-             service = serviceDao.getService(serviceId);
+        if (serviceId != null && !serviceId.equals(BigInteger.ZERO)) {
+            service = serviceDao.getService(serviceId);
         }
-        try{
+        try {
             orderCollection = orderDao.getOrders(minPrice, maxPrice, title, status, service, page);
-            for(Order order : orderCollection){
+            Set<Order> result = new HashSet<>();
+            for (Order order : orderCollection) {
                 Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
-                if(serviceCollections.size() == 0){
+                if (serviceCollections.size() == 0) {
                     throw new EmptyDataBaseException("ServiceCollection is null");
                 }
                 ArrayList<Service> services = new ArrayList<>();
-                for(ServiceCollection collection : serviceCollections){
+                for (ServiceCollection collection : serviceCollections) {
                     services.add(serviceDao.getService(collection.getService().getId()));
                 }
+                if(order.getVendor().getId()!=null && order.getVendor().getId().intValue()!=0 && order.getVendor().getEmail()==null){
+                    order.setVendor(vendorDao.getVendorById(order.getVendor().getId()));
+                }
+                if(order.getConsumer().getId()!=null && order.getConsumer().getId().intValue()!=0 && order.getConsumer().getEmail()==null){
+                    order.setConsumer(consumerDao.getConsumerById(order.getConsumer().getId()));
+                }
                 order.setServices(services);
+
+                for(Service s: order.getServices()){
+                    if(s.getId().equals(serviceId) || Objects.requireNonNull(serviceId).intValue() == 0){
+                        result.add(order);
+                    }
+                }
             }
-            return orderCollection;
-        } catch (NotFoundException e){
+           return result;
+        } catch (NotFoundException e) {
             logger.error(e.getMessage());
             throw new EmptyDataBaseException("Orders not found");
         }
     }
 
     public void updateOrder(Order order) throws Exception {
-        if(!order.getStatus().equals(Status.STATUS_OPEN)){
+        if (!order.getStatus().equals(Status.STATUS_OPEN)) {
             throw new Exception("You can't update this Order");
         }
-        if(!orderDao.updateOrder(order)){
+        if (!orderDao.updateOrder(order)) {
             throw new Exception("Order update exception");
         }
     }
 
     public Order assignOrder(BigInteger orderId, BigInteger vendorId) throws Exception {
-        if((orderId == null)||(orderId.equals(BigInteger.ZERO))){
+        if ((orderId == null) || (orderId.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
         }
-        if((vendorId == null)||(vendorId.equals(BigInteger.ZERO))){
+        if ((vendorId == null) || (vendorId.equals(BigInteger.ZERO))) {
             throw new Exception("Consumer exception");
         }
 
         Order order = orderDao.getOrder(orderId);
         order.setStatus(Status.STATUS_IN_PROGRES);
-        if(order.getConsumer().getId()!=null){
+        if (order.getConsumer().getId() != null) {
             order.setConsumer(consumerDao.getConsumerById(order.getConsumer().getId()));
         }
         Vendor vendor = vendorDao.getVendorById(vendorId);
-        if((vendor == null)||(order == null)){
+        if ((vendor == null) || (order == null)) {
             throw new Exception("Order or Vendor exception");
         }
         order.setVendor(vendor);
-        if(!orderDao.updateOrder(order)){
+        if (!orderDao.updateOrder(order)) {
             throw new Exception("Order assign exception");
         }
         return order;
     }
 
     public void changePrice(BigInteger id, Float price) throws Exception {
-        if((id == null)||(id.equals(BigInteger.ZERO))){
+        if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
         }
-        if(price <= 0){
+        if (price <= 0) {
             throw new NumberFormatException("Order price less than zero");
         }
         Order order = orderDao.getOrder(id);
         order.setPrice(price);
-        if(!orderDao.updateOrder(order)){
+        if (!orderDao.updateOrder(order)) {
             throw new Exception("Order status update exception");
         }
     }
 
     public void rejectOrder(BigInteger id) throws Exception {
-        if((id == null)||(id.equals(BigInteger.ZERO))){
+        if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
         }
         Order order = orderDao.getOrder(id);
         order.setStatus(Status.STATUS_REJECTED);
-        if(!orderDao.updateOrder(order)){
+        if (!orderDao.updateOrder(order)) {
             throw new Exception("Order status update exception");
         }
     }
 
     public void completeOrder(BigInteger id) throws Exception {
-        if((id == null)||(id.equals(BigInteger.ZERO))){
+        if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
         }
         Order order = orderDao.getOrder(id);
-        if (order.getStatus().equals(Status.STATUS_OPEN)){
+        if (order.getStatus().equals(Status.STATUS_OPEN)) {
             throw new Exception("You can't complete just opened order");
         }
         order.setStatus(Status.STATUS_COMPLETED);
         order.setEndDate(Date.from(Instant.now()));
-        if(!orderDao.updateOrder(order)){
+        if (!orderDao.updateOrder(order)) {
             throw new Exception("Order status update exception");
         }
     }
 
     public void cancelOrder(BigInteger id) throws Exception {
-        if((id == null)||(id.equals(BigInteger.ZERO))){
+        if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
         }
         Order order = orderDao.getOrder(id);
         order.setStatus(Status.STATUS_CANCELED);
-        if(!orderDao.updateOrder(order)){
+        if (!orderDao.updateOrder(order)) {
             throw new Exception("Order status update exception");
         }
     }
 
     public void inProgressOrder(BigInteger id) throws Exception {
-        if((id == null)||(id.equals(BigInteger.ZERO))){
+        if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
         }
         Order order = orderDao.getOrder(id);
         order.setStatus(Status.STATUS_IN_PROGRES);
-        if(!orderDao.updateOrder(order)){
+        if (!orderDao.updateOrder(order)) {
             throw new Exception("Order status update exception");
         }
     }
 
     public void suspendOrder(BigInteger id) throws Exception {
-        if((id == null)||(id.equals(BigInteger.ZERO))){
+        if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
         }
         Order order = orderDao.getOrder(id);
         order.setStatus(Status.STATUS_SUSPENDED);
-        if(!orderDao.updateOrder(order)){
+        if (!orderDao.updateOrder(order)) {
             throw new Exception("Order status update exception");
         }
     }
 
     public void deleteOrder(BigInteger id) throws Exception {
-        if((id == null)||(id.equals(BigInteger.ZERO))){
+        if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Wrong id");
         }
         Order order = orderDao.getOrder(id);
         Collection<ServiceCollection> serviceCollections = serviceCollectionDao.getServiceCollectionsByOrder(order);
-        for(ServiceCollection idS: serviceCollections){
-        serviceCollectionDao.deleteServiceCollection(idS);}
-        if(!orderDao.deleteOrder(id)){
+        for (ServiceCollection idS : serviceCollections) {
+            serviceCollectionDao.deleteServiceCollection(idS);
+        }
+        if (!orderDao.deleteOrder(id)) {
             throw new Exception("Order delete exception");
         }
     }
 
     public void addSpecialService(BigInteger orderId, Service service) throws Exception {
-        if((orderId == null)||(orderId.equals(BigInteger.ZERO))){
+        if ((orderId == null) || (orderId.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
         }
-        if((service == null)||(service.getId() == null)||(service.getId().equals(BigInteger.ZERO))){
+        if ((service == null) || (service.getId() == null) || (service.getId().equals(BigInteger.ZERO))) {
             throw new Exception("Service exception");
         }
         Order order = orderDao.getOrder(orderId);
@@ -431,46 +446,41 @@ public class OrderProcessingService {
     }
 
     public BigInteger getNumberOfOrders() throws NotFoundException {
-        try{
+        try {
             return orderDao.getNumberOfOrders();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new NotFoundException("Can't query number of rows");
         }
     }
 
     public BigInteger getNumberOfOrders(Float price) throws NotFoundException {
-        try{
+        try {
             return orderDao.getNumberOfOrders(price);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new NotFoundException("Can't query number of rows");
         }
     }
 
     public BigInteger getNumberOfOrders(Status status) throws NotFoundException {
-        try{
+        try {
             return orderDao.getNumberOfOrders(status);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new NotFoundException("Can't query number of rows");
         }
     }
 
     public BigInteger getNumberOfOrders(String title) throws NotFoundException {
-        try{
+        try {
             return orderDao.getNumberOfOrders(title);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new NotFoundException("Can't query number of rows");
         }
     }
 
     public BigInteger getNumberOfOrders(BigInteger serviceId) throws NotFoundException {
-        try{
+        try {
             return orderDao.getNumberOfOrders(serviceId);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new NotFoundException("Can't query number of rows");
         }
     }
@@ -478,12 +488,12 @@ public class OrderProcessingService {
     public BigInteger getNumberOfOrders(Float minPrice, Float maxPrice, String title, Status status, BigInteger serviceId) throws NotFoundException {
         try {
             Service service = null;
-            if(serviceId != null && !serviceId.equals(BigInteger.ZERO)){
+            if (serviceId != null && !serviceId.equals(BigInteger.ZERO)) {
                 service = serviceDao.getService(serviceId);
             }
-            return orderDao.getNumberOfOrders(minPrice, maxPrice, title, status, service);
-        }
-        catch (Exception e){
+            BigInteger result =  orderDao.getNumberOfOrders(minPrice, maxPrice, title, status, service);
+            return result;
+        } catch (Exception e) {
             throw new NotFoundException("Can't query number of rows");
         }
     }
