@@ -16,9 +16,6 @@ public interface ConsumerDao {
     /** search consumer by id
      * @param id consumer */
     Consumer getConsumerById(BigInteger id) throws NotFoundException;
-    /**search consumer by surname
-     * @param lastName consumer*/
-    Consumer findConsumerByLastName(String lastName) throws NotFoundException;
     /**updating already existing consumer
      * @param consumer consumer */
     boolean update (Consumer consumer) throws EmptyDataBaseException;
@@ -32,13 +29,6 @@ public interface ConsumerDao {
             " FROM CONSUMER" +
             " LEFT JOIN users ON consumer.userId = users.userId" +
             " WHERE consumer.userId = ?";
-
-    /**Request for finding consumer by surname*/
-    String GET_CONSUMER_BY_LAST_NAME = "SELECT firstName, lastName, consumer.userId," +
-            " users.email, users.password, users.phoneNumber, users.role" +
-            "FROM CONSUMER" +
-            "LEFT JOIN users ON consumer.userId = users.userId" +
-            "WHERE lastName = ? ";
 
     /**Request for creating new consumer */
     String CREATE_CONSUMER = "INSERT INTO CONSUMER  VALUES (?,?,?)\n";

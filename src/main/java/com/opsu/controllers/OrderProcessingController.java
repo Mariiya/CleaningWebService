@@ -15,7 +15,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.Collection;
-
+/**
+ * The controller provides end points for processing requests from the frontend for the object Order
+ * @author group 183
+ * @version 2.1
+ */
 @RestController
 @Validated
 @RequestMapping(value = "/order/")
@@ -27,7 +31,8 @@ public class OrderProcessingController {
     public OrderProcessingController(OrderProcessingService processingService) {
         this.processingService = processingService;
     }
-
+    /** create new order
+     * @param order  order */
     @PostMapping("/create")
     public Boolean createOrder(@RequestBody Order order) {
         try {
@@ -38,7 +43,8 @@ public class OrderProcessingController {
             return false;
         }
     }
-
+    /** search order by id
+     * @param id order */
     @GetMapping("/{id}")
     public Order getOrder(@PathVariable BigInteger id) {
         try {
@@ -48,7 +54,8 @@ public class OrderProcessingController {
             return null;
         }
     }
-
+    /** show all orders
+     * @param page order */
     @GetMapping("/orders")
     public Collection<Order> getOrders(@RequestParam int page) throws Exception {
         try {
@@ -58,7 +65,13 @@ public class OrderProcessingController {
             return null;
         }
     }
-
+    /** search and group order by several parametrs
+     * @param maxPrice order
+     * @param minPrice  order
+     * @param serviceId order
+     * @param status  order
+     * @param title order
+     * @param page  order */
     @GetMapping("/get-by-multiparams")
     public Collection<Order> getOrders(@RequestParam Float minPrice, @RequestParam Float maxPrice, @RequestParam String title, @RequestParam("status") Status status, @RequestParam BigInteger serviceId, int page) throws Exception {
         try {
@@ -69,7 +82,9 @@ public class OrderProcessingController {
             return null;
         }
     }
-
+    /** search and group order by serviceid
+     * @param serviceId order
+     * @param page  order */
     @GetMapping("/get-by-service")
     public Collection<Order> getOrders(@Valid @RequestParam BigInteger serviceId, @RequestParam int page) {
         try {
@@ -79,7 +94,10 @@ public class OrderProcessingController {
             return null;
         }
     }
-
+    /** search and group order by price
+     * @param maxPrice order
+     * @param minPrice  order
+     * @param page  order */
     @GetMapping("/get-by-price")
     public Collection<Order> getOrders(@RequestParam Float minPrice, @RequestParam Float maxPrice, @RequestParam int page) {
         try {
@@ -89,7 +107,9 @@ public class OrderProcessingController {
             return null;
         }
     }
-
+    /** search and group order by status
+     * @param status order
+     * @param page  order */
     @GetMapping("/get-by-status")
     public Collection<Order> getOrders(@RequestParam("status") Status status, @RequestParam int page) {
         try {
@@ -99,7 +119,9 @@ public class OrderProcessingController {
             return null;
         }
     }
-
+    /** search and group order by title
+     * @param title order
+     * @param page  order */
     @GetMapping("/get-by-title")
     public Collection<Order> getOrders(@RequestParam String title, @RequestParam int page) {
         try {
@@ -109,7 +131,9 @@ public class OrderProcessingController {
             return null;
         }
     }
-
+    /** search and group order by userid
+     * @param id order
+     */
     @GetMapping("/get-by-user")
     public Collection<Order> getOrders(@RequestParam BigInteger id) {
         try {
@@ -119,7 +143,9 @@ public class OrderProcessingController {
             return null;
         }
     }
-
+    /**updating already existing order
+     * @param order  order
+     */
     @PostMapping("/update")
     public Boolean updateOrder(@RequestBody Order order) {
         try {
@@ -131,6 +157,9 @@ public class OrderProcessingController {
         }
     }
 
+    /**vendor rejects order
+     * @param id   order
+     */
     @PostMapping("/reject/{id}")
     public Boolean rejectOrder(@PathVariable BigInteger id) {
         try {
@@ -141,7 +170,9 @@ public class OrderProcessingController {
             return false;
         }
     }
-
+    /**consumer canceled order
+     * @param id   order
+     */
     @PostMapping("/cancel/{id}")
     public Boolean cancelOrder(@PathVariable BigInteger id) {
         try {
@@ -152,7 +183,10 @@ public class OrderProcessingController {
             return false;
         }
     }
-
+    /**vendor chooses order
+     * @param orderId   order
+     * @param vendorId vendor
+     */
     @PostMapping("/assignOrder")
     public Order assignOrder(@RequestParam BigInteger orderId, @RequestParam BigInteger vendorId) throws Exception {
         try {
@@ -162,7 +196,9 @@ public class OrderProcessingController {
             throw e;
         }
     }
-
+    /**order has not been finished
+     * @param id   order
+     */
     @PostMapping("/inProgress/{id}")
     public Boolean inProgressOrder(@PathVariable BigInteger id) {
         try {
@@ -173,7 +209,9 @@ public class OrderProcessingController {
             return false;
         }
     }
-
+    /**order has been suspended by consumer
+     * @param id   order
+     */
     @PostMapping("/suspend/{id}")
     public Boolean suspendOrder(@PathVariable BigInteger id) {
         try {
@@ -184,7 +222,9 @@ public class OrderProcessingController {
             return false;
         }
     }
-
+    /**order has been finished
+     * @param id   order
+     */
     @PostMapping("/complete/{id}")
     public Boolean completeOrder(@PathVariable BigInteger id) {
         try {
@@ -195,7 +235,8 @@ public class OrderProcessingController {
             return false;
         }
     }
-
+    /**delete order
+     * @param id  order */
     @PostMapping("/delete/{id}")
     public Boolean deleteOrder(@PathVariable BigInteger id) {
         try {
@@ -206,7 +247,9 @@ public class OrderProcessingController {
             return false;
         }
     }
-
+    /**ability to change price
+     * @param id  order
+     * @param price  order*/
     @PostMapping("/change-price")
     public Boolean changePrice(@Valid @RequestBody BigInteger id, @Valid @RequestBody Float price) {
         try {
@@ -217,7 +260,9 @@ public class OrderProcessingController {
             return false;
         }
     }
-
+    /**add custom service
+     * @param orderId order
+     * @param service service */
     @PostMapping("/create-service")
     public Boolean addSpecialService(@Valid @RequestBody BigInteger orderId, @Valid @RequestBody Service service) {
         try {
@@ -228,7 +273,7 @@ public class OrderProcessingController {
             return false;
         }
     }
-
+    /**count amount of all orders */
     @GetMapping("/get-number")
     public BigInteger getNumberOfRows() {
         try {
@@ -238,7 +283,8 @@ public class OrderProcessingController {
             return null;
         }
     }
-
+    /**count amount of orders grouped by price
+     * @param price order */
     @GetMapping("/get-number-price")
     public BigInteger getNumberOfRows(@RequestParam Float price) {
         try {
@@ -248,7 +294,8 @@ public class OrderProcessingController {
             return null;
         }
     }
-
+    /**count amount of orders grouped by status
+     * @param status order */
     @GetMapping("/get-number-status")
     public BigInteger getNumberOfRows(@RequestParam("status") Status status) {
         try {
@@ -258,7 +305,8 @@ public class OrderProcessingController {
             return null;
         }
     }
-
+    /**count amount of orders grouped by title
+     * @param title order */
     @GetMapping("/get-number-title")
     public BigInteger getNumberOfRows(@RequestParam String title) {
         try {
@@ -268,7 +316,8 @@ public class OrderProcessingController {
             return null;
         }
     }
-
+    /**count amount of orders grouped by serviceid
+     * @param serviceId order */
     @GetMapping("/get-number-service")
     public BigInteger getNumberOfRows(@RequestParam BigInteger serviceId){
         try {
@@ -278,7 +327,12 @@ public class OrderProcessingController {
             return null;
         }
     }
-
+    /**count amount of orders grouped by several parameters
+     * @param maxPrice order
+     * @param minPrice order
+     * @param title order
+     * @param status order
+     * @param serviceId  order*/
     @GetMapping("/get-number-multiparam")
     public BigInteger getNumberOfRows(@RequestParam Float minPrice, @RequestParam Float maxPrice, @RequestParam String title, @RequestParam("status") Status status, @RequestParam BigInteger serviceId){
         try {

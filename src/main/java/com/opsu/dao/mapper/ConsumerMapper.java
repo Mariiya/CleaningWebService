@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * In this class we create pattern for storing information about consumer
- * This class maps each row ResultSet from SQl request to new object from Consumer class
+ * Class with pattern for storing information about consumer
+ * This class maps each row ResultSet from SQl request to new object of Consumer class
  * @author group 183
  * @version 2.1
  */

@@ -17,22 +17,27 @@ import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.SQLData;
 import java.util.Collection;
-
+/**
+ * An implementation of an interface OrderDao.
+ * @author group 183
+ * @version 2.1
+ */
 @Repository
 public class OrderDaoImpl implements OrderDao {
-    //Logger for creating log records
+
+    /**Logger for creating log records*/
     private static final Logger LOG = Logger.getLogger(OrderDaoImpl.class);
 
     private final JdbcTemplate jdbcTemplate;
 
-    //required constructor
+    /**required constructor*/
     @Autowired
     public OrderDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    //methods
-
+    /** search order by id
+     * @param id order */
     @Override
     public Order getOrder(BigInteger id) throws NotFoundException {
         try {
@@ -42,7 +47,8 @@ public class OrderDaoImpl implements OrderDao {
             throw new NotFoundException("Order not found");
         }
     }
-
+    /** show all orders
+     * @param page order */
     @Override
     public Collection<Order> getOrders(int page) throws NotFoundException {
         int downLimit = (page - 1) * 15;
@@ -54,7 +60,10 @@ public class OrderDaoImpl implements OrderDao {
             throw new NotFoundException("Orders not found");
         }
     }
-
+    /** search and group order by price
+     * @param maxPrice order
+     * @param minPrice  order
+     * @param page  order */
     @Override
     public Collection<Order> getOrders(Float minPrice, Float maxPrice, int page) throws NotFoundException {
         int downLimit = (page - 1) * 15;
@@ -66,7 +75,9 @@ public class OrderDaoImpl implements OrderDao {
             throw new NotFoundException("Orders not found");
         }
     }
-
+    /** search and group order by title
+     * @param title order
+     * @param page  order */
     @Override
     public Collection<Order> getOrders(String title, int page) throws NotFoundException {
         int downLimit = (page - 1) * 15;
@@ -78,7 +89,9 @@ public class OrderDaoImpl implements OrderDao {
             throw new NotFoundException("Orders not found");
         }
     }
-
+    /** search and group order by status
+     * @param status order
+     * @param page  order */
     @Override
     public Collection<Order> getOrders(Status status, int page) throws NotFoundException {
         int downLimit = (page - 1) * 15;
@@ -90,7 +103,9 @@ public class OrderDaoImpl implements OrderDao {
             throw new NotFoundException("Orders not found");
         }
     }
-
+    /** search and group order by userid
+     * @param userId order
+     */
     @Override
     public Collection<Order> getOrders(BigInteger userId) throws NotFoundException {
         try {
@@ -100,7 +115,9 @@ public class OrderDaoImpl implements OrderDao {
             throw new NotFoundException("Orders not found");
         }
     }
-
+    /** search and group order by serviceid
+     * @param serviceId order
+     * @param page  order */
     @Override
     public Collection<Order> getOrders(BigInteger serviceId, int page) throws NotFoundException {
         int downLimit = (page - 1) * 15;
@@ -113,6 +130,13 @@ public class OrderDaoImpl implements OrderDao {
         }
     }
 
+    /** search and group order by several parametrs
+     * @param maxPrice order
+     * @param minPrice  order
+     * @param service order
+     * @param status  order
+     * @param title order
+     * @param page  order */
     @Override
     public Collection<Order> getOrders(Float minPrice, Float maxPrice, String title, Status status, Service service, int page) throws NotFoundException {
         int downLimit = (page - 1) * 15;
@@ -151,7 +175,8 @@ public class OrderDaoImpl implements OrderDao {
             throw new NotFoundException("Orders not found");
         }
     }
-
+    /** create new order
+     * @param order  order */
     @Override
     public boolean createOrder(Order order) {
         try {
@@ -170,7 +195,8 @@ public class OrderDaoImpl implements OrderDao {
             return false;
         }
     }
-
+    /**updating already existing order
+     * @param order  order */
     @Override
     public boolean updateOrder(Order order) {
         try {
@@ -187,7 +213,8 @@ public class OrderDaoImpl implements OrderDao {
             return false;
         }
     }
-
+    /**delete order
+     * @param id  order */
     @Override
     public boolean deleteOrder(BigInteger id) {
         try {
@@ -197,7 +224,8 @@ public class OrderDaoImpl implements OrderDao {
             return false;
         }
     }
-
+    /**search for oder's id
+     * @param order  order */
     @Override
     public Order getOrderId(Order order) throws NotFoundException {
         try {
@@ -215,32 +243,41 @@ public class OrderDaoImpl implements OrderDao {
             throw new NotFoundException("Orders not found");
         }
     }
-
+    /**count amount of all orders */
     @Override
     public BigInteger getNumberOfOrders() throws NotFoundException {
         return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS, new RowNumMapper());
     }
-
+    /**count amount of orders grouped by price
+     * @param price order */
     @Override
     public BigInteger getNumberOfOrders(Float price) throws NotFoundException {
         return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS_BY_PRICE, new RowNumMapper(), price);
     }
-
+    /**count amount of orders grouped by status
+     * @param status order */
     @Override
     public BigInteger getNumberOfOrders(Status status) throws NotFoundException {
         return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS_BY_STATUS, new RowNumMapper(), status.name());
     }
-
+    /**count amount of orders grouped by title
+     * @param title order */
     @Override
     public BigInteger getNumberOfOrders(String title) throws NotFoundException {
         return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS_BY_TITLE, new RowNumMapper(), title);
     }
-
+    /**count amount of orders grouped by serviceid
+     * @param serviceId order */
     @Override
     public BigInteger getNumberOfOrders(BigInteger serviceId) throws NotFoundException {
         return jdbcTemplate.queryForObject(GET_NUMBER_OF_ORDERS_BY_SERVICE, new RowNumMapper(), serviceId);
     }
-
+    /**count amount of orders grouped by several parameters
+     * @param maxPrice order
+     * @param minPrice order
+     * @param title order
+     * @param status order
+     * @param service order*/
     @Override
     public BigInteger getNumberOfOrders(Float minPrice, Float maxPrice, String title, Status status, Service service) throws NotFoundException {
         BigInteger serviceId;

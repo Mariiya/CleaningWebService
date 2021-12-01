@@ -43,9 +43,12 @@ public interface OrderDao {
      * @param page  order */
     Collection<Order> getOrders(BigInteger serviceId, int page) throws NotFoundException;
 
-    /** search and group order by price ?????????
+    /** search and group order by several parametrs
      * @param maxPrice order
      * @param minPrice  order
+     * @param service order
+     * @param status  order
+     * @param title order
      * @param page  order */
     Collection<Order> getOrders(Float minPrice, Float maxPrice, String title, Status status, Service service, int page) throws NotFoundException;
 
@@ -76,7 +79,12 @@ public interface OrderDao {
     /**count amount of orders grouped by serviceid
      * @param serviceId order */
     BigInteger getNumberOfOrders(BigInteger serviceId) throws NotFoundException;
-
+    /**count amount of orders grouped by several parameters
+     * @param maxPrice order
+     * @param minPrice order
+     * @param title order
+     * @param status order
+     * @param service order*/
     BigInteger getNumberOfOrders(Float minPrice, Float maxPrice, String title, Status status, Service service) throws NotFoundException;
 
     /**Request for finding order by id*/
@@ -126,7 +134,7 @@ public interface OrderDao {
             "           startDate = ? AND endDate = ? AND price = ? AND address = ?)  t\n" +
             "            where t.r <=1\n" +
             "            ORDER BY orderID desc";
-    /**Request for counting amount of all orders */
+    /**Request for counting amount of orders */
     String GET_NUMBER_OF_ORDERS = "SELECT COUNT(orderID) as \"number\" FROM ORDERS";
     /**Request for counting amount of orders grouped by specific price */
     String GET_NUMBER_OF_ORDERS_BY_PRICE = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE price >= ? AND price <= ?";

@@ -5,12 +5,18 @@ import com.opsu.models.Order;
 import com.opsu.models.Service;
 import com.opsu.models.Vendor;
 import com.opsu.models.enumeration.Status;
-
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 
+/**
+ * This class is a creational design pattern, which allows constructing complex objects such as Order step by step
+ * @author group 183
+ * @version 2.1
+ */
+
 public class OrderBuilder {
+
     private BigInteger id;
     private String title;
     private String description;

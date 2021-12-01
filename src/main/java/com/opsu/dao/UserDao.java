@@ -18,7 +18,7 @@ public interface UserDao {
     /**creating new user
      * @param user user*/
     boolean save(User user) throws EmptyDataBaseException;
-    /**creating new user
+    /**updating new user
      * @param user user*/
     boolean update(User user) throws EmptyDataBaseException;
     /**existing of user with specific phone number

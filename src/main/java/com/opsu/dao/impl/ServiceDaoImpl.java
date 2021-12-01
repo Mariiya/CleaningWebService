@@ -11,21 +11,25 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
 import java.util.Collection;
-
+/**
+ * An implementation of an interface ServiceDao.
+ * @author group 183
+ * @version 2.1
+ */
 @Repository
 public class ServiceDaoImpl implements ServiceDao {
-    //Logger for creating log records
+    /**Logger for creating log records*/
     private static final Logger LOG = Logger.getLogger(ServiceDaoImpl.class);
 
     private final JdbcTemplate jdbcTemplate;
 
-    //required constructor
+    /**required constructor*/
     public ServiceDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    //methods
-
+    /** add  service
+     * @param service service*/
     @Override
     public void addNewService(Service service) {
         try {
@@ -34,7 +38,8 @@ public class ServiceDaoImpl implements ServiceDao {
             LOG.error(e.getMessage(), e);
         }
     }
-
+    /** add new special service
+     * @param service service*/
     @Override
     public void addNewCustomService(Service service) {
         try {
@@ -43,7 +48,8 @@ public class ServiceDaoImpl implements ServiceDao {
             LOG.error(e.getMessage(), e);
         }
     }
-
+    /**updating already existing service
+     * @param service  service */
     @Override
     public void updateService(Service service) {
         try {
@@ -53,7 +59,8 @@ public class ServiceDaoImpl implements ServiceDao {
             LOG.error(e.getMessage(), e);
         }
     }
-
+    /**delete service
+     * @param Id   service */
     @Override
     public boolean deleteService(BigInteger Id) {
         try {
@@ -63,7 +70,8 @@ public class ServiceDaoImpl implements ServiceDao {
             return false;
         }
     }
-
+    /** search service by id
+     * @param id service */
     @Override
     public Service getService(BigInteger id) throws NotFoundException  {
         try {
@@ -73,7 +81,7 @@ public class ServiceDaoImpl implements ServiceDao {
             throw new NotFoundException("Service not found");
         }
     }
-
+    /** show all services*/
     @Override
     public Collection<Service> getServices() throws NotFoundException {
         try {
@@ -83,7 +91,8 @@ public class ServiceDaoImpl implements ServiceDao {
             throw new NotFoundException("Services not found");
         }
     }
-
+    /** finding service by special service
+     * @param service service*/
     @Override
     public Service getCustomService(Service service) throws NotFoundException {
         try {

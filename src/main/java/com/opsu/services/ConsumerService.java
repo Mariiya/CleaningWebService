@@ -45,7 +45,10 @@ private final AuthorizationService authorizationService;
                 consumerRequest.getLastName());
        return consumerDao.save(consumer);
     }
-
+    /**@param updater user details
+     * @param consumer consumer
+     * @see com.opsu.controllers.ConsumerController
+     */
     public Consumer update(UserDetailsImpl updater, Consumer consumer) throws NotFoundException, EmptyDataBaseException {
         if (!updater.getId().equals(consumer.getId())) {
             throw new PermissionDeniedDataAccessException("Can not change this user password", new IllegalAccessError());
@@ -60,7 +63,4 @@ private final AuthorizationService authorizationService;
         return consumerfromDB;
     }
 
-    public Consumer findConsumerByLastName(String lastname) throws Exception {
-        return consumerDao.findConsumerByLastName(lastname);
-    }
 }

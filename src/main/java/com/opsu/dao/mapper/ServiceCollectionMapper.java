@@ -9,8 +9,8 @@ import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 /**
- * In this class we create pattern for storing information about service collection
- * This class maps each row ResultSet from SQl request to new object from ServiceCollection class
+ * Class with pattern for storing information about service collection
+ * This class maps each row ResultSet from SQl request to new object of ServiceCollection class
  * @author group 183
  * @version 2.1
  */

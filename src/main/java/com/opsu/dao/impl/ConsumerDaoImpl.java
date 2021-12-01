@@ -14,18 +14,25 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
+/**
+ * An implementation of an interface ConsumerDao.
+ * @author group 183
+ * @version 2.1
+ */
 @Repository
 public class ConsumerDaoImpl implements ConsumerDao {
-
+    /**Logger for creating log records*/
     private static final Logger LOG = Logger.getLogger(ConsumerDaoImpl.class);
     private final JdbcTemplate jdbcTemplate;
 
-
+    /**required constructor*/
     @Autowired
     public ConsumerDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /** search consumer by id
+     * @param id consumer */
     @Override
     public Consumer getConsumerById(BigInteger id) throws NotFoundException {
         try {
@@ -36,15 +43,8 @@ public class ConsumerDaoImpl implements ConsumerDao {
         }
     }
 
-    public Consumer findConsumerByLastName(String lastName) throws NotFoundException{
-        try{
-        return jdbcTemplate.queryForObject(GET_CONSUMER_BY_LAST_NAME, new ConsumerMapper(),lastName, lastName);
-    }catch (DataAccessException e) {
-            LOG.error(e.getMessage(), e);
-            throw new NotFoundException("Consumer not found");
-        }
-    }
-
+    /**updating already existing consumer
+     * @param consumer consumer */
     public boolean update(Consumer consumer) throws EmptyDataBaseException {
         try {
             jdbcTemplate.update(UPDATE_CONSUMER,consumer.getFirstName(),consumer.getLastName(), consumer.getId());
@@ -55,6 +55,8 @@ public class ConsumerDaoImpl implements ConsumerDao {
         return true;
     }
 
+    /**creating new consumer
+     * @param consumer consumer*/
     public boolean save(Consumer consumer) throws EmptyDataBaseException {
         try {
             jdbcTemplate.update(CREATE_CONSUMER,consumer.getFirstName(),consumer.getLastName(),consumer.getId());

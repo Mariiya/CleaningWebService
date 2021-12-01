@@ -6,7 +6,11 @@ import org.springframework.http.HttpStatus;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
-
+/**
+ * In this class we store information  about api errors
+ * @author group 183
+ * @version 2.1
+ */
 public class ApiError {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;

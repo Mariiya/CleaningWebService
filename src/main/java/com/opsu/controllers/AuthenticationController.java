@@ -21,7 +21,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.math.BigInteger;
-
+/**
+ * The controller provides end points for processing requests from the frontend for the object User
+ * @author group 183
+ * @version 2.1
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
@@ -41,27 +45,33 @@ public class AuthenticationController {
         this.vendorService = vendorService;
         this.userDetailsService = userDetailsService;
     }
-
+    /**user wants to log in
+     * @param loginRequest login */
     @PostMapping("/auth/signin")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) throws NotFoundException {
         return ResponseEntity.ok(authorizationService.authenticateUser(loginRequest));
     }
-
+    /**password change in user's page
+     * @param user user
+     * @param updater user details*/
     @PostMapping("/change-password")
     public boolean changeUserPassword(@AuthenticationPrincipal UserDetailsImpl updater, @Valid @RequestBody User user) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
         return authorizationService.changeUserPassword(updater, user);
     }
-
+    /**user wants to change password
+     * @param email  user */
     @PostMapping("/auth/reset-password")
     public ResponseEntity<PasswordCode> changeUserPassword(@RequestParam String email) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
         return ResponseEntity.ok(authorizationService.resetPassword(email));
     }
-
+    /**new password for user's page will be send via email
+     * @param email user */
     @PostMapping("/auth/new-password")
     public boolean getPasswordAfterReset(@RequestParam String email) throws NotFoundException, IOException, MessagingException, EmptyDataBaseException {
         return authorizationService.newPasswordAfterReset(email);
     }
-
+    /**user signed up as vendor
+     * @param vendor vendor */
     @PostMapping("/auth/signup/vendor")
     public ResponseEntity<?> createVendor(@Valid @RequestBody Vendor vendor) throws IOException, MessagingException, NotFoundException, EmptyDataBaseException {
         if (authorizationService.existsByEmail(vendor.getEmail())) {
@@ -73,7 +83,8 @@ public class AuthenticationController {
         Boolean success = vendorService.create(vendor);
         return ResponseEntity.ok(success);
     }
-
+    /**user signed up as consumer
+     * @param consumer consumer */
     @PostMapping("/auth/signup/consumer")
     public ResponseEntity<?> createConsumer(@Valid @RequestBody Consumer consumer) throws IOException, MessagingException, NotFoundException, EmptyDataBaseException {
         if (authorizationService.existsByEmail(consumer.getEmail())) {
@@ -85,7 +96,8 @@ public class AuthenticationController {
         Boolean success = consumerService.create(consumer);
         return ResponseEntity.ok(success);
     }
-
+    /** search user by id
+     * @param id user */
     @GetMapping("/user/{id}")
     public User getUserById(@NotNull @PathVariable String id) {
         return userDetailsService.getUserById(new BigInteger(id));

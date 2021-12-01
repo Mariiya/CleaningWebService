@@ -15,18 +15,25 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
 
-
+/**
+ * An implementation of an interface VendorDao.
+ * @author group 183
+ * @version 2.1
+ */
 @Repository
 public class VendorDaoImpl implements VendorDao {
 
+    /**Logger for creating log records*/
     private static final Logger LOG = Logger.getLogger(VendorDaoImpl.class);
     private final JdbcTemplate jdbcTemplate;
 
+    /**required constructor*/
     @Autowired
     public VendorDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
+    /** search vendor by id
+     * @param id vendor */
     @Override
     public Vendor getVendorById(BigInteger id) throws NotFoundException {
         try {
@@ -37,7 +44,8 @@ public class VendorDaoImpl implements VendorDao {
         }
 
     }
-
+    /**creating new vendor
+     * @param vendor vendor*/
     public boolean update(Vendor vendor) throws EmptyDataBaseException {
         try {
             jdbcTemplate.update(UPDATE_VENDOR, vendor.getFirstName(), vendor.getLastName(), vendor.getId());
@@ -47,7 +55,8 @@ public class VendorDaoImpl implements VendorDao {
         }
         return true;
     }
-
+    /** updating already existing vendor
+     * @param vendor vendor*/
     public boolean save(Vendor vendor) throws EmptyDataBaseException {
         try {
             jdbcTemplate.update(CREATE_VENDOR, vendor.getFirstName(), vendor.getLastName(), vendor.getIndividual(), vendor.getId());

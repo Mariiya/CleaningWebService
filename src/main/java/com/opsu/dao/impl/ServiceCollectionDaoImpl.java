@@ -13,18 +13,24 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
 import java.util.Collection;
-
+/**
+ * An implementation of an interface ServiceCollectionDao.
+ * @author group 183
+ * @version 2.1
+ */
 @Repository
 public class ServiceCollectionDaoImpl implements ServiceCollectionDao {
-    //Logger for creating log records
+    /**Logger for creating log records*/
     private static final Logger LOG = Logger.getLogger(ServiceCollectionDaoImpl.class);
 
     private final JdbcTemplate jdbcTemplate;
-
+    /**required constructor*/
     public ServiceCollectionDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /** search service collection by id
+     * @param id service collection */
     @Override
     public ServiceCollection getServiceCollectionById(BigInteger id) throws NotFoundException {
         try{
@@ -36,7 +42,7 @@ public class ServiceCollectionDaoImpl implements ServiceCollectionDao {
             throw new NotFoundException("Service Collection not found");
         }
     }
-
+    /** search all  service collection */
     @Override
     public Collection<ServiceCollection> getServiceCollections() throws NotFoundException {
         try{
@@ -47,7 +53,8 @@ public class ServiceCollectionDaoImpl implements ServiceCollectionDao {
             throw new NotFoundException("Service Collections not found");
         }
     }
-
+    /** search service collection by order
+     * @param order service collection */
     @Override
     public Collection<ServiceCollection> getServiceCollectionsByOrder(Order order) throws NotFoundException {
         try{
@@ -58,7 +65,8 @@ public class ServiceCollectionDaoImpl implements ServiceCollectionDao {
             throw new NotFoundException("Service Collections not found");
         }
     }
-
+    /** create new service collection
+     * @param serviceCollection service collection */
     @Override
     public void createServiceCollection(ServiceCollection serviceCollection) {
         try {
@@ -70,7 +78,8 @@ public class ServiceCollectionDaoImpl implements ServiceCollectionDao {
             jdbcTemplate.execute("commit;");
         }
     }
-
+    /** updating already existing service collection
+     * @param serviceCollection service collection */
     @Override
     public void updateServiceCollection(ServiceCollection serviceCollection) {
         try {
@@ -80,7 +89,8 @@ public class ServiceCollectionDaoImpl implements ServiceCollectionDao {
             LOG.error(e.getMessage(), e);
         }
     }
-
+    /** deleting already existing service collection
+     * @param serviceCollection service collection */
     @Override
     public boolean deleteServiceCollection(ServiceCollection serviceCollection) {
         try {
