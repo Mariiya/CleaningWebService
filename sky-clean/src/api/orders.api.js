@@ -6,11 +6,11 @@ export const getOrder = async (id) => {
 }
 
 export const getOrders = async (page = 1) => {
-  return await get(`/order/get-by-status?status=STATUS_OPEN&page=${page}`)
+  return await get(`/order/get-by-multiparams?minPrice=0&maxPrice=0&title=&status=EMPTY&serviceId=0&page=1`)
 }
 
 export const getCountOrders = async () => {
-  return await get(`/order/get-number-status?status=STATUS_OPEN`)
+  return await get(`/order/get-number-multiparam?minPrice=0&maxPrice=0&title=&status=EMPTY&serviceId=0`)
 }
 
 export const assignOrder = async (userId, orderId) => {

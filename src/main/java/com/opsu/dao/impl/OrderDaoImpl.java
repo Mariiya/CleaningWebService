@@ -166,7 +166,6 @@ public class OrderDaoImpl implements OrderDao {
                 query = query.concat("AND (o.status = ?) ");
             }
             query = query.concat(") t WHERE t.r > ? AND t.r < ?");
-            System.out.println("query for orders " + query);
             orderCollection = jdbcTemplate.query(query, new OrderMapper(), minPrice, maxPrice, title, status.name(), downLimit, upLimit);
 
             return orderCollection;
@@ -314,8 +313,6 @@ public class OrderDaoImpl implements OrderDao {
         }
 
         query = query.concat(") t");
-        System.out.println("query " + query);
-        System.out.println("params " + minPrice+" - " + maxPrice+" - " + title+" - " + status.name());
         return jdbcTemplate.queryForObject(query, new RowNumMapper(), serviceId.longValue(),minPrice, maxPrice, title, status.name());
     }
 }

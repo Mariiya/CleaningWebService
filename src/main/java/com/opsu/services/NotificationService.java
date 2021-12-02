@@ -88,7 +88,6 @@ public class NotificationService {
     public synchronized PasswordCode changePasswordNotification(User user) {
        PasswordCode code = new PasswordCode();
        code.code = RandomString.make(10);
-        System.out.println(code);
         mailService.sendMessage(user.getEmail(), changePasswordNotification.getTitle(),
                 "Code:" + code.code + '\n' + changePasswordNotification.getBody());
         return code;

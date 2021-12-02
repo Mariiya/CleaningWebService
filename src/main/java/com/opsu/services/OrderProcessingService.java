@@ -306,8 +306,7 @@ public class OrderProcessingService {
                     }
                 }
             }
-            System.out.println("result size "+  result.size());
-            return result;
+           return result;
         } catch (NotFoundException e) {
             logger.error(e.getMessage());
             throw new EmptyDataBaseException("Orders not found");
@@ -493,7 +492,6 @@ public class OrderProcessingService {
                 service = serviceDao.getService(serviceId);
             }
             BigInteger result =  orderDao.getNumberOfOrders(minPrice, maxPrice, title, status, service);
-            System.out.println("getNumberOfOrders results " + result);
             return result;
         } catch (Exception e) {
             throw new NotFoundException("Can't query number of rows");
