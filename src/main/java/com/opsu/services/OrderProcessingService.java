@@ -250,7 +250,7 @@ public class OrderProcessingService {
                     Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
                     order.setVendor(vendor);
                 }
-            } catch (NotFoundException e) {
+            } catch (Exception e) {
 
             }
 
