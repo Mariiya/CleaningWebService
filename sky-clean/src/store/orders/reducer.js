@@ -38,6 +38,19 @@ function ordersReducer(state = initialState, action) {
         ...state,
         orders: []
       }
+
+    case ORDERS.UPDATE_ORDER: {
+      return {
+        ...state,
+        orders: state.orders.map((order) => {
+          if (order.id === action.payload.id) {
+            return {...order, ...action.payload.data}
+          } else {
+            return order
+          }
+        })
+      }
+    }
     
     default:
       return state

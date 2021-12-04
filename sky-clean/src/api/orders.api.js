@@ -36,3 +36,7 @@ export const setOrderCanceled = async (orderId) => {
 export const setOrderDelete = async (orderId) => {
   return await authPost(`/order/delete/${orderId}`)
 }
+
+export const updateOrder = async (order) => {
+  return await authPost(`/order/update/`, order)
+}

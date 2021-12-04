@@ -7,6 +7,8 @@ import {setOrderCanceled, setOrderComplete, setOrderDelete, setOrderReject} from
 import {deleteOrder, setOrderStatus} from "../../../store/orders/actions";
 //helpers
 import {notify} from "../../../helpers/notify/notify";
+//ui
+import FormInput from "../../../UI/FormInput/FormInput";
 //components
 import Status from "../../Order/Status/Status";
 import Detail from "../../Order/Detail/Detail";
@@ -16,7 +18,7 @@ import './Order.scss'
 //assets
 import {ReactComponent as ViewMoreDetailSvg} from "../../../assets/icons/services-arrow-down.svg";
 
-function Order({order}) {
+function Order({order, values, errors, form, handleChange, handleEditOrderData, editableOrderData}) {
   const dispatch = useDispatch()
   const userInfo = useSelector((state) => state.user.userInfo)
   
@@ -25,6 +27,8 @@ function Order({order}) {
   const handleSetShowDetails = () => {
     setShowDetails(!showDetails)
   }
+
+
 
   const handleCompleteClick = (id) => {
     setOrderComplete(id).then((response) => {
@@ -63,13 +67,22 @@ function Order({order}) {
   }
   
   return (
-    <div className="userOrder">
+    <form className="userOrder" onSubmit={form.handleSubmit}>
       <div className="userOrder__wrapper">
         <div className="userOrder__header">
           <div className="userOrder__titleAndState">
-            <h3 className="userOrder__title">
-              {order?.title} (Order #{order?.id})
-            </h3>
+            {editableOrderData ? (
+                <div className="userOrder__editableTitle">
+                  <div className="userOrder__fieldContainer">
+                    <FormInput name="title" value={values.title} errors={errors.title} onChange={handleChange}/>
+                  </div>
+                  <p>(Order #{order?.id})</p>
+                </div>
+            ) : (
+                <h3 className="userOrder__title">
+                  {order?.title} (Order #{order?.id})
+                </h3>
+            )}
     
             <Status status={order?.status}/>
           </div>
@@ -82,12 +95,20 @@ function Order({order}) {
         
         <div className="userOrder__body">
           <div className="userOrder__details">
-            <Detail title="Description" description={order?.description}/>
-            <Detail title="Address" description={order?.address}/>
-  
-            <h3 className="userOrder__price">
-              {order?.price}
-            </h3>
+            <Detail title="Description" description={order?.description} isEditable={editableOrderData} name="description" value={values.description} error={errors.description} onChange={handleChange}/>
+            <Detail title="Address" description={order?.address} isEditable={editableOrderData} name="address" value={values.address} error={errors.address} onChange={handleChange}/>
+
+            {editableOrderData ? (
+                <div className="userOrder__editablePrice">
+                  <div className="userOrder__fieldContainer">
+                    <FormInput name="price" value={values.price} errors={errors.price} onChange={handleChange}/>
+                  </div>
+                </div>
+            ) : (
+              <h3 className="userOrder__price">
+                {order?.price}
+              </h3>
+            )}
           </div>
           
           <div className="userOrder__extraDetails">
@@ -133,54 +154,62 @@ function Order({order}) {
           )}
         </div>
           {userInfo.role === 'ROLE_CLIENT' && (
-              order.status === 'STATUS_IN_PROGRES' ? (
-                  order.vendor.id !== 0 ? (
-                      <div className="userOrder__footer">
-                        <button
-                            className="userOrder__complete"
-                            onClick={() => handleCompleteClick(order.id)}>
-                          Complete
-                        </button>
+            order.status === 'STATUS_IN_PROGRES' ? (
+              <div className="userOrder__footer">
+                <button
+                    type="button"
+                    className="userOrder__complete"
+                    onClick={() => handleCompleteClick(order.id)}>
+                  Complete
+                </button>
 
-                        <button
-                          className="userOrder__reject"
-                          onClick={() => handleRejectClick(order.id)}>
-                          Reject
-                        </button>
-                      </div>
-                  ) : (
-                      <div className="userOrder__footer">
-                        <button
-                          className="userOrder__reject"
-                          onClick={() => handleDeleteClick(order.id)}>
-                          Delete
-                        </button>
-                      </div>
-                  )
-              ) : (
-                order.status === 'STATUS_OPEN' && (
-                    <div className="userOrder__footer">
-                      <button className="userOrder__cancel">
-                        Edit
-                      </button>
+                <button
+                    type="button"
+                    className="userOrder__reject"
+                    onClick={() => handleRejectClick(order.id)}>
+                  Reject
+                </button>
+              </div>
+            ) : order.status === 'STATUS_OPEN' && (
+              <div className="userOrder__footer">
+                <button
+                    type="button"
+                    className="userOrder__reject"
+                    onClick={() => handleDeleteClick(order.id)}>
+                  Delete
+                </button>
+
+                {editableOrderData ? (
+                    <button
+                        type="input"
+                        className="userOrder__complete">
+                      Save
+                    </button>
+                ) : (
+                    <div
+                        onClick={handleEditOrderData}
+                        className="userOrder__editButton">
+                      Edit
                     </div>
-                )
-              )
+                )}
+              </div>
+            )
           )}
   
           {userInfo.role === 'ROLE_SERVICE_PROVIDER' && (
-              order.status === 'STATUS_IN_PROGRES' && (
-                  <div className="userOrder__footer">
-                    <button
-                      className="userOrder__cancel"
-                      onClick={() => handleCancelClick(order.id)}>
-                      Cancel
-                    </button>
-                  </div>
-              )
+            order.status === 'STATUS_IN_PROGRES' && (
+              <div className="userOrder__footer">
+                <button
+                  type="button"
+                  className="userOrder__cancel"
+                  onClick={() => handleCancelClick(order.id)}>
+                  Cancel
+                </button>
+              </div>
+            )
           )}
       </div>
-    </div>
+    </form>
   )
 }
 
