@@ -40,3 +40,10 @@ export const updateOrderRecord = (id, data) => {
     }
   }
 }
+
+export const setFilters = (filters) => {
+  return {
+    type: ORDERS.SET_FILTERS,
+    payload: filters
+  }
+}

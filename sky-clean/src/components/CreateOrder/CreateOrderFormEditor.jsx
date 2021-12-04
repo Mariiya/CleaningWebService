@@ -47,8 +47,8 @@ function CreateOrderFormEditor() {
       .min(10, 'To short!')
       .max(255, 'Too long!')
       .required('Required'),
-    price: Yup.string()
-      .matches(/^[0-9]+$/, "Must be only digits")
+    price: Yup.number()
+      .positive('Must be only positive')
       .required('Required'),
   })
   

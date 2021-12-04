@@ -1,7 +1,7 @@
 //general
 import React from 'react';
 //components
-import OrdersFilter from "../../components/OrdersFilter/OrdersFilter";
+import OrdersFilterEditor from "../../components/OrdersFilter/OrdersFilterEditor";
 import Orders from "../../components/Orders/Orders";
 //styles
 import './OrdersPage.scss'
@@ -9,7 +9,7 @@ import './OrdersPage.scss'
 function OrdersPage() {
     return (
         <div className="ordersPage">
-            <OrdersFilter/>
+            <OrdersFilterEditor/>
             <Orders/>
         </div>
     )

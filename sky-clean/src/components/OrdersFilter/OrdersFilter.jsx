@@ -13,8 +13,9 @@ import './OrdersFilter.scss'
 import {ReactComponent as SearchIcon} from "../../assets/icons/search.svg";
 import {ReactComponent as ArrowDownIcon} from "../../assets/icons/services-arrow-down.svg";
 import {ReactComponent as ArrowUpIcon} from "../../assets/icons/services-arrow-down.svg";
+import FormInput from "../../UI/FormInput/FormInput";
 
-const OrdersFilter = () => {
+const OrdersFilter = ({values, errors, handleChange, form, setSelectedService}) => {
     const dispatch = useDispatch()
     const services = useSelector((state) => state.services.services)
     
@@ -22,13 +23,16 @@ const OrdersFilter = () => {
         getServices().then((response) => {
             dispatch(setServices(response))
         })
+
+        return () => {
+            dispatch(uncheckAllServices())
+        }
     }, [dispatch])
     
     const [servicesFilterOpen, setServicesFilterOpen] = React.useState(false)
-    
+
     const handleServicesFilterClose = () => {
         setServicesFilterOpen(false)
-        dispatch(uncheckAllServices())
     }
     
     const handleServicesFilterOpen = () => {
@@ -36,36 +40,45 @@ const OrdersFilter = () => {
     }
     
     return (
-        <div className="ordersFilter">
+        <form className="ordersFilter" onSubmit={form.handleSubmit}>
             <div className="ordersFilter__wrapper wrapper">
-                <div className="ordersFilter__searchInput">
-                    <SearchIcon/>
-                    <input placeholder="Search order" />
+                <div className="ordersFilter__filters">
+                    <div className="ordersFilter__searchInput">
+                        <SearchIcon/>
+                        <input name='title' value={values.title} onChange={handleChange} placeholder="Search order" />
+                    </div>
+                    <div className="ordersFilter__prices">
+                        <h3 className="ordersFilter__prices-title">Price:</h3>
+                        <div className="ordersFilter__price">
+                            <FormInput placeholder="From" name='minPrice' value={values.minPrice} onChange={handleChange} errors={errors.minPrice}/>
+                        </div>
+                        <div className="ordersFilter__price">
+                            <FormInput placeholder="To" name='maxPrice' value={values.maxPrice} onChange={handleChange} errors={errors.maxPrice}/>
+                        </div>
+                    </div>
+                    <div className="ordersFilter__filter">
+                        <h3 className="ordersFilter__filter-title">Types of work:</h3>
+                        {
+                            !servicesFilterOpen ?
+                                <ArrowDownIcon
+                                    onClick={handleServicesFilterOpen}/> :
+                                <ArrowUpIcon
+                                    className="ordersFilter__close"
+                                    onClick={handleServicesFilterClose}/>}
+                        {servicesFilterOpen && (
+                            <div className="ordersFilter__filterServices">
+                                {services?.map((service) => (
+                                    <Service key={service.name} service={service} setSelectedService={setSelectedService}/>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
-                <div className="ordersFilter__prices">
-                    <h3 className="ordersFilter__prices-title">Price:</h3>
-                    <input className="ordersFilter__price" placeholder="From"/>
-                    <input className="ordersFilter__price" placeholder="To"/>
-                </div>
-                <div className="ordersFilter__filter">
-                    <h3 className="ordersFilter__filter-title">Types of work:</h3>
-                    {
-                        !servicesFilterOpen ?
-                          <ArrowDownIcon
-                            onClick={handleServicesFilterOpen}/> :
-                          <ArrowUpIcon
-                            className="ordersFilter__close"
-                            onClick={handleServicesFilterClose}/>}
-                    {servicesFilterOpen && (
-                      <div className="ordersFilter__filterServices">
-                          {services?.map((service) => (
-                            <Service service={service}/>
-                          ))}
-                      </div>
-                    )}
-                </div>
+                <button className="ordersFilter__searchBtn" type="submit">
+                    Search
+                </button>
             </div>
-        </div>
+        </form>
     )
 }
 
