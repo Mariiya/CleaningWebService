@@ -250,7 +250,7 @@ public class OrderProcessingService {
                     Vendor vendor = vendorDao.getVendorById(order.getVendor().getId());
                     order.setVendor(vendor);
                 }
-            } catch (NotFoundException e) {
+            } catch (Exception e) {
 
             }
 
@@ -315,10 +315,10 @@ public class OrderProcessingService {
 
     public void updateOrder(Order order) throws Exception {
         if (!order.getStatus().equals(Status.STATUS_OPEN)) {
-            throw new Exception("You can't update this Order");
+            throw new IllegalArgumentException("You can't update this Order");
         }
         if (!orderDao.updateOrder(order)) {
-            throw new Exception("Order update exception");
+            throw new IllegalArgumentException("Order update exception");
         }
     }
 
