@@ -15,6 +15,10 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *  Class for working with users data,
+ *  which is used for authorisation and authentication
+ */
 @Repository
 public class UserDaoImpl implements UserDao {
 

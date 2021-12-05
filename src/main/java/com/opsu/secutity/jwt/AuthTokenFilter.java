@@ -16,6 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * What we do inside doFilterInternal():
+ * – get JWT from the Authorization header (by removing Bearer prefix)
+ * – if the request has JWT, validate it, parse username from it
+ * – from username, get UserDetails to create an Authentication object
+ * – set the current UserDetails in SecurityContext using
+ */
 public class AuthTokenFilter extends OncePerRequestFilter {
 
     public AuthTokenFilter(JwtUtils jwtUtils, UserDetailsServiceImpl userDetailsService) {

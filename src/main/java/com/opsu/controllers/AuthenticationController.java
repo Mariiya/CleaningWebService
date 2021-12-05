@@ -9,9 +9,6 @@ import com.opsu.services.ConsumerService;
 import com.opsu.services.VendorService;
 import javassist.NotFoundException;
 import org.apache.log4j.Logger;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +19,9 @@ import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.math.BigInteger;
 
+/**
+ * Class for users sign-in/sign-up
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
@@ -42,6 +42,17 @@ public class AuthenticationController {
         this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * – /api/auth/signin
+     * authenticate { username, pasword }
+     * update SecurityContext using Authentication object
+     * generate JWT
+     * get UserDetails from Authentication object
+     * response contains JWT and UserDetails data
+     * @param loginRequest
+     * @return
+     * @throws NotFoundException
+     */
     @PostMapping("/auth/signin")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) throws NotFoundException {
         return ResponseEntity.ok(authorizationService.authenticateUser(loginRequest));
@@ -62,6 +73,19 @@ public class AuthenticationController {
         return authorizationService.newPasswordAfterReset(email);
     }
 
+    /**
+     * – /api/auth/signup
+     *
+     * check existing username/email
+     * create new Vendor
+     * save Vendor to database using VendorRepository
+     * @param vendor
+     * @return
+     * @throws IOException
+     * @throws MessagingException
+     * @throws NotFoundException
+     * @throws EmptyDataBaseException
+     */
     @PostMapping("/auth/signup/vendor")
     public ResponseEntity<?> createVendor(@Valid @RequestBody Vendor vendor) throws IOException, MessagingException, NotFoundException, EmptyDataBaseException {
         if (authorizationService.existsByEmail(vendor.getEmail())) {
@@ -74,6 +98,18 @@ public class AuthenticationController {
         return ResponseEntity.ok(success);
     }
 
+    /**
+     * – /api/auth/signup
+     * check existing username/email
+     * create new Consumer
+     * save Consumer to database using Consumer  Repository
+     * @param consumer
+     * @return
+     * @throws IOException
+     * @throws MessagingException
+     * @throws NotFoundException
+     * @throws EmptyDataBaseException
+     */
     @PostMapping("/auth/signup/consumer")
     public ResponseEntity<?> createConsumer(@Valid @RequestBody Consumer consumer) throws IOException, MessagingException, NotFoundException, EmptyDataBaseException {
         if (authorizationService.existsByEmail(consumer.getEmail())) {
