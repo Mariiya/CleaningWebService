@@ -8,9 +8,10 @@ import {clearOrders, setOrders} from "../../store/orders/actions";
 //ui
 import Spinner from "../../UI/Spinner/Spinner";
 //components
-import Order from "./Order/Order";
+import OrderFormEditor from "./Order/OrderFormEditor";
 //styles
 import './UserOrders.scss'
+
 
 function UserOrders() {
   const dispatch = useDispatch()
@@ -40,7 +41,7 @@ function UserOrders() {
           <Spinner/>
         </div>
       ) : orders?.length ? orders?.map((order) => (
-          <Order key={order.id} order={order}/>
+          <OrderFormEditor key={order.id} order={order}/>
       )) : (<p className="userOrders__noResult">No results</p>)}
     </div>
   )

@@ -14,24 +14,19 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
-/**
- * An implementation of an interface UserDao.
- * @author group 183
- * @version 2.1
- */
+
 @Repository
 public class UserDaoImpl implements UserDao {
-    /**Logger for creating log records*/
+
     private static final Logger LOG = Logger.getLogger(UserDaoImpl.class);
 
     private final JdbcTemplate jdbcTemplate;
-    /**required constructor*/
+
     @Autowired
     public UserDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    /** search user by email
-     * @param email user */
+
     public User findByEmail(String email) throws NotFoundException {
         try {
             List<User> list =  jdbcTemplate.query(GET_USER_BY_EMAIL, new UserMapper(), email);
@@ -44,8 +39,7 @@ public class UserDaoImpl implements UserDao {
             throw new NotFoundException("User not found");
         }
     }
-    /**creating new user
-     * @param user user*/
+
     public boolean save(User user) throws EmptyDataBaseException {
         try {
             jdbcTemplate.update(CREATE_USER, user.getEmail(), user.getPassword(),user.getPhoneNumber(), user.getRole().name());
@@ -54,8 +48,7 @@ public class UserDaoImpl implements UserDao {
         }
         return true;
     }
-    /**updating new user
-     * @param user user*/
+
     public boolean update(User user) throws EmptyDataBaseException {
         try {
            jdbcTemplate.update(UPDATE_USER,  user.getEmail(),user.getPhoneNumber(), user.getPassword(),user.getId());
@@ -65,8 +58,7 @@ public class UserDaoImpl implements UserDao {
         }
         return true;
     }
-    /**existing of user with specific phone number
-     * @param number user*/
+
     public Boolean existsByPhoneNumber(String number) {
         try {
             Integer res = jdbcTemplate.queryForObject(IS_USER_BY_PHONE_NUMBER, Integer.class, number);
@@ -78,8 +70,7 @@ public class UserDaoImpl implements UserDao {
         }
         return false;
     }
-    /** search user by id
-     * @param id user */
+
     @Override
     public User getUserById(BigInteger id) throws NotFoundException {
         try {
@@ -89,8 +80,7 @@ public class UserDaoImpl implements UserDao {
             throw new NotFoundException("User not found");
         }
     }
-    /**existing of user with specific email
-     * @param email user*/
+
     public Boolean existsByEmail(String email) {
         try {
             Integer res = jdbcTemplate.queryForObject(IS_USER_BY_EMAIL, Integer.class, email);

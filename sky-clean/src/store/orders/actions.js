@@ -30,3 +30,20 @@ export const clearOrders = () => {
     type: ORDERS.CLEAR_ORDERS,
   }
 }
+
+export const updateOrderRecord = (id, data) => {
+  return {
+    type: ORDERS.UPDATE_ORDER,
+    payload: {
+      id,
+      data,
+    }
+  }
+}
+
+export const setFilters = (filters) => {
+  return {
+    type: ORDERS.SET_FILTERS,
+    payload: filters
+  }
+}

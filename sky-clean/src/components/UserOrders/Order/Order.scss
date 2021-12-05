@@ -30,10 +30,14 @@
 
   &__titleAndState {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 15px;
+
+    @media screen and (max-width: 992px) {
+      gap: 65px;
+    }
 
     @media screen and (max-width: 768px){
       justify-content: center;
@@ -94,6 +98,10 @@
       background-color: #ffffff;
       border-radius: 15px;
     }
+  }
+
+  &__editablePrice {
+    height: 35px;
   }
 
   &__extraDetails {
@@ -213,6 +221,50 @@
   }
 
   &__cancel {
+    background-color: #ecdd90;
+
+    &:hover {
+      background-color: rgb(226, 193, 26);
+    }
+  }
+
+  &__editableTitle,
+  &__editablePrice,{
+    display: flex;
+    gap: 10px;
+    height: 32px;
+    color: #ffffff;
+
+    @media screen and (max-width: 992px) {
+      flex-direction: column;
+    }
+
+    input {
+      flex: 1;
+    }
+  }
+
+  &__fieldContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 32px;
+  }
+
+  &__editButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    max-width: 195px;
+    border-radius: 15px;
+    border-style: none;
+    outline: none;
+    text-transform: uppercase;
+    color: #ffffff;
+    cursor: pointer;
+    transition: 0.5s;
     background-color: #ecdd90;
 
     &:hover {

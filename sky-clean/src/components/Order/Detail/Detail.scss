@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  word-break: break-word;
 
   &__title {
     font-weight: bold;
@@ -15,5 +16,27 @@
     font-size: 18px;
     line-height: 20px;
     color: #ffffff;
+  }
+
+  &__formField {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 32px;
+  }
+
+  &__editableDetail{
+    display: flex;
+    gap: 10px;
+    height: 32px;
+    color: #ffffff;
+
+    @media screen and (max-width: 992px) {
+      flex-direction: column;
+    }
+
+    input {
+      flex: 1;
+    }
   }
 }

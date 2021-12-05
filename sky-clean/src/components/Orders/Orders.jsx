@@ -15,6 +15,7 @@ import './Orders.scss'
 const Orders = () => {
     const dispatch = useDispatch()
     const orders = useSelector((state) => state.orders.orders)
+    const filters = useSelector((state) => state.orders.filters)
     
     const [loading, setLoading] = React.useState(false)
     const [countPages, setCountPages] = React.useState(null)
@@ -27,10 +28,10 @@ const Orders = () => {
     
     React.useEffect(() => {
         setLoading(true)
-        const orders = getOrders(currentPage).then((response) => {
+        const orders = getOrders(currentPage, filters.minPrice, filters.maxPrice, filters.title, filters.service).then((response) => {
             dispatch(setOrders(response))
         })
-        const ordersCount = getCountOrders().then((response) => {
+        const ordersCount = getCountOrders(filters.minPrice, filters.maxPrice, filters.title, filters.service).then((response) => {
             const countPages = Math.ceil(response / 15)
             setCountPages(countPages)
         })
@@ -38,7 +39,7 @@ const Orders = () => {
         Promise.all([orders, ordersCount]).finally(() => {
             setLoading(false)
         })
-    }, [dispatch, currentPage])
+    }, [dispatch, currentPage, filters.minPrice, filters.maxPrice, filters.title, filters.service])
     
     const handleChangeCurrentPage = (numberPage) => {
         setCurrentPage(numberPage)

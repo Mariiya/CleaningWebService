@@ -24,6 +24,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 
+/**
+ * WebSecurityConfigurerAdapter is the crux of our security implementation.
+ * It provides HttpSecurity configurations to configure cors, csrf,
+ * session management, rules for protected resources. We can also extend and
+ * customize the default configuration that contains the elements below.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -61,6 +67,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
+    /**
+     *   – We override the configure(HttpSecurity http) method from WebSecurityConfigurerAdapter
+     * interface. It tells Spring Security how we configure CORS and CSRF, when we want to require all users to be authenticated or not,
+     * which filter (AuthTokenFilter) and when we want it to work
+     * (filter before UsernamePasswordAuthenticationFilter),
+     *  which Exception Handler is chosen (AuthEntryPointJwt).
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http    .cors(Customizer.withDefaults())

@@ -8,7 +8,7 @@ import './Service.scss'
 //assets
 import {ReactComponent as ServiceIcon} from "../../../assets/icons/service-checkBox.svg";
 
-function Service({service}) {
+function Service({service, setSelectedService}) {
   const dispatch = useDispatch()
   
   const [checkBoxState, setCheckBoxState] = React.useState(false)
@@ -16,6 +16,7 @@ function Service({service}) {
   const handleCheckBoxChange = (id) => {
     setCheckBoxState(!checkBoxState)
     dispatch(setOneServiceCheck(id))
+    setSelectedService(id)
   }
   
   return (

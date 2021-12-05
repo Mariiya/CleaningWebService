@@ -24,6 +24,9 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.math.BigInteger;
 
+/**
+ * Class with business logic of users Authorisation\Authentication and data update
+ */
 @Service
 public class AuthorizationService {
     private static Logger logger = Logger.getLogger(AuthorizationService.class.getName());

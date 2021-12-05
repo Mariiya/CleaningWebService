@@ -2,7 +2,13 @@
 import {ORDERS} from "./consts";
 
 const initialState = {
-  orders: []
+  orders: [],
+  filters: {
+    title: '',
+    minPrice: 0,
+    maxPrice: 0,
+    service: 0,
+  }
 }
 
 function ordersReducer(state = initialState, action) {
@@ -36,8 +42,34 @@ function ordersReducer(state = initialState, action) {
     case ORDERS.CLEAR_ORDERS:
       return {
         ...state,
-        orders: []
+        orders: [],
+        filters: {
+          title: '',
+          minPrice: 0,
+          maxPrice: 0,
+          service: 0,
+        }
       }
+
+    case ORDERS.UPDATE_ORDER: {
+      return {
+        ...state,
+        orders: state.orders.map((order) => {
+          if (order.id === action.payload.id) {
+            return {...order, ...action.payload.data}
+          } else {
+            return order
+          }
+        })
+      }
+    }
+
+    case ORDERS.SET_FILTERS: {
+      return {
+        ...state,
+        filters: {...state.filters, ...action.payload}
+      }
+    }
     
     default:
       return state

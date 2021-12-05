@@ -5,12 +5,12 @@ export const getOrder = async (id) => {
   return await get(`/order/${id}`)
 }
 
-export const getOrders = async (page = 1) => {
-  return await get(`/order/get-by-multiparams?minPrice=0&maxPrice=0&title=&status=EMPTY&serviceId=0&page=1`)
+export const getOrders = async (page = 1, minPice= 0, maxPrice = 0, title = '', serviceId = 0) => {
+  return await get(`/order/get-by-multiparams?minPrice=${minPice}&maxPrice=${maxPrice}&title=${title}&status=EMPTY&serviceId=${serviceId}&page=${page}`)
 }
 
-export const getCountOrders = async () => {
-  return await get(`/order/get-number-multiparam?minPrice=0&maxPrice=0&title=&status=EMPTY&serviceId=0`)
+export const getCountOrders = async (minPice= 0, maxPrice = 0, title = '', serviceId = 0) => {
+  return await get(`/order/get-number-multiparam?minPrice=${minPice}&maxPrice=${maxPrice}&title=${title}&status=EMPTY&serviceId=${serviceId}`)
 }
 
 export const assignOrder = async (userId, orderId) => {
@@ -35,4 +35,8 @@ export const setOrderCanceled = async (orderId) => {
 
 export const setOrderDelete = async (orderId) => {
   return await authPost(`/order/delete/${orderId}`)
+}
+
+export const updateOrder = async (order) => {
+  return await authPost(`/order/update/`, order)
 }
