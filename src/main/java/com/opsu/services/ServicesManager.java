@@ -8,7 +8,9 @@ import com.opsu.models.Service;
 
 import java.math.BigInteger;
 import java.util.Collection;
-
+/**
+ * Class with business logic of service creation, update and search
+ */
 @org.springframework.stereotype.Service
 public class ServicesManager {
     private static final Logger log = Logger.getLogger(ServicesManager.class.getName());
@@ -19,7 +21,11 @@ public class ServicesManager {
         this.serviceDao=serviceDao;
     }
 
-
+    /**
+     * create new servise
+     * @param service
+     * @throws Exception
+     */
     public void addNewService(Service service) throws Exception {
         try{
             serviceDao.addNewService(service);
@@ -29,6 +35,13 @@ public class ServicesManager {
             throw new Exception("Error creating Service");
         }
     }
+
+    /**
+     * add some extra service
+     * @param service
+     * @return
+     * @throws Exception
+     */
     public Service addNewCustomService(Service service) throws Exception {
         try{
             serviceDao.addNewCustomService(service);
@@ -39,6 +52,12 @@ public class ServicesManager {
             throw new Exception("Error creating Service");
         }
     }
+
+    /**
+     * update already existing service
+     * @param service
+     * @throws Exception
+     */
     public void updateService(Service service) throws Exception {
         try{
             serviceDao.updateService(service);
@@ -48,6 +67,12 @@ public class ServicesManager {
             throw new Exception("Error creating Service");
         }
     }
+
+    /**
+     * delete service
+     * @param id service
+     * @throws Exception
+     */
     public void deleteService(BigInteger id) throws Exception {
         try{
             serviceDao.deleteService(id);
@@ -58,6 +83,12 @@ public class ServicesManager {
         }
     }
 
+    /**
+     * search service by id
+     * @param id service
+     * @return
+     * @throws Exception
+     */
     public Service getService(BigInteger id) throws Exception {
         try{
             return serviceDao.getService(id);
@@ -68,6 +99,11 @@ public class ServicesManager {
         }
     }
 
+    /**
+     * see all services
+     * @return
+     * @throws Exception
+     */
     public Collection<Service> getAll() throws Exception {
         try{
             return serviceDao.getServices();

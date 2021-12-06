@@ -21,7 +21,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.math.BigInteger;
-
+/**
+ * The controller provides end points for processing requests from the frontend for the object User
+ * @author group 183
+ * @version 2.1
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
