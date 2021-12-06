@@ -1,13 +1,13 @@
 //generals
 import React from 'react';
 import {Route, Switch, BrowserRouter as Router} from "react-router-dom";
+import {useDispatch} from "react-redux";
 //redux
-import {useDispatch, useSelector} from "react-redux";
 import {getToken, getUserInfo} from "../../store/user/actions";
 //custom hooks
 import ScrollToTop from "../../hooks/ScrollToTop";
+import PublicRoute from "../../hooks/PublicRoute";
 import PrivateRoute from "../../hooks/PrivateRoute";
-import ProtectedRoute from "../../hooks/ProtectedRoute";
 //pages
 import MainPage from '../../pages/MainPage/MainPage';
 import SignInPage from "../../pages/SignInPage/SignInPage";
@@ -24,21 +24,15 @@ import Main from '../Main/Main';
 import Footer from "../Footer/Footer";
 //styles
 import './Application.scss';
+import ProtectedRoute from "../../hooks/ProtectedRoute";
 
 function Application() {
   const dispatch = useDispatch()
-  const accessToken = useSelector((state) => state.user.accessToken)
-  const userInfo = useSelector((state) => state.user.userInfo)
-  const isAuth = !!accessToken && !!userInfo
-  const userRole = useSelector((state) => state.user.userInfo?.role)
-  
-  React.useEffect(() => {
-    const accessToken = localStorage.getItem('access_token')
-    const userInfo = localStorage.getItem('user_info')
-    dispatch(getToken(JSON.parse(accessToken)))
-    dispatch(getUserInfo(JSON.parse(userInfo)))
-  }, [dispatch])
-  
+  const accessToken = localStorage.getItem('access_token')
+  const userInfo = localStorage.getItem('user_info')
+  dispatch(getToken(JSON.parse(accessToken)))
+  dispatch(getUserInfo(JSON.parse(userInfo)))
+
   return (
     <Router>
       <div className="application">
@@ -47,43 +41,13 @@ function Application() {
         <Main>
           <Switch>
             <Route exact path="/" component={MainPage}/>
-            <PrivateRoute
-              path="/sign-in"
-              children={<SignInPage/>}
-              isAuth={!isAuth}
-              to={'/account'}/>
-            <PrivateRoute
-              path="/sign-up"
-              children={<SignUpPage/>}
-              isAuth={!isAuth}
-              to={'/account'}/>
-            <PrivateRoute
-              path="/password-reset"
-              children={<ResetPasswordPage/>}
-              isAuth={!isAuth}
-              to={'/account'}/>
-            <PrivateRoute
-              path="/orders"
-              children={<OrdersPage/>}
-              isAuth={isAuth}
-              to={'/sign-in'}/>
-            <PrivateRoute
-              path="/order/:id"
-              children={<OrderPage/>}
-              isAuth={isAuth}
-              to={'/sign-in'}/>
-            />
-            <PrivateRoute
-              path="/account"
-              children={<AccountPage/>}
-              isAuth={isAuth}
-              to={'/sign-in'}/>
-            <ProtectedRoute
-              path="/create-order"
-              children={<CreateOrderPage/>}
-              isAuth={isAuth}
-              role={userRole}
-              to={'/'}/>
+            <PublicRoute restricted={true} component={SignInPage} path="/sign-in"/>
+            <PublicRoute restricted={true} component={SignUpPage} path="/sign-up"/>
+            <PublicRoute restricted={true} component={ResetPasswordPage} path="/password-reset"/>
+            <PrivateRoute component={AccountPage} path="/account" />
+            <PrivateRoute component={OrdersPage} path="/orders" />
+            <PrivateRoute component={OrderPage} path="/order/:id" />
+            <ProtectedRoute component={CreateOrderPage} path="/create-order"/>
             <Route
               path="*"
               component={NotFound}/>
