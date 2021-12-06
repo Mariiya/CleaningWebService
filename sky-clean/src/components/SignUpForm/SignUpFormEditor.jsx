@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
 import {sha256} from "js-sha256";
+import {useHistory} from "react-router";
 //api
 import {addNewUser, getAccessToken} from "../../api/auth.api";
 //redux
@@ -13,9 +14,9 @@ import {notify} from "../../helpers/notify/notify";
 //components
 import SignUpForm from "./SignUpForm";
 
-
 const SignUpFormEditor = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   
   const [userRole, setUserRole] = React.useState(false);
   const [vendorType, setVendorType] = React.useState(false);
@@ -96,6 +97,7 @@ const SignUpFormEditor = () => {
             getAccessToken(userData, '/api/auth/signin').then((response) => {
               dispatch(getToken(response.token))
               dispatch(getUserInfo(response.user))
+              history.push('/account')
               notify('Success', 'You are successfully registered !')
             })
           } else {

@@ -3,6 +3,7 @@ import React from 'react'
 import {useFormik} from "formik";
 import * as Yup from 'yup'
 import {sha256} from "js-sha256";
+import {useHistory} from "react-router";
 //redux
 import {useDispatch} from "react-redux";
 import {getToken, getUserInfo} from "../../store/user/actions";
@@ -15,6 +16,7 @@ import SignInForm from "./SignInForm";
 
 const SingInFormEditor = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   
   const [loading, setLoading] = React.useState(false)
   
@@ -50,6 +52,7 @@ const SingInFormEditor = () => {
             delete userData.password
             dispatch(getToken(response.token))
             dispatch(getUserInfo(response.user))
+            history.push('/account')
             notify('Success', 'You are successfully authorized !')
           } else {
             setLoading(false)
