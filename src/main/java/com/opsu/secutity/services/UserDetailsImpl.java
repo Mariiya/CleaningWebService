@@ -9,7 +9,11 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
-
+/**
+ * UserDetails contains necessary information
+ * (such as: username, password, authorities)
+ * to build an Authentication object.
+ */
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
 

@@ -52,7 +52,7 @@ public interface OrderDao {
             "WHERE orderId = ?";
     String GET_ORDERS = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid) r FROM ORDERS o) t WHERE t.r > ? AND t.r <= ?";
     String GET_ORDERS_BY_PRICE = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid) r FROM ORDERS o) t WHERE price >= ? AND price <= ? AND (t.r > ? AND t.r <= ?)";
-    String GET_ORDERS_BY_TITLE = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid) r FROM ORDERS o) t WHERE title like ? AND (t.r > ? AND t.r <= ?)\n";
+    String GET_ORDERS_BY_TITLE = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid) r FROM ORDERS o) t WHERE LOWER(title) like LOWER('?') AND (t.r > ? AND t.r <= ?)\n";
     String GET_ORDERS_BY_STATUS = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid) r FROM ORDERS o) t WHERE status = ? AND (t.r > ? AND t.r <= ?)";
     String GET_ORDERS_BY_SERVICE = "SELECT orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
             "            FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY servicecollectionid) r FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE sc.SERVICEID = ?) t WHERE t.r > ? AND t.r < ?";
@@ -82,7 +82,7 @@ public interface OrderDao {
             "            ORDER BY orderID desc";
     String GET_NUMBER_OF_ORDERS = "SELECT COUNT(orderID) as \"number\" FROM ORDERS";
     String GET_NUMBER_OF_ORDERS_BY_PRICE = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE price >= ? AND price <= ?";
-    String GET_NUMBER_OF_ORDERS_BY_TITLE = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE title like ?";
+    String GET_NUMBER_OF_ORDERS_BY_TITLE = "SELECT COUNT(orderID) as \"number\" FROM ORDERS  WHERE LOWER(title) like LOWER('?') ";
     String GET_NUMBER_OF_ORDERS_BY_STATUS = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE status = ?";
     String GET_NUMBER_OF_ORDERS_BY_SERVICE = "SELECT Count(o.ORDERID) as \"number\" FROM SERVICECOLLECTION sc LEFT JOIN Orders o on sc.ORDERID = o.ORDERID WHERE sc.SERVICEID = ?";
 }

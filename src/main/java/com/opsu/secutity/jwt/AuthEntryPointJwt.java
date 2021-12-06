@@ -9,7 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+/**
+ * AuthenticationEntryPoint will catch authentication error.
+ */
 
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
