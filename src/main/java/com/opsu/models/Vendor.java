@@ -4,55 +4,70 @@ import com.opsu.models.enumeration.Role;
 import javax.validation.constraints.*;
 import java.math.BigInteger;
 /**
- * Class vendor
+ * In this class we store information  about vendor
  * @author group 183
  * @version 2.1
  */
 
 public class Vendor extends User{
-    /** field firstName */
+    /** field firstName
+     * field's restriction
+     * can't be empty
+     * has limit in size
+     */
     @Size(min=2,max=20,message = "Vendor first name should contain from 2 to 20 digits")
     @NotEmpty(message ="Vendor first name  can not be empty")
     private  String firstName;
 
-    /** field lastName */
+    /** field lastName
+     * field's restriction
+     * can't be empty
+     * has limit in size */
     @Size(min=2,max=20,message = "Vendor last name should contain from 2 to 20 digits")
     @NotEmpty(message ="Vendor last name  can not be empty")
     private  String lastName ;
 
-    /** field individual */
+    /** field individual
+     * is this a company or is it a person
+     */
     @NotNull(message ="Vendor individual should not be empty")
     private  Boolean individual;
 
-    /** @return firstName vendor name */
+    /** receives information about vendor name
+     * @return firstName vendor name */
     public String  getFirstName() {
         return firstName;
     }
-    /** @param firstName vendor  name */
+    /** inserts information  about vendor name
+     * @param firstName vendor  name */
     public void setFirstName(String firstName) {
         this.firstName= firstName;
     }
 
-    /** @return lastName vendor surname */
+    /** receives information about vendor surname
+     * @return lastName vendor surname */
     public String  getLastName() {
         return lastName;
     }
-    /** @param lastName vendor  surname */
+    /** inserts information  about vendor surname
+     * @param lastName vendor  surname */
     public void setLastName(String lastName) {
         this.lastName= lastName;
     }
 
-    /** @return individual vendor  */
+    /** receives information about vendor
+     * @return individual vendor  */
     public Boolean getIndividual() {
         return individual;
     }
-    /** @param individual  vendor */
+    /** inserts information  about vendor
+     * @param individual  vendor */
     public void setIndividual(boolean individual) {
         this.individual= individual;
     }
 
     /**
-     * constructor- create vendor
+     * This constructor creates new vendor using information from this class and inherits information from class User
      * @param firstName vendor name
      * @param lastName vendor surname
      * @param individual  vendor

@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.util.*;
-
+/**
+ * Class with business logic of order creation, update and search
+ */
 @org.springframework.stereotype.Service
 public class OrderProcessingService {
     private static Logger logger = Logger.getLogger(OrderProcessingService.class.getName());
@@ -31,6 +33,10 @@ public class OrderProcessingService {
         this.consumerDao = consumerDao;
     }
 
+    /** create new order
+     * @param order oder
+     * @throws Exception
+     */
     public void createOrder(Order order) throws Exception {
         if ((order == null)) {
             throw new Exception("Order is null");
@@ -66,6 +72,11 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * search order by id
+     * @param id order
+     * @throws Exception
+     */
     public Order getOrder(BigInteger id) throws Exception {
         if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new NumberFormatException("Wrong id input");
@@ -97,6 +108,11 @@ public class OrderProcessingService {
         return order;
     }
 
+    /**
+     * show all orders
+     * @param page order
+     * @throws Exception
+     */
     public Collection<Order> getOrders(int page) throws Exception {
         Collection<Order> orderCollection = orderDao.getOrders(page);
         if (orderCollection.size() == 0) {
@@ -127,6 +143,12 @@ public class OrderProcessingService {
         return orderCollection;
     }
 
+    /**
+     * search and group order by serviceid
+     * @param serviceId order
+     * @param page order
+     * @throws Exception
+     */
     public Collection<Order> getOrders(BigInteger serviceId, int page) throws Exception {
         if (serviceId == null || serviceId.equals(BigInteger.ZERO)) {
             throw new NumberFormatException("Wrond id input");
@@ -136,6 +158,13 @@ public class OrderProcessingService {
         return orderCollection;
     }
 
+    /**
+     * search and group order by price
+     * @param minPrice
+     * @param maxPrice
+     * @param page
+     * @throws Exception
+     */
     public Collection<Order> getOrders(Float minPrice, Float maxPrice, int page) throws Exception {
         if (minPrice < 0) {
             minPrice = 0f;
@@ -171,6 +200,12 @@ public class OrderProcessingService {
         return orderCollection;
     }
 
+    /**
+     * search and group order by title
+     * @param title
+     * @param page
+     * @throws Exception
+     */
     public Collection<Order> getOrders(String title, int page) throws Exception {
         if (title.isEmpty()) {
             throw new Exception("Name is empty");
@@ -203,6 +238,12 @@ public class OrderProcessingService {
         return orderCollection;
     }
 
+    /**
+     * search and group order by status
+     * @param status
+     * @param page
+     * @throws Exception
+     */
     public Collection<Order> getOrders(Status status, int page) throws Exception {
         if (status == null) {
             throw new Exception("Status is empty");
@@ -235,6 +276,11 @@ public class OrderProcessingService {
         return orderCollection;
     }
 
+    /**
+     * search order by id
+     * @param id
+     * @throws Exception
+     */
     public Collection<Order> getOrders(BigInteger id) throws Exception {
         if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
@@ -274,6 +320,16 @@ public class OrderProcessingService {
         return orderCollection;
     }
 
+    /**
+     * search and group order by several parametrs
+     * @param minPrice
+     * @param maxPrice
+     * @param title
+     * @param status
+     * @param serviceId
+     * @param page
+     * @throws Exception
+     */
     public Collection<Order> getOrders(Float minPrice, Float maxPrice, String title, Status status, BigInteger serviceId, int page) throws Exception {
         Service service = null;
         Collection<Order> orderCollection = null;
@@ -313,6 +369,11 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * updating already existing order
+     * @param order
+     * @throws Exception
+     */
     public void updateOrder(Order order) throws Exception {
         if (!order.getStatus().equals(Status.STATUS_OPEN)) {
             throw new IllegalArgumentException("You can't update this Order");
@@ -322,6 +383,12 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * shows who was assigned for order
+     * @param orderId
+     * @param vendorId
+     * @throws Exception
+     */
     public Order assignOrder(BigInteger orderId, BigInteger vendorId) throws Exception {
         if ((orderId == null) || (orderId.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
@@ -346,6 +413,12 @@ public class OrderProcessingService {
         return order;
     }
 
+    /**
+     * change cost
+     * @param id
+     * @param price
+     * @throws Exception
+     */
     public void changePrice(BigInteger id, Float price) throws Exception {
         if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
@@ -360,6 +433,11 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * order rejected by vendor
+     * @param id
+     * @throws Exception
+     */
     public void rejectOrder(BigInteger id) throws Exception {
         if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
@@ -371,6 +449,11 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * order has been finished successfully
+     * @param id
+     * @throws Exception
+     */
     public void completeOrder(BigInteger id) throws Exception {
         if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
@@ -386,6 +469,11 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * order has been canseled by consumer
+     * @param id
+     * @throws Exception
+     */
     public void cancelOrder(BigInteger id) throws Exception {
         if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
@@ -397,6 +485,11 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * order is ongoing
+     * @param id order
+     * @throws Exception
+     */
     public void inProgressOrder(BigInteger id) throws Exception {
         if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
@@ -408,6 +501,11 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * order has been suspended by consumer
+     * @param id order
+     * @throws Exception
+     */
     public void suspendOrder(BigInteger id) throws Exception {
         if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
@@ -419,6 +517,11 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * delete order
+     * @param id order
+     * @throws Exception
+     */
     public void deleteOrder(BigInteger id) throws Exception {
         if ((id == null) || (id.equals(BigInteger.ZERO))) {
             throw new Exception("Wrong id");
@@ -433,6 +536,12 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * consumer wants additional service
+     * @param orderId
+     * @param service
+     * @throws Exception
+     */
     public void addSpecialService(BigInteger orderId, Service service) throws Exception {
         if ((orderId == null) || (orderId.equals(BigInteger.ZERO))) {
             throw new Exception("Order exception");
@@ -445,6 +554,10 @@ public class OrderProcessingService {
         serviceCollectionDao.createServiceCollection(new ServiceCollection(BigInteger.ZERO, order, service));
     }
 
+    /**
+     * Request for counting amount of orders
+     * @throws NotFoundException
+     */
     public BigInteger getNumberOfOrders() throws NotFoundException {
         try {
             return orderDao.getNumberOfOrders();
@@ -453,6 +566,12 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * Request for counting amount of orders by price
+     * @param price
+     * @return
+     * @throws NotFoundException
+     */
     public BigInteger getNumberOfOrders(Float price) throws NotFoundException {
         try {
             return orderDao.getNumberOfOrders(price);
@@ -461,6 +580,12 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * Request for counting amount of orders by status
+     * @param status
+     * @return
+     * @throws NotFoundException
+     */
     public BigInteger getNumberOfOrders(Status status) throws NotFoundException {
         try {
             return orderDao.getNumberOfOrders(status);
@@ -469,6 +594,12 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * Request for counting amount of orders title
+     * @param title
+     * @return
+     * @throws NotFoundException
+     */
     public BigInteger getNumberOfOrders(String title) throws NotFoundException {
         try {
             return orderDao.getNumberOfOrders(title);
@@ -477,6 +608,12 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * Request for counting amount of orders service id
+     * @param serviceId
+     * @return
+     * @throws NotFoundException
+     */
     public BigInteger getNumberOfOrders(BigInteger serviceId) throws NotFoundException {
         try {
             return orderDao.getNumberOfOrders(serviceId);
@@ -485,6 +622,16 @@ public class OrderProcessingService {
         }
     }
 
+    /**
+     * Request for counting amount of orders several parameters
+     * @param minPrice
+     * @param maxPrice
+     * @param title
+     * @param status
+     * @param serviceId
+     * @return
+     * @throws NotFoundException
+     */
     public BigInteger getNumberOfOrders(Float minPrice, Float maxPrice, String title, Status status, BigInteger serviceId) throws NotFoundException {
         try {
             Service service = null;

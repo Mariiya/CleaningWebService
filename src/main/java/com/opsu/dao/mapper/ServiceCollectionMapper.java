@@ -8,7 +8,12 @@ import org.springframework.jdbc.core.RowMapper;
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * Class with pattern for storing information about service collection
+ * This class maps each row ResultSet from SQl request to new object of ServiceCollection class
+ * @author group 183
+ * @version 2.1
+ */
 public class ServiceCollectionMapper implements RowMapper<ServiceCollection> {
     @Override
     public ServiceCollection mapRow(ResultSet resultSet, int i) throws SQLException {

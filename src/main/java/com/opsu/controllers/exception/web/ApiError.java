@@ -7,9 +7,6 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Custom Error-response for system error
- */
 public class ApiError {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;

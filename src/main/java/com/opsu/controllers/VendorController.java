@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import com.opsu.secutity.services.UserDetailsImpl;
 import javax.validation.Valid;
 import java.math.BigInteger;
+
 /**
- * Class role
- * shows under which role user has chosen to sign in
+ * The controller provides end points for processing requests from the frontend for the object Vendor
  * @author group 183
  * @version 2.1
  */
+
 @RestController
 @Validated
 @RequestMapping(value = "/vendor/")
@@ -32,6 +33,8 @@ public class VendorController {
         this.vendorService = vendorService;
     }
 
+    /** search vendor by id
+     * @param id vendor */
     @GetMapping("{id}")
         public Vendor getVendorById(@PathVariable BigInteger id) {
             try {
@@ -43,9 +46,9 @@ public class VendorController {
             }
     }
 
-
-    /** @param vendor vendor
-    * @param updater method update */
+    /** updating already existing vendor
+     * @param vendor vendor
+     * @param updater user details*/
     @PostMapping("/update")
     public Vendor updateVendor(@AuthenticationPrincipal UserDetailsImpl updater, @Valid
     @RequestBody Vendor vendor) throws NotFoundException, EmptyDataBaseException {

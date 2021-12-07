@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.Collection;
-
+/**
+ * The controller provides end points for processing requests from the frontend for the object Service
+ * @author group 183
+ * @version 2.1
+ */
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/service/")
@@ -23,6 +27,8 @@ public class ServicesManagerController {
         this.servicesManager = servicesManager;
     }
 
+    /** add  service
+     * @param service service*/
     @PostMapping("/create")
     public Boolean addNewService(@Valid @RequestBody Service service) {
         try{
@@ -35,6 +41,8 @@ public class ServicesManagerController {
         }
     }
 
+    /** add new special service
+     * @param service service*/
     @PostMapping("/custom")
     public Service addNewCustomService(@Valid @RequestBody Service service) {
         try{
@@ -45,7 +53,8 @@ public class ServicesManagerController {
             return null;
         }
     }
-
+    /**updating already existing service
+     * @param service  service */
     @PostMapping("/update")
     public Boolean changeService(@Valid @RequestBody Service service) {
         try{
@@ -57,7 +66,8 @@ public class ServicesManagerController {
             return false;
         }
     }
-
+    /**delete service
+     * @param id  service */
     @PostMapping("/delete/{id}")
     public Boolean deleteService(@PathVariable BigInteger id) {
         try{
@@ -69,7 +79,7 @@ public class ServicesManagerController {
             return false;
         }
     }
-
+    /** show all services*/
     @GetMapping("/services")
     public Collection<Service> getAllServices() {
         try{
@@ -80,7 +90,8 @@ public class ServicesManagerController {
             return null;
         }
     }
-
+    /** search service by id
+     * @param id service */
     @GetMapping("/{id}")
     public Service getService(@PathVariable BigInteger id) {
         try{

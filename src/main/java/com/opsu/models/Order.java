@@ -5,107 +5,154 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 /**
- * Class Oder
+ * In this class we store information about Order
  * @author group 183
  * @version 2.1
  */
 public class Order {
-    /** field id */
+
+    /** field id
+     * has limitation in value
+     */
     @Min(value=0,message ="Oder id is not be correct")
     private BigInteger id;
-    /** field oder title*/
+
+    /** field order title
+     * field's restriction
+     * field can't be empty
+     * has limit in size
+     * uses specific variables
+     */
     @Pattern(regexp = "^[A-Z][a-z]*(\\s(([a-z]{1,3})|(([a-z]')?[A-Z][a-z]*)))*$",message = "Oder title format is not correct")
     @Size(min=2,max=30,message = "Title should contain from 2 to 30 digits")
     @NotEmpty(message ="Title can not be empty")
     private String title;
 
-    /** field oder's description*/
+    /** field order's description
+     * field can't be empty
+     */
     @NotEmpty(message ="Description can not be empty")
     private String description;
 
-    /** field oder's status*/
+    /** field order's status*
+     * has limitation in value
+     */
     @NotNull(message ="Status can not be empty")
     private Status status;
 
+    /** field order's information about consumer */
     private Consumer consumer;
+    /** field order's information about vendor */
     private Vendor vendor;
 
-    /** field oder's start date */
+    /** field order's start date*/
     @Past
     private Date startDate;
-    /** field oder's last day */
+    /** field order's last day */
     @FutureOrPresent
     private Date endDate;
 
-    /** field oder's price */
+    /** field order's price
+     *has limitation in value (positive)
+     *field can't be empty */
     @Positive
     @NotEmpty(message ="Price can not be empty")
     private float price;
     /** field service collection */
     private Collection<Service> services;
-    /** field oder's address */
+    /** field order's address
+     * field can't be empty
+     */
     @NotEmpty(message ="Address can not be empty")
-    //@Pattern(regexp = "^(?:[a-zA-Z0-9_'^&/+-])+(?:\\.(?:[a-zA-Z0-9_'^&/+-])+)" + "*@(?:(?:\\[?(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.)" +
-    //       "{3}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)]?)|(?:[a-zA-Z0-9-]+\\.)" + "+(?:[a-zA-Z]){2,}\\?)$",
-   //message = "Address format is not correct")
     private String address;
 
+    /** receives information about order id
+     * @return order id */
     public BigInteger getId() {
         return id;
     }
-
+    /** inserts information  about order id
+     * @param id  order  */
     public void setId(BigInteger id) {
         this.id = id;
     }
 
+    /** receives information about order title
+     * @return order title */
     public String  getTitle() {
         return title;
     }
+    /** inserts information  about order title
+     * @param title order  */
     public void setTitle(String title) {
         this.title= title;
     }
 
+    /** receives information about order description
+     * @return order description*/
     public String getDescription() {
         return description;
     }
+    /** inserts information  about order id
+     * @param description  order  */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /** receives information about order start date
+     * @return order start date  */
     public Date  getStartDate() {
         return startDate;
     }
+    /** inserts information  about order start date
+     * @param startDate order  */
     public void setStartDate(Date startDate) {
         this.startDate= startDate;
     }
 
+    /** receives information about order last day
+     * @return order last day */
     public Date  getEndDate() {
         return endDate;
     }
+    /** inserts information  about order last day
+     * @param endDate order  */
     public void setEndDate(Date endDate) {
         this.endDate= endDate;
     }
 
+    /** receives information about order price
+     * @return order price */
     public float  getPrice() {return price ; }
+    /** inserts information  about order price
+     * @param price order  */
     public void setPrice(float price) {
         this.price= price;
     }
 
+    /** receives information about order address
+     * @return order address*/
     public String  getAddress() {
         return address;
     }
+    /** inserts information  about order address
+     * @param address order  */
     public void setAddress(String address) {
         this.address= address;
     }
-
+    /** receives information about consumer
+     * @return order consumer */
     public Consumer getConsumer() {
         return consumer;
     }
+    /** inserts information  about consumer
+     * @param consumer order  */
     public void setConsumer(Consumer consumer) {
         this.consumer= consumer;
     }
 
-    /** @return  vendor  */
+    /** receives information about vendor
+     * @return  vendor  */
     public Vendor  getVendor() {
         return vendor;
     }
@@ -114,34 +161,39 @@ public class Order {
         this.vendor=vendor;
     }
 
-    /** @return oder's status  */
+    /** receives information about order's status
+     * @return order's status  */
     public Status  getStatus() {
         return status;
     }
-    /** @param status oder's status*/
+    /** inserts information  about vendor
+     * @param status order's status*/
     public void setStatus (Status status) {
         this.status= status;
     }
-    /**@return service collection*/
+
+    /**receives information about service collection
+     * @return service collection*/
     public Collection<Service> getServices() {
         return services;
     }
-    /** @param services service collection*/
+    /** inserts information  about service collection
+     * @param services service collection*/
     public void setServices(Collection<Service> services) {
         this.services = services;
     }
     /**
-     * constructor- create oder
-     * @param id oder's id
-     * @param title oder's name
-     * @param status oder's status
-     * @param description oder's description
-     * @param address oder's address
+     * This constructor creates new order
+     * @param id order's id
+     * @param title order's name
+     * @param status order's status
+     * @param description order's description
+     * @param address order's address
      * @param consumer consumer
-     * @param startDate oder's start date
-     * @param endDate oder's last day
+     * @param startDate order's start date
+     * @param endDate order's last day
      * @param vendor vendor
-     * @param price oder's price
+     * @param price order's price
      * @param services service collection
      */
     public Order(BigInteger id , String title, String description, Status status , Consumer consumer, Vendor vendor, Date startDate,
