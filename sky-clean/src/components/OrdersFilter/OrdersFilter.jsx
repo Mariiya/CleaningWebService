@@ -38,6 +38,10 @@ const OrdersFilter = ({values, errors, handleChange, form, setSelectedService}) 
     const handleServicesFilterOpen = () => {
         setServicesFilterOpen(true)
     }
+
+    const handleClearFilterClick = () => {
+        form.resetForm()
+    }
     
     return (
         <form className="ordersFilter" onSubmit={form.handleSubmit}>
@@ -74,9 +78,15 @@ const OrdersFilter = ({values, errors, handleChange, form, setSelectedService}) 
                         )}
                     </div>
                 </div>
-                <button className="ordersFilter__searchBtn" type="submit">
-                    Search
-                </button>
+                <div className="ordersFilter__btns">
+                    <button className="ordersFilter__searchBtn" type="submit">
+                        Search
+                    </button>
+
+                    <div className="ordersFilter__searchBtn" onClick={handleClearFilterClick}>
+                        Clear
+                    </div>
+                </div>
             </div>
         </form>
     )

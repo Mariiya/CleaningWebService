@@ -3,7 +3,9 @@ import React from 'react'
 import * as Yup from "yup";
 import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
+//components
 import OrdersFilter from "./OrdersFilter";
+//redux
 import {setFilters} from "../../store/orders/actions";
 
 const OrdersFilterEditor = () => {
@@ -27,14 +29,19 @@ const OrdersFilterEditor = () => {
         validationSchema,
         validateOnChange: false,
         onSubmit: (values) => {
+            const filters = {
+                ...values,
+                maxPrice: Number(values.maxPrice),
+                minPrice: Number(values.minPrice),
+                service: selectedService
+            }
             if (values.maxPrice === '') {
-                values.maxPrice = 0
+                filters.maxPrice = 0
             }
             if (values.minPrice === '') {
-                values.minPrice = 0
+                filters.minPrice = 0
             }
-            dispatch(setFilters(values))
-            form.resetForm()
+            dispatch(setFilters(filters))
         }
     })
 
