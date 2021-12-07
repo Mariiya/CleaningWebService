@@ -5,6 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {setServices, uncheckAllServices} from "../../store/services/actions";
 //api
 import {getServices} from "../../api/createOrder.api";
+//ui
+import FormInput from "../../UI/FormInput/FormInput";
 //components
 import Service from "./Service/Service";
 //styles
@@ -13,7 +15,6 @@ import './OrdersFilter.scss'
 import {ReactComponent as SearchIcon} from "../../assets/icons/search.svg";
 import {ReactComponent as ArrowDownIcon} from "../../assets/icons/services-arrow-down.svg";
 import {ReactComponent as ArrowUpIcon} from "../../assets/icons/services-arrow-down.svg";
-import FormInput from "../../UI/FormInput/FormInput";
 
 const OrdersFilter = ({values, errors, handleChange, form, setSelectedService}) => {
     const dispatch = useDispatch()
@@ -41,10 +42,18 @@ const OrdersFilter = ({values, errors, handleChange, form, setSelectedService}) 
 
     const handleClearFilterClick = () => {
         form.resetForm()
+        setSelectedService(0)
+        dispatch(uncheckAllServices())
+    }
+
+    const handleSearchClick = (event) => {
+        event.preventDefault()
+        form.handleSubmit(event)
+        setServicesFilterOpen(false)
     }
     
     return (
-        <form className="ordersFilter" onSubmit={form.handleSubmit}>
+        <form className="ordersFilter" onSubmit={handleSearchClick}>
             <div className="ordersFilter__wrapper wrapper">
                 <div className="ordersFilter__filters">
                     <div className="ordersFilter__searchInput">
