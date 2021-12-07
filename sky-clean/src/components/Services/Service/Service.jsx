@@ -16,9 +16,6 @@ function Service({service}) {
       <h3 className="service__title">
         {service.title}
       </h3>
-      <h4 className="service__count">
-        {service.count}
-      </h4>
     </div>
   );
 };
