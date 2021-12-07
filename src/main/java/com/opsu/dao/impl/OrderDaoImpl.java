@@ -158,7 +158,7 @@ public class OrderDaoImpl implements OrderDao {
             else{
                 title = "%%";
             }
-            query = query.concat("AND (o.title like ?) ");
+            query = query.concat("AND (LOWER(o.title) like LOWER(?)) ");
             if(status == null || status == Status.EMPTY){
                 status = Status.EMPTY;
                 query = query.concat("AND (o.status != ?) ");
@@ -304,7 +304,7 @@ public class OrderDaoImpl implements OrderDao {
         else{
             title = "%%";
         }
-        query = query.concat("AND (o.title like ?) ");
+        query = query.concat("AND (LOWER(o.title) like LOWER(?)) ");
         if(status == null || status == Status.EMPTY){
             status = Status.EMPTY;
             query = query.concat("AND (o.status != ?) ");
