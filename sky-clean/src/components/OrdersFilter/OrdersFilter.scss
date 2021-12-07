@@ -119,6 +119,12 @@
     transform: rotate(-180deg);
   }
 
+  &__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
   &__searchBtn {
     padding: 15px 30px;
     border-radius: 15px;

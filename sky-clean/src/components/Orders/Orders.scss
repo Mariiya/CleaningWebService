@@ -1,5 +1,6 @@
 .orders {
   flex: 1;
+  min-height: 600px;
   background-color: #90CCF4;
 
   &__wrapper {
@@ -27,7 +28,7 @@
     grid-auto-rows: 340px;
     justify-items: center;
     gap: 20px;
-    margin: 110px 0 35px 0;
+    margin: 55px 0 35px 0;
 
     @media screen and (max-width: 1190px) {
       grid-template-columns: repeat(2, 1fr);
