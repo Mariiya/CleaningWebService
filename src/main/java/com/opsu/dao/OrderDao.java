@@ -93,7 +93,7 @@ public interface OrderDao {
     /**Request for finding order by price*/
     String GET_ORDERS_BY_PRICE = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid) r FROM ORDERS o) t WHERE price >= ? AND price <= ? AND (t.r > ? AND t.r <= ?)";
     /**Request for finding order by title */
-    String GET_ORDERS_BY_TITLE = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid) r FROM ORDERS o) t WHERE title like ? AND (t.r > ? AND t.r <= ?)\n";
+    String GET_ORDERS_BY_TITLE = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid) r FROM ORDERS o) t WHERE LOWER(title) like LOWER('?') AND (t.r > ? AND t.r <= ?)\n";
     /**Request for finding order by status*/
     String GET_ORDERS_BY_STATUS = "SELECT * FROM (SELECT o.*, ROW_NUMBER() OVER (ORDER BY orderid) r FROM ORDERS o) t WHERE status = ? AND (t.r > ? AND t.r <= ?)";
     /**Request for finding order by service*/
@@ -126,7 +126,7 @@ public interface OrderDao {
     String GET_ID_OF_ORDER = "SELECT\n" +
             "            orderId, title, description, status, consumerId, vendorId, startDate, endDate, price, address\n" +
             "            FROM (select * , ROW_NUMBER() OVER (ORDER BY orderid) r from ORDERS\n" +
-            "            WHERE  title = ? AND description = ? AND status = ? AND consumerId = ? AND\n" +
+            "            WHERE  LOWER(title) like LOWER('?')  AND LOWER(description) like LOWER('?')  AND status = ? AND consumerId = ? AND\n" +
             "           startDate = ? AND endDate = ? AND price = ? AND address = ?)  t\n" +
             "            where t.r <=1\n" +
             "            ORDER BY orderID desc";
@@ -135,7 +135,7 @@ public interface OrderDao {
     /**Request for counting amount of orders grouped by specific price */
     String GET_NUMBER_OF_ORDERS_BY_PRICE = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE price >= ? AND price <= ?";
     /**Request for counting amount of orders grouped by specific title */
-    String GET_NUMBER_OF_ORDERS_BY_TITLE = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE title like ?";
+    String GET_NUMBER_OF_ORDERS_BY_TITLE = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE LOWER(title) like LOWER('?') ";
     /**Request for counting amount of orders grouped by specific status */
     String GET_NUMBER_OF_ORDERS_BY_STATUS = "SELECT COUNT(orderID) as \"number\" FROM ORDERS WHERE status = ?";
     /**Request for counting amount of orders grouped by specific service */
