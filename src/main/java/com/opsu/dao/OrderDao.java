@@ -118,6 +118,18 @@ public interface OrderDao {
                 "price = ? ,\n" +
                 "address = ? \n" +
             "WHERE orderId = ?";
+
+    String UPDATE_ORDER2 = "UPDATE orders SET " +
+            "title = ? ,\n" +
+            "description = ?,\n" +
+            "status = ? ,\n" +
+            "consumerId = ? ,\n" +
+            "vendorId = ? ,\n" +
+            "startDate =  ? ,\n" +
+            "endDate =  ? ,\n" +
+            "price = ? ,\n" +
+            "address = ? \n" +
+            "WHERE orderId = ?";
     /**Request for deleting information about already existing order */
     String DELETE_ORDER = "DELETE FROM orders WHERE orderID = ?";
     /**Request for getting id of the oder */
