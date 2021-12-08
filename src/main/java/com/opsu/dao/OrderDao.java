@@ -113,8 +113,6 @@ public interface OrderDao {
                 "title = ? ,\n" +
                 "description = ?,\n" +
                 "status = ? ,\n" +
-                "consumerId = ? ,\n" +
-                "vendorId = ? ,\n" +
                 "startDate =  ? ,\n" +
                 "endDate =  ? ,\n" +
                 "price = ? ,\n" +
